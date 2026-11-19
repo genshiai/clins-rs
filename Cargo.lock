@@ -478,7 +478,7 @@ checksum = "e0921b3876b3a1df8a1c9f912e7f94342458022c2e84288015893d83c4d62a79"
 
 [[package]]
 name = "clins-cli"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -496,9 +496,10 @@ dependencies = [
 
 [[package]]
 name = "clins-core"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "anyhow",
+ "async-trait",
  "bigdecimal",
  "chrono",
  "flate2",
@@ -516,7 +517,7 @@ dependencies = [
 
 [[package]]
 name = "clins-kt"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "clins-core",
  "serde_json",
@@ -526,7 +527,7 @@ dependencies = [
 
 [[package]]
 name = "clins-packages"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "anyhow",
  "clins-core",
@@ -542,7 +543,7 @@ dependencies = [
 
 [[package]]
 name = "clins-py"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "clins-core",
  "pyo3",
@@ -551,7 +552,7 @@ dependencies = [
 
 [[package]]
 name = "clins-server"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "anyhow",
  "axum",
@@ -563,7 +564,7 @@ dependencies = [
 
 [[package]]
 name = "clins-ts"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 dependencies = [
  "clins-core",
  "console_error_panic_hook",

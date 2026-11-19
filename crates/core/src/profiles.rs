@@ -217,6 +217,73 @@ pub fn complete(sd: &Value, schema: &mut FhirSchema, warnings: &mut Vec<String>)
             }
         }
     }
+    // Profile and bound-ValueSet discriminators are evaluated against actual content.
+    // meta.profile is never accepted as evidence that an item satisfies a profile.
+    for ed in elements {
+        let Some(discriminators) = ed["slicing"]["discriminator"]
+            .as_array()
+            .filter(|d| d.len() == 1)
+        else {
+            continue;
+        };
+        let Some(id) = ed["id"].as_str() else {
+            continue;
+        };
+        let Some(path) = discriminators[0]["path"]
+            .as_str()
+            .filter(|p| matches!(*p, "resource" | "$this"))
+        else {
+            continue;
+        };
+        let kind = discriminators[0]["type"].as_str().unwrap_or("");
+        let segments: Vec<_> = id.split('.').skip(1).map(str::to_owned).collect();
+        let Some(slicing) = node_at(schema, &segments).and_then(|s| s.slicing.as_mut()) else {
+            continue;
+        };
+        for (name, slice) in &mut slicing.slices {
+            if slice.match_.is_some() {
+                continue;
+            }
+            let Some(child) = slice.schema.as_ref() else {
+                continue;
+            };
+            let payload = if kind == "value" && path == "$this" {
+                child
+                    .binding
+                    .as_ref()
+                    .filter(|b| b.strength.as_deref() == Some("required"))
+                    .map(|b| ("binding", json!({"path":path,"valueSet":b.value_set})))
+            } else if kind == "profile" {
+                let target_id = if path == "$this" {
+                    format!("{id}:{name}")
+                } else {
+                    format!("{id}:{name}.{path}")
+                };
+                elements
+                    .iter()
+                    .find(|e| e["id"] == target_id)
+                    .and_then(|e| e["type"].as_array())
+                    .and_then(|types| {
+                        let ps: Vec<_> = types
+                            .iter()
+                            .flat_map(|typ| typ["profile"].as_array().into_iter().flatten())
+                            .filter_map(Value::as_str)
+                            .collect();
+                        (!ps.is_empty()).then(|| ("profile", json!({"path":path,"profiles":ps})))
+                    })
+            } else {
+                None
+            };
+            if let Some((kind, payload)) = payload {
+                slice.match_ = Some(Match {
+                    type_: Some(kind.into()),
+                    value: Some(payload),
+                    resolve_ref: None,
+                });
+                warnings.retain(|w| !w.starts_with(&format!("slice '{name}': discriminator(s)")));
+            }
+        }
+    }
     // The converter drops minimums on unsupported matchers; retain the source
     // bounds before an inherited or native matcher makes the slice executable.
     for ed in elements {
@@ -314,6 +381,9 @@ pub fn complete(sd: &Value, schema: &mut FhirSchema, warnings: &mut Vec<String>)
             let Some(slice) = slicing.slices.get_mut(&name) else {
                 continue;
             };
+            if slice.match_.is_some() {
+                continue;
+            }
             let layered = slice.schema.as_ref().is_some_and(|s| {
                 if direct {
                     s.base.is_some()
@@ -810,28 +880,12 @@ fn scan<'a>(
     }
     if let Some(slicing) = &schema.slicing {
         for slice in slicing.slices.values() {
-            if slice
-                .match_
-                .as_ref()
-                .and_then(|m| m.value.as_ref())
-                .is_some_and(|p| partial_match(value, p))
+            if resolver.match_slice(slice, value) == Some(true)
                 && let Some(child) = &slice.schema
             {
                 scan(value, owner, child, path, resolver, seen, output);
             }
         }
-    }
-}
-
-pub fn partial_match(value: &Value, pattern: &Value) -> bool {
-    match (value, pattern) {
-        (Value::Object(value), Value::Object(pattern)) => pattern
-            .iter()
-            .all(|(k, p)| value.get(k).is_some_and(|v| partial_match(v, p))),
-        (Value::Array(value), Value::Array(pattern)) => pattern
-            .iter()
-            .all(|p| value.iter().any(|v| partial_match(v, p))),
-        _ => value == pattern,
     }
 }
 

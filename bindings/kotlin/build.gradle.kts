@@ -4,7 +4,7 @@ plugins {
     `maven-publish`
 }
 group = "jp.genshi"
-version = "0.1.0-alpha.1"
+version = "0.1.0-alpha.2"
 repositories { mavenCentral() }
 kotlin { jvmToolchain(21) }
 dependencies {
@@ -14,13 +14,14 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 val repoRoot = projectDir.resolve("../..").canonicalFile
-val nativeDir = providers.gradleProperty("clins.nativeDir").orElse(repoRoot.resolve("target/debug").path)
+val releaseNative = providers.gradleProperty("clins.release").map { it.toBoolean() }.orElse(false)
+val nativeDir = providers.gradleProperty("clins.nativeDir").orElse(releaseNative.map { repoRoot.resolve(if (it) "target/release" else "target/debug").path })
 val buildNative = tasks.register<Exec>("buildNative") {
     workingDir(repoRoot)
-    commandLine("cargo", "build", "--locked", "-p", "clins-kt")
+    commandLine(listOf("cargo", "build", "--locked", "-p", "clins-kt") + if (releaseNative.get()) listOf("--release") else emptyList())
     inputs.files(fileTree(repoRoot.resolve("crates/core")) { include("**/*.rs", "**/*.toml", "**/*.gz") })
     inputs.files("Cargo.toml", "src/lib.rs", "src/bin/bindgen.rs", repoRoot.resolve("Cargo.toml"), repoRoot.resolve("Cargo.lock"))
-    outputs.file(repoRoot.resolve("target/debug/" + System.mapLibraryName("clins_kt")))
+    outputs.file(nativeDir.map { "$it/" + System.mapLibraryName("clins_kt") })
 }
 val generateBindings = tasks.register<Exec>("generateBindings") {
     dependsOn(buildNative)

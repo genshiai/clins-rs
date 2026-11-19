@@ -9,7 +9,7 @@ packages or private chart data.
 2. `cargo package -p clins-core --locked` verifies the standalone crate archive.
 3. Build the release CLI, Python abi3 wheel, WASM npm tarball, Kotlin jar/native classifier and
    sources. Retain Apache/MIT notices inside redistributed binaries and SDK packages.
-4. Commit source, pass the published CI, then tag `v0.1.0-alpha.1` and create a GitHub prerelease.
+4. Commit source, pass the published CI, then tag the reviewed workspace version (currently `v0.1.0-alpha.2`) and create a GitHub prerelease.
 5. Attach source/artifacts with a SHA256SUMS manifest. List actual OS/CPU and package channels.
 6. Upload to crates.io / PyPI / npm / Maven Central only with the appropriate publisher identity.
    Registry names and credentials must be established before claiming those channels are published.

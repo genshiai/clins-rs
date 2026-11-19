@@ -25,22 +25,32 @@ report adds an error issue and a validation-status extension.
 
 ## Known limits
 
-The pinned definition inventory currently retains **five conversion warnings across three
-profiles**: referral Observation/profile reslicing (2), discharge nested Bundle profile slices
-(2), and JP Core radiology category ValueSet discrimination (1). These warnings are conditional
-on the affected populated element/resource type. Their count is not a count of all unfinished
-FHIR semantics. `resolve()`, general `memberOf()` and `conformsTo()` invariants without an
-appropriate local implementation, nested root-resource context, arbitrary terminology filters,
-and unresolvable external targets remain incomplete. In development after v0.1.0-alpha.1, `maxLength` and numeric `minValue[x]` /
-`maxValue[x]` are enforced (inclusive exact-decimal comparisons). The published alpha.1
-artifacts still report those constraints as incomplete. Date/time and Quantity bounds
-remain incomplete; canonical unit conversion and relative clock bounds are not implemented. R4 signed, unsigned and positive integer primitive bounds are enforced.
+The pinned JP Core / CLINS profiles now compile without conversion warnings for
+`http://jpfhir.jp/` definitions. Profile discriminators validate actual content,
+including referral Observation reslicing and discharge nested Bundles. Required
+ValueSet discriminators classify radiology categories using the installed terminology.
+A `meta.profile` claim alone never proves membership in a slice.
 
-The two discharge slices reference the same generic JP Bundle profile, so their descriptions
-alone are not treated as a machine-readable discriminator. The implementation does not invent
-a clinical classification from prose. Full conformance requires rule-by-rule positive/negative
-coverage, a broader independent corpus and interpretation of ambiguous profile definitions.
-Passing sample documents is not proof that every CLINS rule is implemented.
+`resolve()`, `memberOf()` and `conformsTo()` use local resources, terminology and profile
+definitions. Resource and datatype conformance are checked recursively with a bounded
+request budget. Missing knowledge, unsupported terminology filters, external reference
+targets and evaluator numeric limits remain incomplete. `%context`, `%resource` and
+`%rootResource` preserve their different meanings; Bundle entry resources have their own
+FHIR root, while contained resources keep their containing resource as the root.
+
+Unicode `maxLength` and numeric `minValue[x]` / `maxValue[x]` use inclusive, exact-decimal
+comparisons. R4 signed, unsigned and positive integer domains are enforced. Generic
+Date/time and Quantity bounds, including relative clock bounds and arbitrary canonical
+unit conversion, remain incomplete. No date/time or Quantity min/max constraint occurs
+in the differential definitions of the currently pinned packages; this limitation still
+applies when a caller loads additional profiles using those constraints.
+
+The two discharge slices reference the same generic JP Bundle profile. Their full
+machine-readable profile requirements are checked; prose descriptions are not used to
+invent a distinction between them. Zero conversion warnings and passing examples do
+not prove exhaustive conformance to every FHIR/CLINS rule or clinical interpretation.
+An independent Java reference comparison is available as a development check, with a
+pinned validator digest, offline terminology and synthetic examples only.
 
 Generate the actual inventory from checksum-verified packages:
 

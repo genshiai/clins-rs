@@ -11,8 +11,10 @@
    only after the coverage claims are supported. National service connection testing requires
    the participating institution's real connection environment.
 
-The independently usable alpha and complete conformance certification are distinct milestones.
-The estimate for a complete independent validator and mature multi-platform SDK distribution was
-10–20 person-weeks; that was not a promise that exhaustive validation could be proven in one turn.
-See `coverage.md` for concrete limits rather than treating successful fixture tests as completion
-of item 7. The source, SDK artifact and CI verification record is maintained in `verification.md`.
+The source, CLI/HTTP and SDK adapters are implemented and tested. The subsequent
+engine pass resolves the five known CLINS discriminator warnings, implements local
+FHIRPath functions/context, and shares an identical engine corpus across all adapters.
+Versioned artifacts and independent synthetic reference comparison are verified before
+publication. Comprehensive certification and national service connection tests require
+evidence beyond successful sample acceptance; those claims are not made by a release.
+See `coverage.md`, `remaining-work.md` and `verification.md` for the precise boundaries.

@@ -20,8 +20,8 @@ A Maven consumer needs the API and the matching runtime classifier:
 
 ```kotlin
 dependencies {
-    implementation("jp.genshi:clins-kt:0.1.0-alpha.1")
-    runtimeOnly("jp.genshi:clins-kt:0.1.0-alpha.1:darwin-aarch64")
+    implementation("jp.genshi:clins-kt:0.1.0-alpha.2")
+    runtimeOnly("jp.genshi:clins-kt:0.1.0-alpha.2:darwin-aarch64")
 }
 ```
 

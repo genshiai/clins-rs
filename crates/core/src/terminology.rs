@@ -6,7 +6,7 @@ use std::{
     sync::Arc,
 };
 
-#[derive(Default)]
+#[derive(Clone, Default)]
 pub struct Terminology {
     sets: HashMap<String, Arc<Value>>,
     systems: HashMap<String, Arc<Value>>,

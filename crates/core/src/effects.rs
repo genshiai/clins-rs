@@ -51,6 +51,7 @@ pub trait ConstraintEvaluator: Send + Sync {
         resource: &Value,
         version: FhirVersion,
         constraints: &[DeferredConstraint<'_>],
+        validator: &crate::Service,
     ) -> Vec<ConstraintOutcome>;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "clins-ts",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "type": "module",
   "description": "Offline FHIR R4 / JP-CLINS validation using the Rust Core via WASM",
   "license": "Apache-2.0 AND MIT",

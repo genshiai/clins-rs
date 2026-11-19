@@ -8,7 +8,8 @@
 //! an `Arc`-backed in-memory registry, composable so tenant-uploaded profiles
 //! can overlay the embedded core packs.
 
-use crate::schema::FhirSchema;
+use crate::schema::{FhirSchema, Slice};
+use serde_json::Value;
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -17,6 +18,18 @@ use std::sync::Arc;
 pub trait SchemaResolver: Send + Sync {
     /// Returns the schema, or `None` if the reference is unknown.
     fn resolve(&self, reference: &str) -> Option<Arc<FhirSchema>>;
+    /// Three-valued instance classification: unavailable checks are never mismatches.
+    fn match_slice(&self, slice: &Slice, value: &Value) -> Option<bool> {
+        if slice
+            .match_
+            .as_ref()
+            .and_then(|m| m.type_.as_deref())
+            .is_some_and(|kind| kind != "pattern")
+        {
+            return None;
+        }
+        Some(crate::engine::slicing::slice_matches(slice, value))
+    }
 }
 
 /// In-memory schema registry.

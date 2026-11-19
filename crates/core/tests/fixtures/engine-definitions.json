@@ -1,0 +1,456 @@
+{
+  "resources": [
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:limits",
+      "name": "urn_limits",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient.name.family",
+            "path": "Patient.name.family",
+            "maxLength": 2
+          },
+          {
+            "id": "Patient.multipleBirth[x]:multipleBirthInteger",
+            "path": "Patient.multipleBirth[x]",
+            "sliceName": "multipleBirthInteger",
+            "type": [
+              {
+                "code": "integer"
+              }
+            ],
+            "minValueInteger": 2,
+            "maxValueInteger": 4
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:membership",
+      "name": "urn_membership",
+      "version": "1",
+      "kind": "resource",
+      "type": "Organization",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Organization",
+      "differential": {
+        "element": [
+          {
+            "id": "Organization",
+            "path": "Organization"
+          },
+          {
+            "id": "Organization",
+            "path": "Organization",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "type.memberOf('urn:types')"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:unknown-membership",
+      "name": "urn_unknown-membership",
+      "version": "1",
+      "kind": "resource",
+      "type": "Organization",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Organization",
+      "differential": {
+        "element": [
+          {
+            "id": "Organization",
+            "path": "Organization"
+          },
+          {
+            "id": "Organization",
+            "path": "Organization",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "type.memberOf('urn:missing')"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:resolve",
+      "name": "urn_resolve",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient",
+            "path": "Patient",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "managingOrganization.resolve().name = 'Synthetic'"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:conformance",
+      "name": "urn_conformance",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient",
+            "path": "Patient",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "$this.conformsTo('urn:named')"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:recursive",
+      "name": "urn_recursive",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient",
+            "path": "Patient",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "$this.conformsTo('urn:recursive')"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:named",
+      "name": "urn_named",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient.name",
+            "path": "Patient.name",
+            "min": 1
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:element",
+      "name": "urn_element",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient.contact",
+            "path": "Patient.contact",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "%context.name.family = 'Synthetic' and %resource.active = true and %rootResource.active = true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:contained",
+      "name": "urn_contained",
+      "version": "1",
+      "kind": "resource",
+      "type": "Organization",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Organization",
+      "differential": {
+        "element": [
+          {
+            "id": "Organization",
+            "path": "Organization"
+          },
+          {
+            "id": "Organization",
+            "path": "Organization",
+            "constraint": [
+              {
+                "key": "synthetic-rule",
+                "severity": "error",
+                "human": "Independent synthetic test",
+                "expression": "%resource.name = 'Synthetic' and %rootResource.active = true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:sliced",
+      "name": "urn_sliced",
+      "version": "1",
+      "kind": "resource",
+      "type": "Bundle",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Bundle",
+      "differential": {
+        "element": [
+          {
+            "id": "Bundle",
+            "path": "Bundle"
+          },
+          {
+            "id": "Bundle.entry",
+            "path": "Bundle.entry",
+            "slicing": {
+              "discriminator": [
+                {
+                  "type": "profile",
+                  "path": "resource"
+                }
+              ],
+              "rules": "closed"
+            }
+          },
+          {
+            "id": "Bundle.entry:person",
+            "path": "Bundle.entry",
+            "sliceName": "person",
+            "min": 1,
+            "max": "1"
+          },
+          {
+            "id": "Bundle.entry:person.resource",
+            "path": "Bundle.entry.resource",
+            "type": [
+              {
+                "code": "Patient",
+                "profile": [
+                  "urn:named"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "url": "urn:types",
+      "version": "1",
+      "compose": {
+        "include": [
+          {
+            "system": "urn:codes",
+            "concept": [
+              {
+                "code": "A"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "ValueSet",
+      "url": "http://hl7.org/fhir/ValueSet/bundle-type",
+      "version": "4.0.1",
+      "compose": {
+        "include": [
+          {
+            "system": "http://hl7.org/fhir/bundle-type",
+            "concept": [
+              {
+                "code": "collection"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:inline-bundle",
+      "name": "urn_inline-bundle",
+      "version": "1",
+      "kind": "resource",
+      "type": "Bundle",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Bundle",
+      "differential": {
+        "element": [
+          {
+            "id": "Bundle",
+            "path": "Bundle"
+          },
+          {
+            "id": "Bundle.entry.resource",
+            "path": "Bundle.entry.resource",
+            "constraint": [
+              {
+                "key": "synthetic-inline",
+                "severity": "error",
+                "human": "Independent inline constraint",
+                "expression": "%context.active = true and %resource.active = true and %rootResource.active = true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:inline-contained",
+      "name": "urn_inline-contained",
+      "version": "1",
+      "kind": "resource",
+      "type": "Patient",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Patient",
+      "differential": {
+        "element": [
+          {
+            "id": "Patient",
+            "path": "Patient"
+          },
+          {
+            "id": "Patient.contained",
+            "path": "Patient.contained",
+            "constraint": [
+              {
+                "key": "synthetic-inline",
+                "severity": "error",
+                "human": "Independent inline constraint",
+                "expression": "%context.name = 'Synthetic' and %resource.name = 'Synthetic' and %rootResource.active = true"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "StructureDefinition",
+      "url": "urn:inline-binding",
+      "name": "urn_inline-binding",
+      "version": "1",
+      "kind": "resource",
+      "type": "Bundle",
+      "fhirVersion": "4.0.1",
+      "derivation": "constraint",
+      "baseDefinition": "http://hl7.org/fhir/StructureDefinition/Bundle",
+      "differential": {
+        "element": [
+          {
+            "id": "Bundle",
+            "path": "Bundle"
+          },
+          {
+            "id": "Bundle.entry.resource.language",
+            "path": "Bundle.entry.resource.language",
+            "binding": {
+              "strength": "required",
+              "valueSet": "urn:types"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "packages": []
+}

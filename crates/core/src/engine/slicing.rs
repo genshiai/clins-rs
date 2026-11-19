@@ -22,11 +22,9 @@
 //! enforced (pinned by `tests/fixtures/extended/slicing_rules.json`), and a
 //! `max: 0` prohibited slice is enforced (the reference skips falsy bounds).
 //!
-//! Match types other than `pattern` (`type`, `profile`, `binding`,
-//! `resolve-ref`) are deliberately not evaluated yet — they arrive in a later
-//! phase alongside the converter's discriminator translation. A slice whose
-//! matcher we cannot evaluate matches nothing, and a slice with no `match`
-//! at all (a constraining slice) also matches nothing.
+//! Profile and binding matchers delegate to the request-local resolver. Unknown
+//! classifications remain incomplete and suppress cardinality/closed-slice errors
+//! that would otherwise incorrectly treat an unknown result as a definite nonmatch.
 
 use super::errors::{self, ErrorKind};
 use super::walk::{SchemaSet, WalkCtx, add_schemas_to_set, is_partial_match, validate_node};
@@ -45,6 +43,8 @@ struct LayerMark {
     counters: IndexMap<String, u64>,
     /// For each array item, the slice names it matched (declaration order).
     item_matches: Vec<Vec<String>>,
+    unknown_items: HashSet<usize>,
+    unknown_slices: HashSet<String>,
 }
 
 /// Run the slicing pass over an array element. Returns the indices of items
@@ -65,14 +65,31 @@ pub(super) fn validate_slices(
         let mut counters: IndexMap<String, u64> =
             slicing.slices.keys().map(|k| (k.clone(), 0)).collect();
         let mut item_matches: Vec<Vec<String>> = vec![Vec::new(); items.len()];
+        let mut unknown_items = HashSet::new();
+        let mut unknown_slices = HashSet::new();
         for (index, item) in items.iter().enumerate() {
             for (name, slice) in &slicing.slices {
                 if name == DEFAULT_SLICE {
                     continue;
                 }
-                if slice_matches(slice, item) {
-                    *counters.get_mut(name).expect("counter exists") += 1;
-                    item_matches[index].push(name.clone());
+                match ctx.resolver.match_slice(slice, item) {
+                    Some(true) => {
+                        *counters.get_mut(name).expect("counter exists") += 1;
+                        item_matches[index].push(name.clone());
+                    }
+                    Some(false) => {}
+                    None => {
+                        unknown_items.insert(index);
+                        unknown_slices.insert(name.clone());
+                        ctx.path.push_index(index);
+                        ctx.error(
+                            ErrorKind::UnsupportedConstraint,
+                            format!(
+                                "slice '{name}': profile/terminology classification is unavailable"
+                            ),
+                        );
+                        ctx.path.pop();
+                    }
                 }
             }
         }
@@ -80,13 +97,22 @@ pub(super) fn validate_slices(
         // matched; count them so its own min/max can apply.
         if slicing.slices.contains_key(DEFAULT_SLICE) && slicing.rules.as_deref() == Some("closed")
         {
-            let absorbed = item_matches.iter().filter(|m| m.is_empty()).count() as u64;
+            if !unknown_items.is_empty() {
+                unknown_slices.insert(DEFAULT_SLICE.to_owned());
+            }
+            let absorbed = item_matches
+                .iter()
+                .enumerate()
+                .filter(|(i, m)| m.is_empty() && !unknown_items.contains(i))
+                .count() as u64;
             *counters.get_mut(DEFAULT_SLICE).expect("counter exists") = absorbed;
         }
         marks.push(LayerMark {
             slicing,
             counters,
             item_matches,
+            unknown_items,
+            unknown_slices,
         });
     }
 
@@ -121,7 +147,7 @@ pub(super) fn validate_slices(
         if rules == "closed" {
             let default_slice = mark.slicing.slices.get(DEFAULT_SLICE);
             for (index, item) in items.iter().enumerate() {
-                if !mark.item_matches[index].is_empty() {
+                if !mark.item_matches[index].is_empty() || mark.unknown_items.contains(&index) {
                     continue;
                 }
                 match default_slice {
@@ -154,7 +180,7 @@ pub(super) fn validate_slices(
             && let Some(last_matched) = mark.item_matches.iter().rposition(|m| !m.is_empty())
         {
             for (index, matches) in mark.item_matches.iter().enumerate().take(last_matched) {
-                if matches.is_empty() {
+                if matches.is_empty() && !mark.unknown_items.contains(&index) {
                     ctx.path.push_index(index);
                     ctx.error(ErrorKind::SliceUnmatched, errors::msg_slice_open_at_end());
                     ctx.path.pop();
@@ -162,7 +188,7 @@ pub(super) fn validate_slices(
             }
         }
 
-        if mark.slicing.ordered == Some(true) {
+        if mark.slicing.ordered == Some(true) && mark.unknown_items.is_empty() {
             let mut max_order_seen: Option<u64> = None;
             for (index, matches) in mark.item_matches.iter().enumerate() {
                 let Some(first) = matches.first() else {
@@ -187,6 +213,7 @@ pub(super) fn validate_slices(
             if let Some(min) = slice.min
                 && min > 0
                 && found < min
+                && !mark.unknown_slices.contains(name)
             {
                 ctx.error(
                     ErrorKind::SliceCardinality,
@@ -216,6 +243,13 @@ pub(super) fn validate_slices(
 /// for an empty source).
 pub(crate) fn slice_matches(slice: &Slice, item: &Value) -> bool {
     if let Some(match_) = &slice.match_ {
+        if match_
+            .type_
+            .as_deref()
+            .is_some_and(|kind| kind != "pattern")
+        {
+            return false;
+        }
         return match match_.value.as_ref() {
             Some(pattern) => is_partial_match(item, pattern),
             None => true,

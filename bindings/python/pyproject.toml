@@ -3,7 +3,7 @@ requires = ["maturin>=1.10,<2"]
 build-backend = "maturin"
 [project]
 name = "clins-py"
-version = "0.1.0a1"
+version = "0.1.0a2"
 requires-python = ">=3.10"
 description = "Offline FHIR R4 / JP-CLINS validation backed by Rust"
 license = "Apache-2.0 AND MIT"

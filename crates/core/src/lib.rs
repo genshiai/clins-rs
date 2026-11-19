@@ -7,6 +7,7 @@ mod effects;
 #[allow(dead_code)]
 mod engine;
 mod fhirpath;
+mod fhirpath_functions;
 mod input;
 /// Parse bounded FHIR JSON, rejecting duplicate object properties consistently.
 pub use input::parse as parse_json;
@@ -34,6 +35,7 @@ mod invariants;
 mod narrative;
 mod profiles;
 mod references;
+mod slice_resolver;
 mod terminology;
 mod value_constraints;
 use std::{
@@ -72,20 +74,27 @@ pub struct Report {
     pub engine: &'static str,
     pub structural_checks_passed: bool,
     pub deferred_checks: usize,
-    pub definitions: Vec<Definition>,
+    pub definitions: Arc<Vec<Definition>>,
     pub packages: Vec<Package>,
     pub outcome: Value,
 }
 
 /// In-memory validator. Construction and validation perform no I/O.
+#[derive(Clone)]
 pub struct Validator {
-    resource_types: HashMap<String, String>,
-    validator: StructuralValidator,
+    resource_types: Arc<HashMap<String, String>>,
     resolver: Arc<dyn SchemaResolver>,
-    pub definitions: Vec<Definition>,
+    pub definitions: Arc<Vec<Definition>>,
     pub packages: Vec<Package>,
-    terminology: terminology::Terminology,
-    evaluator: fhirpath::FhirPathConstraintEvaluator,
+    terminology: Arc<terminology::Terminology>,
+    evaluator: Arc<fhirpath::FhirPathConstraintEvaluator>,
+    validation_depth: usize,
+    validation_root: Option<Arc<Value>>,
+    fhir_root: Option<Arc<Value>>,
+    fragment_profile: Option<String>,
+    fragment_owner: Option<Arc<Value>>,
+    selected_profile_only: bool,
+    classification_budget: Option<Arc<std::sync::atomic::AtomicUsize>>,
 }
 
 /// Compatibility name for transport adapters; the type performs no I/O.
@@ -234,17 +243,43 @@ impl Validator {
         let resolver: Arc<dyn SchemaResolver> =
             Arc::new(CompositeResolver::new(vec![core, Arc::new(profiles)]));
         Ok(Self {
-            resource_types,
-            validator: StructuralValidator::new(Arc::clone(&resolver)),
+            resource_types: Arc::new(resource_types),
             resolver,
-            definitions,
+            definitions: Arc::new(definitions),
             packages,
-            terminology,
-            evaluator: fhirpath::FhirPathConstraintEvaluator::new(),
+            terminology: Arc::new(terminology),
+            evaluator: Arc::new(fhirpath::FhirPathConstraintEvaluator::new()),
+            validation_depth: 0,
+            validation_root: None,
+            fhir_root: None,
+            fragment_profile: None,
+            fragment_owner: None,
+            selected_profile_only: false,
+            classification_budget: None,
         })
     }
 
+    fn instance_resolver(&self) -> Arc<dyn SchemaResolver> {
+        Arc::new(slice_resolver::InstanceResolver::new(self))
+    }
+
     pub fn validate(&self, resource: &Value, profile: Option<String>) -> Report {
+        if self.classification_budget.is_none() {
+            let mut session = self.clone();
+            session.validation_root = Some(Arc::new(resource.clone()));
+            session.classification_budget = Some(Arc::new(std::sync::atomic::AtomicUsize::new(0)));
+            return session.validate(resource, profile);
+        }
+        if resource["resourceType"] == "Bundle"
+            && self
+                .validation_root
+                .as_deref()
+                .is_some_and(|scope| scope != resource)
+        {
+            let mut scoped = self.clone();
+            scoped.validation_root = Some(Arc::new(resource.clone()));
+            return scoped.validate(resource, profile);
+        }
         let mut report = self.validate_inner(resource, profile.clone(), true, &[]);
         let findings = self.reference_targets(resource, profile);
         for finding in findings {
@@ -267,10 +302,17 @@ impl Validator {
 
     fn reference_targets(&self, root: &Value, profile: Option<String>) -> Vec<Value> {
         let mut issues = Vec::new();
-        let mut pending = vec![(root, profile.into_iter().collect::<Vec<_>>())];
+        let mut pending = vec![(
+            root,
+            profile.into_iter().collect::<Vec<_>>(),
+            self.validation_root.as_deref().unwrap_or(root),
+        )];
         let mut visited = HashSet::new();
         let mut checked: HashMap<(usize, String), &'static str> = HashMap::new();
-        while let Some((resource, mut keys)) = pending.pop() {
+        while let Some((resource, mut keys, mut context)) = pending.pop() {
+            if resource["resourceType"] == "Bundle" {
+                context = resource;
+            }
             if visited.len() + checked.len() > 1000 {
                 issues.push(issue(
                     "warning",
@@ -280,7 +322,9 @@ impl Validator {
                 ));
                 break;
             }
-            if let Some(meta) = resource["meta"]["profile"].as_array() {
+            if !self.selected_profile_only
+                && let Some(meta) = resource["meta"]["profile"].as_array()
+            {
                 keys.extend(meta.iter().filter_map(Value::as_str).map(str::to_owned));
             }
             if let Some(typ) = resource["resourceType"].as_str() {
@@ -291,7 +335,10 @@ impl Validator {
             if !visited.insert((resource as *const Value as usize, keys.clone())) {
                 continue;
             }
-            let inspection = profiles::inspect(resource, self.resolver.as_ref(), &keys);
+            let mut scoped = self.clone();
+            scoped.validation_root = Some(Arc::new(context.clone()));
+            let inspection =
+                profiles::inspect(resource, scoped.instance_resolver().as_ref(), &keys);
             for (_, child) in child_resources(resource) {
                 pending.push((
                     child,
@@ -300,11 +347,12 @@ impl Validator {
                         .get(&(child as *const Value as usize))
                         .cloned()
                         .unwrap_or_default(),
+                    context,
                 ));
             }
             for requirement in inspection.references {
                 let Some(target) =
-                    references::resolve(root, requirement.owner, requirement.reference)
+                    references::resolve(context, requirement.owner, requirement.reference)
                 else {
                     issues.push(issue(
                         "warning",
@@ -332,7 +380,10 @@ impl Validator {
                             }
                             None => "incomplete",
                             Some(_) => {
-                                self.validate_inner(target, Some(profile.clone()), false, &[])
+                                let mut target_validator = scoped.clone();
+                                target_validator.selected_profile_only = true;
+                                target_validator
+                                    .validate_inner(target, Some(profile.clone()), false, &[])
                                     .status
                             }
                         };
@@ -349,7 +400,7 @@ impl Validator {
                     }
                 }
                 if let Some(profile) = accepted {
-                    pending.push((target, vec![profile]));
+                    pending.push((target, vec![profile], context));
                 } else if unknown {
                     issues.push(issue(
                         "warning",
@@ -387,11 +438,26 @@ impl Validator {
         check_references: bool,
         extra_profiles: &[String],
     ) -> Report {
+        if resource["resourceType"] == "Bundle"
+            && self
+                .validation_root
+                .as_deref()
+                .is_some_and(|scope| scope != resource)
+        {
+            let mut scoped = self.clone();
+            scoped.validation_root = Some(Arc::new(resource.clone()));
+            return scoped.validate_inner(resource, profile, check_references, extra_profiles);
+        }
+        let fragment = profile
+            .as_ref()
+            .is_some_and(|p| self.fragment_profile.as_ref() == Some(p));
         let mut issues = Vec::new();
         // Installing the CLINS package selects CLINS validation by default;
         // omitting meta.profile must not silently downgrade to base R4.
         let profile = profile.or_else(|| {
-            if !self.packages.iter().any(|p| p.name == "jp-eCSCLINS.r4") {
+            if self.selected_profile_only
+                || !self.packages.iter().any(|p| p.name == "jp-eCSCLINS.r4")
+            {
                 return None;
             }
             let has_profile = !extra_profiles.is_empty()
@@ -424,7 +490,8 @@ impl Validator {
         let mut invalid = false;
         let mut incomplete = false;
         let mut deferred_checks = 0;
-        if self.packages.iter().any(|p| p.name == "jp-eCSCLINS.r4")
+        if !self.selected_profile_only
+            && self.packages.iter().any(|p| p.name == "jp-eCSCLINS.r4")
             && resource["resourceType"] == "Bundle"
             && resource["type"] == "document"
             && profile.is_none()
@@ -448,7 +515,9 @@ impl Validator {
             }
         }
         let mut used_profiles = HashSet::new();
-        collect_profiles(resource, &mut used_profiles);
+        if !self.selected_profile_only {
+            collect_profiles(resource, &mut used_profiles);
+        }
         used_profiles.extend(extra_profiles.iter().cloned());
         if let Some(p) = &profile {
             used_profiles.insert(p.clone());
@@ -466,14 +535,16 @@ impl Validator {
         if let Some(profile) = &profile {
             root_profiles.push(profile.clone());
         }
-        if let Some(profiles) = resource["meta"]["profile"].as_array() {
+        if !self.selected_profile_only
+            && let Some(profiles) = resource["meta"]["profile"].as_array()
+        {
             root_profiles.extend(profiles.iter().filter_map(Value::as_str).map(str::to_owned));
         }
         if let Some(typ) = resource["resourceType"].as_str() {
             root_profiles.push(typ.to_owned());
         }
         let applied_children =
-            profiles::applied_children(resource, self.resolver.as_ref(), &root_profiles);
+            profiles::applied_children(resource, self.instance_resolver().as_ref(), &root_profiles);
         for profile in &root_profiles {
             if let Some(typ) = self.profile_type(profile)
                 && !type_matches(&typ, resource["resourceType"].as_str().unwrap_or(""))
@@ -489,7 +560,10 @@ impl Validator {
         }
         let target_findings =
             references::target_profiles(resource, self.resolver.as_ref(), &root_profiles);
-        if !resource.is_object() || resource["resourceType"].as_str().is_none_or(str::is_empty) {
+        if !fragment
+            && (!resource.is_object()
+                || resource["resourceType"].as_str().is_none_or(str::is_empty))
+        {
             invalid = true;
             issues.push(issue(
                 "error",
@@ -497,10 +571,11 @@ impl Validator {
                 "resourceType を持つFHIRリソースを指定してください",
                 "resourceType",
             ));
-        } else if self
-            .resolver
-            .resolve(resource["resourceType"].as_str().unwrap())
-            .is_none()
+        } else if !fragment
+            && self
+                .resolver
+                .resolve(resource["resourceType"].as_str().unwrap_or(""))
+                .is_none()
         {
             incomplete = true;
             issues.push(issue(
@@ -509,10 +584,11 @@ impl Validator {
                 "resourceType の定義が見つかりません",
                 "resourceType",
             ));
-        } else if self
-            .resolver
-            .resolve(resource["resourceType"].as_str().unwrap())
-            .is_some_and(|s| s.kind.as_deref() != Some("resource"))
+        } else if !fragment
+            && self
+                .resolver
+                .resolve(resource["resourceType"].as_str().unwrap_or(""))
+                .is_some_and(|s| s.kind.as_deref() != Some("resource"))
         {
             invalid = true;
             issues.push(issue(
@@ -523,6 +599,7 @@ impl Validator {
             ));
         } else {
             let opts = ValidationOptions {
+                use_meta_profiles: !self.selected_profile_only,
                 profiles: profile
                     .into_iter()
                     .chain(extra_profiles.iter().cloned())
@@ -530,7 +607,8 @@ impl Validator {
                 unknown_profile: UnknownProfilePolicy::Error,
                 ..Default::default()
             };
-            let result = self.validator.validate_sync(resource, &opts);
+            let result =
+                StructuralValidator::new(self.instance_resolver()).validate_sync(resource, &opts);
             let mut constraint_ids = HashSet::new();
             let constraints: Vec<_> = result
                 .deferred
@@ -542,8 +620,7 @@ impl Validator {
                         expression,
                         severity,
                         ..
-                    } if !belongs_to_child(path)
-                        && severity.as_deref() != Some("guideline")
+                    } if severity.as_deref() != Some("guideline")
                         && constraint_ids.insert((path.clone(), id.clone())) =>
                     {
                         Some(DeferredConstraint {
@@ -562,24 +639,18 @@ impl Validator {
                     invariants::local(resource, c, &self.terminology)
                         .or_else(|| invariants::trivial(resource, c))
                         .is_none()
-                        && !unsupported_constraint(c, check_references)
                         && !(c.expression == "htmlChecks()" && matches!(c.id, "txt-1" | "txt-2"))
                 })
                 .collect();
             let mut generic_results = self
                 .evaluator
-                .evaluate_all(resource, FhirVersion::R4, &generic)
+                .evaluate_all(resource, FhirVersion::R4, &generic, self)
                 .into_iter();
             for c in &constraints {
                 let trivial = invariants::local(resource, c, &self.terminology)
                     .or_else(|| invariants::trivial(resource, c));
-                let unsupported = trivial.is_none() && unsupported_constraint(c, check_references);
                 let evaluated = if let Some(result) = trivial {
                     result
-                } else if unsupported {
-                    ConstraintOutcome::NotEvaluable(
-                        "unsupported context or function; not executed".into(),
-                    )
                 } else if c.expression == "htmlChecks()" && matches!(c.id, "txt-1" | "txt-2") {
                     narrative::evaluate(resource, c.path, c.id)
                 } else {
@@ -595,7 +666,7 @@ impl Validator {
                         _ => None,
                     })
                     .unwrap_or("error");
-                if unsupported || matches!(evaluated, ConstraintOutcome::NotEvaluable(_)) {
+                if matches!(evaluated, ConstraintOutcome::NotEvaluable(_)) {
                     incomplete = true;
                     deferred_checks += 1;
                     issues.push(issue(
@@ -622,9 +693,6 @@ impl Validator {
                     ..
                 } = d
                 {
-                    if belongs_to_child(path) {
-                        continue;
-                    }
                     if !matches!(binding.strength.as_deref(), Some("required" | "extensible")) {
                         continue;
                     }
@@ -687,7 +755,10 @@ impl Validator {
         }
         let mut reference_findings = target_findings;
         if check_references {
-            reference_findings.extend(references::check(resource));
+            reference_findings.extend(references::check_in(
+                resource,
+                self.validation_root.as_deref().unwrap_or(resource),
+            ));
         }
         for (code, path, message) in reference_findings {
             if code == "not-supported" {
@@ -712,7 +783,17 @@ impl Validator {
                 .get(&(child as *const Value as usize))
                 .map(Vec::as_slice)
                 .unwrap_or(&[]);
-            let child_report = self.validate_inner(child, None, false, inherited);
+            let mut child_validator = self.clone();
+            child_validator.fragment_profile = None;
+            child_validator.fragment_owner = None;
+            child_validator.fhir_root = if path.contains(".contained[") {
+                self.fhir_root
+                    .clone()
+                    .or_else(|| Some(Arc::new(resource.clone())))
+            } else {
+                None
+            };
+            let child_report = child_validator.validate_inner(child, None, false, inherited);
             invalid |= child_report.status == "invalid";
             incomplete |= child_report.status == "incomplete" || child_report.deferred_checks > 0;
             deferred_checks += child_report.deferred_checks;
@@ -745,7 +826,7 @@ impl Validator {
                 issues.push(finding);
             }
         }
-        for definition in &self.definitions {
+        for definition in self.definitions.iter() {
             if !used_profiles
                 .iter()
                 .any(|p| p.split('|').next() == Some(definition.url.as_str()))
@@ -802,27 +883,11 @@ impl Validator {
     }
 }
 
-fn belongs_to_child(path: &str) -> bool {
-    path.split('.')
-        .any(|segment| matches!(segment, "resource" | "contained"))
-}
-
 fn type_matches(expected: &str, actual: &str) -> bool {
     expected == actual
         || expected == "Resource"
         || (expected == "DomainResource"
             && !matches!(actual, "Bundle" | "Binary" | "Parameters" | "Resource"))
-}
-
-fn unsupported_constraint(c: &DeferredConstraint<'_>, root: bool) -> bool {
-    (c.path.contains('.')
-        && (c.expression.contains("%resource")
-            || c.expression.contains("%rootResource")
-            || c.expression.contains("%context")))
-        || (!root && c.expression.contains("%rootResource"))
-        || c.expression
-            .split(|c: char| !c.is_ascii_alphanumeric() && c != '_')
-            .any(|token| matches!(token, "resolve" | "memberOf" | "conformsTo"))
 }
 
 fn child_resources(v: &Value) -> Vec<(String, &Value)> {

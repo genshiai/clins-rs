@@ -5,6 +5,16 @@ import {fileURLToPath} from 'node:url';
 import {initSync, Validator} from '../index.js';
 const root = fileURLToPath(new URL('../../../', import.meta.url));
 initSync({module:readFileSync(new URL('../pkg/clins_ts_bg.wasm', import.meta.url))});
+test('Node executes the shared engine corpus', () => {
+  const fixtures = `${root}/crates/core/tests/fixtures`;
+  const v = new Validator(readFileSync(`${fixtures}/engine-definitions.json`, 'utf8'));
+  try {
+    for (const line of readFileSync(`${fixtures}/engine-cases.tsv`, 'utf8').trimEnd().split('\n')) {
+      const [name, expected, profile, resource] = line.split('\t');
+      assert.equal(v.validate(resource, profile).status, expected, name);
+    }
+  } finally { v.free(); }
+});
 test('Node ESM uses the same WASM and preserves the JSON boundary', () => {
   const r4 = new Validator();
   try {

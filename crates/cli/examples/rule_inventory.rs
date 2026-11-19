@@ -15,7 +15,7 @@ fn main() -> anyhow::Result<()> {
         .as_array()
         .unwrap()
         .iter()
-        .filter(|p| p["name"] == "jp-eCSCLINS.r4" || p["name"] == "jp-core.r4")
+        .filter(|p| p["file"].as_str().is_some())
     {
         let file = std::fs::File::open(root.join(package["file"].as_str().unwrap()))?;
         let mut archive = tar::Archive::new(flate2::read::GzDecoder::new(file));
@@ -45,6 +45,31 @@ fn main() -> anyhow::Result<()> {
                 if element.get("slicing").is_some() {
                     rules.push(json!({"kind":"slicing","element":element["id"],"slicing":element["slicing"]}));
                 }
+                for key in ["min", "max", "type", "contentReference", "maxLength"] {
+                    if let Some(value) = element.get(key) {
+                        rules.push(json!({"kind":key,"element":element["id"],"value":value}));
+                    }
+                }
+                if let Some(properties) = element.as_object() {
+                    for (key, value) in properties {
+                        if ["fixed", "pattern", "minValue", "maxValue"]
+                            .iter()
+                            .any(|p| key.starts_with(p))
+                        {
+                            rules.push(json!({"kind":key,"element":element["id"],"value":value}));
+                        }
+                    }
+                }
+            }
+            for rule in &mut rules {
+                rule["rule_id"] = json!(format!(
+                    "{}|{}#{}:{}:{}",
+                    sd["url"].as_str().unwrap_or(""),
+                    sd["version"].as_str().unwrap_or(""),
+                    rule["element"].as_str().unwrap_or(""),
+                    rule["kind"].as_str().unwrap_or(""),
+                    rule["key"].as_str().unwrap_or("")
+                ));
             }
             let warnings = service
                 .definitions
@@ -59,7 +84,7 @@ fn main() -> anyhow::Result<()> {
     println!(
         "{}",
         serde_json::to_string_pretty(
-            &json!({"schema_version":1,"exhaustive_conformance_proven":false,"scope":"JP Core and CLINS differential invariants, bindings and slicing; inherited R4 rules and element constraints also apply","packages":service.packages,"profiles":profiles})
+            &json!({"schema_version":2,"exhaustive_conformance_proven":false,"scope":"All pinned packages: explicit differential cardinalities, types, contentReference, fixed/pattern values, bounds, maxLength, invariants, bindings and slicing. Inherited rules apply through baseDefinition. Must Support is not instance cardinality.","packages":service.packages,"profiles":profiles})
         )?
     );
     Ok(())

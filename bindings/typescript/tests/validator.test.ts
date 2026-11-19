@@ -5,6 +5,16 @@ import { initSync, Validator } from '../index.js';
 const root = resolve(import.meta.dir, '../../..');
 beforeAll(() => initSync({module: readFileSync(resolve(import.meta.dir, '../pkg/clins_ts_bg.wasm'))}));
 describe('Rust WASM SDK', () => {
+  test('shared engine corpus', () => {
+    const fixtures = `${root}/crates/core/tests/fixtures`;
+    const v = new Validator(readFileSync(`${fixtures}/engine-definitions.json`, 'utf8'));
+    try {
+      for (const line of readFileSync(`${fixtures}/engine-cases.tsv`, 'utf8').trimEnd().split('\n')) {
+        const [name, expected, profile, resource] = line.split('\t');
+        expect(String(v.validate(resource, profile).status), name).toBe(expected);
+      }
+    } finally { v.free(); }
+  });
   test('R4, invalid and incomplete', () => {
     const v = new Validator();
     try {

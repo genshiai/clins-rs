@@ -5,13 +5,13 @@ use std::collections::HashMap;
 use std::{collections::HashSet, sync::Arc};
 type Finding = (&'static str, String, String);
 
-pub fn check(root: &Value) -> Vec<Finding> {
+pub fn check_in(root: &Value, context: &Value) -> Vec<Finding> {
     let mut index = HashMap::new();
     let mut findings = Vec::new();
-    if let (Some(typ), Some(id)) = (root["resourceType"].as_str(), root["id"].as_str()) {
-        index.insert(format!("{typ}/{id}"), root);
+    if let (Some(typ), Some(id)) = (context["resourceType"].as_str(), context["id"].as_str()) {
+        index.insert(format!("{typ}/{id}"), context);
     }
-    if let Some(entries) = root["entry"].as_array() {
+    if let Some(entries) = context["entry"].as_array() {
         for (i, entry) in entries.iter().enumerate() {
             let resource = &entry["resource"];
             if let Some(url) = entry["fullUrl"].as_str()
@@ -30,7 +30,7 @@ pub fn check(root: &Value) -> Vec<Finding> {
             }
         }
     }
-    walk(root, root, "Resource", &index, &mut findings);
+    walk(root, root, "Resource", &index, context, &mut findings);
     findings
 }
 
@@ -244,10 +244,21 @@ fn walk<'a>(
     owner: &'a Value,
     path: &str,
     index: &HashMap<String, &'a Value>,
+    scope: &Value,
     findings: &mut Vec<Finding>,
 ) {
     match v {
         Value::Object(map) => {
+            if v["resourceType"] == "Bundle" && v != scope {
+                for (code, child_path, message) in check_in(v, v) {
+                    let relative = child_path
+                        .strip_prefix("Resource")
+                        .or_else(|| child_path.strip_prefix("Bundle"))
+                        .unwrap_or(&child_path);
+                    findings.push((code, format!("{path}{relative}"), message));
+                }
+                return;
+            }
             let owner = if v.get("resourceType").is_some() {
                 v
             } else {
@@ -288,12 +299,26 @@ fn walk<'a>(
                 }
             }
             for (name, child) in map {
-                walk(child, owner, &format!("{path}.{name}"), index, findings);
+                walk(
+                    child,
+                    owner,
+                    &format!("{path}.{name}"),
+                    index,
+                    scope,
+                    findings,
+                );
             }
         }
         Value::Array(array) => {
             for (i, child) in array.iter().enumerate() {
-                walk(child, owner, &format!("{path}[{i}]"), index, findings);
+                walk(
+                    child,
+                    owner,
+                    &format!("{path}[{i}]"),
+                    index,
+                    scope,
+                    findings,
+                );
             }
         }
         _ => {}

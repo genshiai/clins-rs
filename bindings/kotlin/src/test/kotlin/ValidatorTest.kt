@@ -2,6 +2,15 @@ package jp.genshi.clins
 import kotlin.test.*
 import java.io.File
 class ValidatorTest {
+    @Test fun sharedEngineCorpus() {
+        val fixtures = File(System.getProperty("clins.repoRoot"), "crates/core/tests/fixtures")
+        Validator(File(fixtures, "engine-definitions.json").readText()).use { validator ->
+            File(fixtures, "engine-cases.tsv").forEachLine { line ->
+                val (name, expected, profile, resource) = line.split('\t', limit = 4)
+                assertContains(validator.validateJson(resource, profile), "\"status\":\"$expected\"", message = name)
+            }
+        }
+    }
     @Test fun validateR4() {
         Validator(null).use { validator ->
             assertContains(validator.validateJson("""{"resourceType":"Patient","active":true}""", null), "\"status\":\"valid\"")

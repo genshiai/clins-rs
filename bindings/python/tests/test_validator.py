@@ -5,6 +5,14 @@ from clins_py import Validator
 ROOT = Path(__file__).resolve().parents[3]
 
 class ValidatorTest(unittest.TestCase):
+    def test_shared_engine_corpus(self):
+        fixtures = ROOT / 'crates/core/tests/fixtures'
+        validator = Validator((fixtures / 'engine-definitions.json').read_text())
+        for line in (fixtures / 'engine-cases.tsv').read_text().splitlines():
+            name, expected, profile, resource = line.split('\t', 3)
+            with self.subTest(name=name):
+                self.assertEqual(validator.validate(resource, profile)['status'], expected)
+
     def test_r4_and_errors(self):
         validator = Validator()
         self.assertEqual(validator.validate('{"resourceType":"Patient","active":true}')['status'], 'valid')

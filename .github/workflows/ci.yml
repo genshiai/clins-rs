@@ -22,6 +22,15 @@ jobs:
       - run: ./scripts/check.sh
       - run: python3 scripts/smoke-http.py target/debug/clins
       - run: cargo package --locked -p clins-core
+      - run: cargo build --locked --release -p clins-cli
+      - run: cargo run --locked -p clins-cli --example rule_inventory > data/rule-inventory.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-artifacts-${{ runner.os }}-${{ runner.arch }}
+          path: |
+            target/release/clins
+            target/package/clins-core-*.crate
+            data/rule-inventory.json
   sdks:
     runs-on: ubuntu-24.04
     steps:
@@ -46,7 +55,7 @@ jobs:
       - run: cargo run --locked -p clins-cli -- --packages clins-packages.lock.json prepare
       - run: cargo run --locked -p clins-cli -- --packages clins-packages.lock.json export-definitions > data/definitions.json
       - run: python -m pip install 'maturin>=1.10,<2'
-      - run: maturin build --locked --manifest-path bindings/python/Cargo.toml --out dist
+      - run: maturin build --release --locked --manifest-path bindings/python/Cargo.toml --out dist
       - run: python -m pip install --no-deps dist/clins_py-*.whl
       - run: python -m unittest discover -s bindings/python/tests
       - run: cargo install wasm-bindgen-cli --version 0.2.130 --locked
@@ -61,13 +70,16 @@ jobs:
         working-directory: bindings/typescript
       - run: bunx playwright test
         working-directory: bindings/typescript
-      - run: ./gradlew test jar nativeJar publishAllPublicationsToLocalBuildRepository --no-daemon
+      - run: npm pack --pack-destination ../../dist
+        working-directory: bindings/typescript
+      - run: ./gradlew -Pclins.release=true test jar nativeJar publishAllPublicationsToLocalBuildRepository --no-daemon
         working-directory: bindings/kotlin
       - uses: actions/upload-artifact@v4
         with:
           name: sdk-artifacts-linux-x86-64
           path: |
             dist/*.whl
+            dist/*.tgz
             bindings/typescript/pkg
             bindings/kotlin/build/libs/*.jar
             bindings/kotlin/build/repository
