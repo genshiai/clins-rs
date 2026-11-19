@@ -10,6 +10,7 @@ import argparse
 import copy
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -17,6 +18,36 @@ import tempfile
 ROOT = Path(__file__).resolve().parents[1]
 REFERENCE_SHA256 = "2686590539f0b3ba7683149b25d78249f6886c04e2c326e884c5049d8947df89"
 NAMES = ["patient", "conditions", "allergies", "laboratory", "referral", "discharge", "patient_summary", "medications"]
+
+
+def error_locations(issues, resource_type):
+    """Normalize concrete diagnostic paths, retaining genuine location differences."""
+    paths = set()
+    for issue in issues:
+        if issue.get("severity") not in ("fatal", "error"):
+            continue
+        for path in issue.get("expression", issue.get("location", [])):
+            path = re.sub(r"/\*.*?\*/", "", path)
+            path = re.sub(r"\.(\d+)(?=\.|$)", r"[\1]", path)
+            path = re.sub(r"^Resource(?=\.|\[|$)", resource_type, path)
+            paths.add(path)
+    return paths
+
+
+def compare_case(name, expected, native, reference, resource_type):
+    errors = [i for i in reference.get("issue", []) if i["severity"] in ("fatal", "error")]
+    native_errors = [i for i in native["outcome"].get("issue", []) if i["severity"] in ("fatal", "error")]
+    native_paths = error_locations(native["outcome"].get("issue", []), resource_type)
+    reference_paths = error_locations(reference.get("issue", []), resource_type)
+    return dict(case=name, expected=expected, native=native["status"],
+                reference="errors" if errors else "no-errors",
+                verdict_agrees=(native["status"] == expected and bool(errors) == (expected == "invalid")),
+                reference_errors=errors,
+                native_errors=native_errors,
+                error_locations=dict(shared=sorted(native_paths & reference_paths),
+                                     native_only=sorted(native_paths - reference_paths),
+                                     reference_only=sorted(reference_paths - native_paths)),
+                native_deferred_checks=native.get("deferred_checks"))
 
 
 def main():
@@ -71,13 +102,12 @@ def main():
             outcomes[Path(filename).name] = resource
         results = []
         for path, expected in cases:
-            reference_errors = [i for i in outcomes[path.name].get("issue", []) if i["severity"] in ("fatal", "error")]
             result = subprocess.run([str(args.clins.resolve()), "--packages", str(ROOT / "clins-packages.lock.json"), "validate", str(path)], capture_output=True, text=True, cwd=ROOT)
             native = json.loads(result.stdout)
-            reference_status = "invalid" if reference_errors else "valid"
-            results.append(dict(case=path.stem, expected=expected, native=native["status"], reference=reference_status, reference_errors=reference_errors))
-        agreed = all(r["native"] == r["reference"] == r["expected"] for r in results)
-        print(json.dumps(dict(reference_version="7.0.6", reference_sha256=REFERENCE_SHA256, terminology_network=False, example_urls_allowed=True, scope="Eight independent synthetic examples and eight negative mutations; acceptance/error agreement, not exhaustive FHIR conformance or national certification. Java additionally loads its cached standard support packages.", all_agreed=agreed, packages=lock["packages"], results=results), ensure_ascii=False, indent=2))
+            typ = json.loads(path.read_text())["resourceType"]
+            results.append(compare_case(path.stem, expected, native, outcomes[path.name], typ))
+        agreed = all(r["verdict_agrees"] for r in results)
+        print(json.dumps(dict(schema_version=2, comparison_level="expected verdict and error presence; normalized error locations reported separately", reference_version="7.0.6", reference_sha256=REFERENCE_SHA256, terminology_network=False, example_urls_allowed=True, scope="Eight independent synthetic examples and eight negative mutations; not exhaustive FHIR conformance or national certification. No Java errors is not a proof of complete validation. Java additionally loads its cached standard support packages.", all_agreed=agreed, packages=lock["packages"], results=results), ensure_ascii=False, indent=2))
         if not agreed:
             raise SystemExit(1)
 

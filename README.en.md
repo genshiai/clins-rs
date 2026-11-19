@@ -105,6 +105,28 @@ Validator(definitionsJson).use { validator ->
 }
 ```
 
+## References and reused implementations
+
+- [HL7 FHIR Java Core / Validator](https://github.com/hapifhir/org.hl7.fhir.core),
+  Apache-2.0: the general Java validator used by the CLINS official workflow;
+  an independent development comparison target, with no Java source incorporated
+  and no Java runtime dependency in the Rust/Python/WASM products.
+- [FHIR/fhir-test-cases](https://github.com/FHIR/fhir-test-cases), Apache-2.0:
+  shared upstream fixtures/expectations proposed for broader interoperability tests.
+  The full upstream corpus has not been imported or run.
+- [helios-fhir-validator 0.2.7](https://crates.io/crates/helios-fhir-validator/0.2.7),
+  MIT: adapted structural/converter source, with [provenance](THIRD_PARTY_NOTICES.md)
+  and the [original license](LICENSES/Helios-MIT.txt) retained.
+- [OctoFHIR FHIRPath 0.5.10](https://docs.rs/octofhir-fhirpath/0.5.10/) and
+  [FHIRSchema 0.3.42](https://docs.rs/octofhir-fhirschema/0.3.42/): runtime Rust
+  evaluator/model dependencies; locked license details are in [the notices](THIRD_PARTY_LICENSES.txt).
+- [JP Core / JP-CLINS official validation guide](https://jpfhir.jp/fhir/clins/igv1/validationGuide.html):
+  Japanese definitions, terminology and validation workflow, pinned in the package lockfile.
+
+The current Java comparison covers our own eight synthetic positive examples and eight
+negative mutations, not sixteen imported upstream tests. See the
+[comparison and upstream reuse policy (Japanese)](docs/reference-validation.ja.md).
+
 ## Verify and distribute
 
 Run `scripts/check.sh` for the Rust gate, including checksum-verified official and synthetic

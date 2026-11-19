@@ -148,6 +148,21 @@ Heliosのcrate・型・APIには依存しません。内部の構造検証には
 Kotlin/JVM版は通常どおりJVMとRustのネイティブライブラリを使います。
 詳細は[技術選定](docs/architecture.md)と[第三者コードの表示](THIRD_PARTY_NOTICES.md)を参照してください。
 
+## 参照・利用したプロジェクト
+
+| プロジェクト | 役割 | ライセンス・取り込み状況 |
+|---|---|---|
+| [HL7 FHIR Java Core / Validator](https://github.com/hapifhir/org.hl7.fhir.core) | CLINS公式手順が利用する汎用Java Validator。開発時の動作比較先 | [Apache-2.0](https://github.com/hapifhir/org.hl7.fhir.core/blob/7.0.6/LICENSE.txt)。Javaの実装コードは取り込んでおらず、製品の実行時依存でもない |
+| [FHIR/fhir-test-cases](https://github.com/FHIR/fhir-test-cases) | 複数のFHIR実装で共有する試験データ・期待結果。上流テスト再利用の候補 | [Apache-2.0](https://github.com/FHIR/fhir-test-cases/blob/2cfcc672d39fe85dcf358106969cf63e185fd926/LICENSE.txt)。共有コーパス全体の取り込み・実行は未実施 |
+| [Helios / helios-fhir-validator 0.2.7](https://crates.io/crates/helios-fhir-validator/0.2.7) | 内部の構造検証・スキーマ変換などの元となるRust実装 | MIT。改変したソースを取り込み、[元のライセンス](LICENSES/Helios-MIT.txt)と[出典](THIRD_PARTY_NOTICES.md)を保持 |
+| [OctoFHIR FHIRPath 0.5.10](https://docs.rs/octofhir-fhirpath/0.5.10/) / [FHIRSchema 0.3.42](https://docs.rs/octofhir-fhirschema/0.3.42/) | RustのFHIRPath評価器・R4型モデル | crateとして利用。固定した依存関係のライセンスは [一覧](THIRD_PARTY_LICENSES.txt) を参照 |
+| [JP Core / JP-CLINSと公式Validationガイド](https://jpfhir.jp/fhir/clins/igv1/validationGuide.html) | 日本向けの規格定義・用語・公式の検証手順 | 各提供元の条件に従う。版とSHA-256を [ロックファイル](clins-packages.lock.json) に固定 |
+
+Java Validator 7.0.6との比較は [compare-reference.py](scripts/compare-reference.py) で実行できます。
+現在の比較対象は本プロジェクトの架空正常例8件・異常例8件です。
+この16件は上流の共有テストを移植したものではありません。
+上流試験の再利用・比較条件・判定差分の扱いは [参照Validatorとの比較方針](docs/reference-validation.ja.md) にまとめています。
+
 ## 検証・開発予定
 
 `scripts/check.sh` でRustの検査と、固定した公式例・独立した架空例の試験を実行します。

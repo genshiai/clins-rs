@@ -3,6 +3,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 cargo fmt --all --check
 python3 scripts/check-versions.py
+python3 -m unittest discover -s scripts/tests
 cargo clippy --workspace --all-targets --locked -- -D warnings
 cargo test --locked -p clins-core -p clins-packages -p clins-cli --all-targets
 cargo run --locked -p clins-cli -- --packages clins-packages.lock.json prepare

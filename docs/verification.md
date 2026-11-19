@@ -75,3 +75,9 @@ and compares eight positive examples and eight negative mutations. The Java publ
 support-package cache must be prepared beforehand. The reference validator loads its
 additional standard support packages; this is not a proof that every dependency graph
 or terminology service configuration behaves identically.
+
+The current comparison report uses schema version 2: Java's absence of error/fatal
+is recorded as `no-errors`, not as a claim of complete validation. Verdict agreement
+and normalized diagnostic location differences are reported separately. See the
+[upstream reuse and comparison policy](reference-validation.ja.md) for provenance,
+scope and limitations; upstream shared tests have not yet been imported or executed.
