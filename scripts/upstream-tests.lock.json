@@ -1,0 +1,4902 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/FHIR/fhir-test-cases",
+  "revision": "2cfcc672d39fe85dcf358106969cf63e185fd926",
+  "license": "Apache-2.0; retain upstream and individual content notices",
+  "r4_json_candidates": 598,
+  "selected": [
+    {
+      "name": "allergy",
+      "file": "allergy.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.allergy-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.allergy-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.allergy-base.json"
+    },
+    {
+      "name": "attachment-with-invalid-binary",
+      "file": "attachment-with-invalid-binary.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.attachment-with-invalid-binary-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.attachment-with-invalid-binary-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.attachment-with-invalid-binary-base.json"
+    },
+    {
+      "name": "attachment-with-wrong-size",
+      "file": "attachment-with-wrong-size.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.attachment-with-wrong-size-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.attachment-with-wrong-size-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.attachment-with-wrong-size-base.json"
+    },
+    {
+      "name": "bundle-document-versioned-references-good",
+      "file": "bundle-document-versioned-references-good.json",
+      "version": "4.0",
+      "module": "references",
+      "java": "java/R4.bundle-document-versioned-references-good-base.json"
+    },
+    {
+      "name": "bundle-document-versioned-references-bad",
+      "file": "bundle-document-versioned-references-bad.json",
+      "version": "4.0",
+      "module": "references",
+      "java": "java/R4.bundle-document-versioned-references-bad-base.json"
+    },
+    {
+      "name": "contained",
+      "file": "contained.json",
+      "version": "4.0",
+      "module": "references",
+      "java": "java/R4.contained-base.json"
+    },
+    {
+      "name": "synthea",
+      "file": "synthea.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.synthea-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.synthea-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.synthea-base.json"
+    },
+    {
+      "name": "patient-meta-profile-no-value",
+      "file": "patient-meta-profile-no-value.json",
+      "version": "4.0",
+      "description": "meta.profile repetition with no value, only a data-absent-reason extension (core #2767): must not crash, and warns that it claims no profile",
+      "module": "general",
+      "java": "java/R4.patient-meta-profile-no-value-base.json"
+    },
+    {
+      "name": "structuremap-import-no-value",
+      "file": "structuremap-import-no-value.json",
+      "version": "4.0",
+      "description": "StructureMap.import repetition with no value, only a data-absent-reason extension: must not crash, and warns that it imports no map",
+      "module": "general",
+      "java": "java/R4.structuremap-import-no-value-base.json"
+    },
+    {
+      "name": "structuremap-dependent-input-no-mode",
+      "file": "structuremap-dependent-input-no-mode.json",
+      "version": "4.0",
+      "description": "StructureMap dependent call to a group whose input has no mode (1..1): must not crash, and reports the missing mode",
+      "module": "general",
+      "java": "java/R4.structuremap-dependent-input-no-mode-base.json"
+    },
+    {
+      "name": "snomed-ca",
+      "file": "snomed-ca.json",
+      "version": "4.0",
+      "explanation": "code is in international edition",
+      "module": "tx",
+      "java": "java/R4.snomed-ca-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.snomed-ca-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.snomed-ca-base.json"
+    },
+    {
+      "name": "patient-example-ra4",
+      "file": "patient-example-ra4.json",
+      "version": "4.0",
+      "explanation": "??",
+      "module": "general",
+      "java": "java/R4.patient-example-ra4-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.patient-example-ra4-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.patient-example-ra4-base.json"
+    },
+    {
+      "name": "obs-unit-profile",
+      "file": "obs-unit-profile.json",
+      "version": "4.0",
+      "module": "sd",
+      "java": "java/R4.obs-unit-profile-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.obs-unit-profile-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.obs-unit-profile-base.json"
+    },
+    {
+      "name": "capstmt",
+      "file": "capstmt.json",
+      "version": "4.0",
+      "module": "api",
+      "java": "java/R4.capstmt-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.capstmt-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.capstmt-base.json"
+    },
+    {
+      "name": "questionnaire-enableWhen-dw",
+      "file": "questionnaire-enableWhen-dw.json",
+      "version": "4.0",
+      "module": "questionnaire",
+      "java": "java/R4.questionnaire-enableWhen-dw-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.questionnaire-enableWhen-dw-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.questionnaire-enableWhen-dw-base.json"
+    },
+    {
+      "name": "care-plan",
+      "file": "care-plan.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.care-plan-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.care-plan-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.care-plan-base.json"
+    },
+    {
+      "name": "cs-meta-profile",
+      "file": "cs-meta-profile.json",
+      "version": "4.0.1",
+      "module": "tx",
+      "java": "java/R4.cs-meta-profile-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.cs-meta-profile-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.cs-meta-profile-base.json"
+    },
+    {
+      "name": "mr-covid-m",
+      "file": "mr-covid-m.json",
+      "version": "4.0",
+      "module": "measure",
+      "java": "java/R4.mr-covid-m-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.mr-covid-m-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.mr-covid-m-base.json"
+    },
+    {
+      "name": "mr-covid-m3",
+      "file": "mr-covid-m3.json",
+      "version": "4.0",
+      "module": "measure",
+      "java": "java/R4.mr-covid-m3-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.mr-covid-m3-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.mr-covid-m3-base.json"
+    },
+    {
+      "name": "mr-covid-bnd1",
+      "file": "mr-covid-bnd1.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.mr-covid-bnd1-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.mr-covid-bnd1-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.mr-covid-bnd1-base.json"
+    },
+    {
+      "name": "vs-jurisdiction",
+      "file": "vs-jurisdiction.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-jurisdiction-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.vs-jurisdiction-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.vs-jurisdiction-base.json"
+    },
+    {
+      "name": "q-enablewhen-me-wrong",
+      "file": "q-enablewhen-me-wrong.json",
+      "version": "4.0",
+      "module": "questionnaire",
+      "java": "java/R4.q-enablewhen-me-wrong-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.q-enablewhen-me-wrong-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.q-enablewhen-me-wrong-base.json"
+    },
+    {
+      "name": "pat-security-good1",
+      "file": "pat-security-good1.json",
+      "version": "4.0",
+      "module": "security",
+      "java": "java/R4.pat-security-good1-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.pat-security-good1-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.pat-security-good1-base.json"
+    },
+    {
+      "name": "pat-security-good2",
+      "file": "pat-security-good2.json",
+      "description": "Bad String, but with no security checks on",
+      "version": "4.0",
+      "module": "security",
+      "java": "java/R4.pat-security-good2-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.pat-security-good2-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.pat-security-good2-base.json"
+    },
+    {
+      "name": "sp-diff-expression",
+      "file": "sp-diff-expression.json",
+      "version": "4.0",
+      "module": "api",
+      "java": "java/R4.sp-diff-expression-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.sp-diff-expression-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.sp-diff-expression-base.json"
+    },
+    {
+      "name": "sp-diff-type",
+      "file": "sp-diff-type.json",
+      "version": "4.0",
+      "module": "api",
+      "java": "java/R4.sp-diff-type-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.sp-diff-type-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.sp-diff-type-base.json"
+    },
+    {
+      "name": "sp-diff-base",
+      "file": "sp-diff-base.json",
+      "version": "4.0",
+      "module": "api",
+      "java": "java/R4.sp-diff-base-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.sp-diff-base-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.sp-diff-base-base.json"
+    },
+    {
+      "name": "vs-bad-code",
+      "file": "vs-bad-code.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-bad-code-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.vs-bad-code-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.vs-bad-code-base.json"
+    },
+    {
+      "name": "obs-temp",
+      "file": "obs-temp.json",
+      "version": "4.0",
+      "module": "profile",
+      "java": "java/R4.obs-temp-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.obs-temp-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.obs-temp-base.json"
+    },
+    {
+      "name": "obs-temp-bad",
+      "file": "obs-temp-bad.json",
+      "version": "4.0",
+      "module": "profile",
+      "java": "java/R4.obs-temp-bad-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.obs-temp-bad-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.obs-temp-bad-base.json"
+    },
+    {
+      "name": "canonical-url",
+      "file": "canonical-url.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.canonical-url-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.canonical-url-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.canonical-url-base.json"
+    },
+    {
+      "name": "bundle-duplicate-id",
+      "file": "bundle-duplicate-id.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-duplicate-id-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.bundle-duplicate-id-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.bundle-duplicate-id-base.json"
+    },
+    {
+      "name": "mni-patientOverview-bundle-example1",
+      "file": "mni-patientOverview-bundle-example1.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.mni-patientOverview-bundle-example1-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.mni-patientOverview-bundle-example1-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.mni-patientOverview-bundle-example1-base.json"
+    },
+    {
+      "name": "mni-patientOverview-bundle-example1b",
+      "file": "mni-patientOverview-bundle-example1b.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.mni-patientOverview-bundle-example1b-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.mni-patientOverview-bundle-example1b-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.mni-patientOverview-bundle-example1b-base.json"
+    },
+    {
+      "name": "bundle-duplicate-ids-not",
+      "file": "bundle-duplicate-ids-not.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-duplicate-ids-not-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.bundle-duplicate-ids-not-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.bundle-duplicate-ids-not-base.json"
+    },
+    {
+      "name": "empty-array",
+      "file": "empty-array.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.empty-array-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.empty-array-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.empty-array-base.json"
+    },
+    {
+      "name": "hakan-se-nofetch",
+      "file": "hakan-se.json",
+      "version": "4.0",
+      "module": "references",
+      "java": "java/R4.hakan-se-nofetch-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.hakan-se-nofetch-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.hakan-se-nofetch-base.json"
+    },
+    {
+      "name": "supplement-2",
+      "file": "supplement-cs.json",
+      "description": "Supplement can't define new codes",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.supplement-2-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.supplement-2-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.supplement-2-base.json"
+    },
+    {
+      "name": "pat-dob-ext",
+      "file": "pat-dob-ext.json",
+      "description": "Testing primitive extensions",
+      "version": "4.0",
+      "module": "extensions",
+      "java": "java/R4.pat-dob-ext-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.pat-dob-ext-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.pat-dob-ext-base.json"
+    },
+    {
+      "name": "cvx",
+      "file": "cvx.json",
+      "description": "Check CVX Covid codes validate (many definitional issues around CVX in THO)",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.cvx-base.json"
+    },
+    {
+      "name": "bundle-id-1",
+      "file": "bundle-id-search-1.json",
+      "description": "Checks for IDs on search set: operation outcome with no id",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-id-1-base.json"
+    },
+    {
+      "name": "bundle-id-2",
+      "file": "bundle-id-search-2.json",
+      "description": "Checks for IDs on search set: operation outcome marked as an operation",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-id-2-base.json"
+    },
+    {
+      "name": "bundle-id-3",
+      "file": "bundle-id-search-3.json",
+      "description": "Checks for IDs on search set: non-outcome with no id",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-id-3-base.json"
+    },
+    {
+      "name": "bundle-id-4",
+      "file": "bundle-id-search-4.json",
+      "description": "Checks for IDs on search set: non-outcome which is an operation outcome, and outcome which is not",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-id-4-base.json"
+    },
+    {
+      "name": "bundle-id-5",
+      "file": "bundle-id-collection.json",
+      "description": "Checks for IDs on collection - not required",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-id-5-base.json"
+    },
+    {
+      "name": "resource-invalid-id-0",
+      "file": "resource-invalid-id-0.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-id-0-base.json"
+    },
+    {
+      "name": "resource-invalid-id-1",
+      "file": "resource-invalid-id-1.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-id-1-base.json"
+    },
+    {
+      "name": "resource-invalid-id-2",
+      "file": "resource-invalid-id-2.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-id-2-base.json"
+    },
+    {
+      "name": "resource-invalid-id-3",
+      "file": "resource-invalid-id-3.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-id-3-base.json"
+    },
+    {
+      "name": "resource-invalid-eid-0",
+      "file": "resource-invalid-eid-0.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-eid-0-base.json"
+    },
+    {
+      "name": "resource-invalid-eid-1",
+      "file": "resource-invalid-eid-1.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-eid-1-base.json"
+    },
+    {
+      "name": "resource-invalid-eid-2",
+      "file": "resource-invalid-eid-2.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.resource-invalid-eid-2-base.json"
+    },
+    {
+      "name": "document-manifest",
+      "file": "document-manifest-4.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.document-manifest-base.json"
+    },
+    {
+      "name": "params-empty-r4",
+      "file": "params-empty.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.params-empty-r4-base.json"
+    },
+    {
+      "name": "bundle-with-contained",
+      "file": "bundle-with-contained.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.bundle-with-contained-base.json"
+    },
+    {
+      "name": "sct-version-issue",
+      "file": "sct-version-issue.json",
+      "version": "4.0",
+      "description": "The version in this example is not valid - was neve released",
+      "module": "tx",
+      "java": "java/R4.sct-version-issue-base.json"
+    },
+    {
+      "name": "risk-assessment-probability-range",
+      "file": "risk-assessment-probability-range.json",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.risk-assessment-probability-range-base.json"
+    },
+    {
+      "name": "vs-canonical-good",
+      "file": "vs-canonical-good.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-canonical-good-base.json"
+    },
+    {
+      "name": "vs-canonical-bad-2",
+      "file": "vs-canonical-bad-2.json",
+      "description": "see https://chat.fhir.org/#narrow/stream/215610-shorthand/topic/Contained.20code.20system.20in.20the.20value.20set",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-canonical-bad-2-base.json"
+    },
+    {
+      "name": "vs-canonical-bad",
+      "file": "vs-canonical-bad.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-canonical-bad-base.json"
+    },
+    {
+      "name": "vs-canonical-urn",
+      "file": "vs-canonical-urn.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-canonical-urn-base.json"
+    },
+    {
+      "name": "vs-canonical-urn-bad",
+      "file": "vs-canonical-urn-bad.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-canonical-urn-bad-base.json"
+    },
+    {
+      "name": "contained-resource-duplicate",
+      "file": "contained-resource-duplicate.json",
+      "version": "4.0",
+      "description": "Duplicate contained id",
+      "module": "general",
+      "java": "java/R4.contained-resource-duplicate-base.json"
+    },
+    {
+      "name": "nested-questionnaire-nested-valueset",
+      "file": "nested-questionnaire-nested-valueset.json",
+      "version": "4.0",
+      "module": "questionnaire",
+      "java": "java/R4.nested-questionnaire-nested-valueset-base.json"
+    },
+    {
+      "name": "encounter-period",
+      "file": "encounter-period.json",
+      "version": "4.0",
+      "module": "invariants",
+      "java": "java/R4.encounter-period-base.json"
+    },
+    {
+      "name": "structureDefinition-11179-objectClass-R4",
+      "file": "StructureDefinition-11179-objectClass.json",
+      "version": "4.0",
+      "module": "sd",
+      "java": "java/R4.structureDefinition-11179-objectClass-R4-base.json"
+    },
+    {
+      "name": "xver-extensions-vs",
+      "file": "xver-extensions-vs.json",
+      "version": "4.0",
+      "module": "xver",
+      "java": "java/R4.xver-extensions-vs-base.json"
+    },
+    {
+      "name": "xml-bad-entities-json",
+      "file": "xml-bad-entities.json",
+      "version": "4.0",
+      "module": "fmt",
+      "java": "java/R4.xml-bad-entities-json-base.json"
+    },
+    {
+      "name": "json-good",
+      "file": "json-good.json",
+      "version": "4.0",
+      "module": "fmt",
+      "java": "java/R4.json-good-base.json"
+    },
+    {
+      "name": "json-comments-1-no",
+      "file": "json-comments-1.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-comments-1-no-base.json"
+    },
+    {
+      "name": "json-comments-2-no",
+      "file": "json-comments-2.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-comments-2-no-base.json"
+    },
+    {
+      "name": "json-comma-bad-1",
+      "file": "json-comma-bad-1.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-comma-bad-1-base.json"
+    },
+    {
+      "name": "json-comma-bad-2",
+      "file": "json-comma-bad-2.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-comma-bad-2-base.json"
+    },
+    {
+      "name": "json-no-quotes-1",
+      "file": "json-no-quotes-1.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-no-quotes-1-base.json"
+    },
+    {
+      "name": "json-no-quotes-2",
+      "file": "json-no-quotes-2.json",
+      "module": "json5",
+      "version": "4.0",
+      "java": "java/R4.json-no-quotes-2-base.json"
+    },
+    {
+      "name": "json-empty-primitive-array",
+      "file": "json-empty-primitive-array.json",
+      "version": "4.0",
+      "module": "fmt",
+      "description": "An empty array of a primitive: R4 JSON says arrays are never empty",
+      "java": "java/R4.json-empty-primitive-array-base.json"
+    },
+    {
+      "name": "json-empty-primitive-array-ext",
+      "file": "json-empty-primitive-array-ext.json",
+      "version": "4.0",
+      "module": "fmt",
+      "description": "An empty array of a primitive's _element: R4 JSON says arrays are never empty",
+      "java": "java/R4.json-empty-primitive-array-ext-base.json"
+    },
+    {
+      "name": "json-empty-primitive-array-both",
+      "file": "json-empty-primitive-array-both.json",
+      "version": "4.0",
+      "module": "fmt",
+      "description": "Both a primitive's array and its _element array are empty: one issue for the property",
+      "java": "java/R4.json-empty-primitive-array-both-base.json"
+    },
+    {
+      "name": "json-empty-primitive-array-ext-only",
+      "file": "json-empty-primitive-array-ext-only.json",
+      "version": "4.0",
+      "module": "fmt",
+      "description": "A primitive's array has a value and its _element array is empty: R4 JSON says arrays are never empty",
+      "java": "java/R4.json-empty-primitive-array-ext-only-base.json"
+    },
+    {
+      "name": "comments-4",
+      "file": "json-comments.json",
+      "version": "4.0",
+      "explanation": "fhir_comments not allowed in FHIR 3+",
+      "module": "fmt",
+      "java": "java/R4.comments-4-base.json"
+    },
+    {
+      "name": "versioned-extension",
+      "file": "versioned-extension.json",
+      "version": "4.0",
+      "explanation": "extension URLs not allowed |{version} (+ extension with no URL to make sure validator doesn't blow up)",
+      "module": "extensions",
+      "java": "java/R4.versioned-extension-base.json"
+    },
+    {
+      "name": "bundle-profiles",
+      "file": "bundle-profiles.json",
+      "version": "4.0",
+      "explanation": "Checking that profiles on resources in bundles are validated",
+      "module": "bundle",
+      "java": "java/R4.bundle-profiles-base.json"
+    },
+    {
+      "name": "ext-ccuk",
+      "file": "ext-ccuk.json",
+      "version": "4.0",
+      "explanation": "no slicing on root elements in profiles - check it's an error",
+      "module": "sd",
+      "java": "java/R4.ext-ccuk-base.json"
+    },
+    {
+      "name": "maiden-name-extension",
+      "file": "maiden-name.json",
+      "description": "Reported error message was wrong (from stack overflow)",
+      "version": "4.0",
+      "module": "extensions",
+      "java": "java/R4.maiden-name-extension-base.json"
+    },
+    {
+      "name": "obs-mz",
+      "file": "obs-mz.json",
+      "description": "Includes a wrong path. Will blow up in snapshot generator but should be picked up directly by the validator",
+      "version": "4.0",
+      "module": "sd",
+      "java": "java/R4.obs-mz-base.json"
+    },
+    {
+      "name": "ai1",
+      "file": "ai1.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai1-base.json"
+    },
+    {
+      "name": "ai2",
+      "file": "ai2.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai2-base.json"
+    },
+    {
+      "name": "ai3",
+      "file": "ai3.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai3-base.json"
+    },
+    {
+      "name": "ai4",
+      "file": "ai4.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai4-base.json"
+    },
+    {
+      "name": "ai7",
+      "file": "ai7.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai7-base.json"
+    },
+    {
+      "name": "ai8",
+      "file": "ai8.json",
+      "description": "ChatGPT generated validator test case",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.ai8-base.json"
+    },
+    {
+      "name": "attachment-tx",
+      "file": "parameters-attachment.json",
+      "version": "4.0",
+      "description": "see https://github.com/hapifhir/org.hl7.fhir.core/issues/1248",
+      "module": "general",
+      "java": "java/R4.attachment-tx-base.json"
+    },
+    {
+      "name": "obs-quantity-us",
+      "file": "obs-quantity.json",
+      "version": "4.0",
+      "description": "quantity is poorly prohibited (but have to live with that, it's core",
+      "module": "profile",
+      "java": "java/R4.obs-quantity-us-base.json"
+    },
+    {
+      "name": "sd-device",
+      "file": "sd-device.json",
+      "version": "4.0",
+      "description": "test identifiers defined in THO",
+      "module": "general",
+      "java": "java/R4.sd-device-base.json"
+    },
+    {
+      "name": "patient-with-turvakielto",
+      "file": "patient-with-turvakielto.json",
+      "description": "NHnnnn code use",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.patient-with-turvakielto-base.json"
+    },
+    {
+      "name": "obs-vs-1",
+      "file": "obs-vs-1.json",
+      "description": "Checking the validator fixes a problem with vs-1 in R4",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.obs-vs-1-base.json"
+    },
+    {
+      "name": "obs-vs-2",
+      "file": "obs-vs-2.json",
+      "description": "Narrative with no xhtml (json)",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.obs-vs-2-base.json"
+    },
+    {
+      "name": "sp-composite",
+      "file": "sp-composite.json",
+      "version": "4.0",
+      "module": "api",
+      "java": "java/R4.sp-composite-base.json"
+    },
+    {
+      "name": "ips-htmlrefs-backwards",
+      "file": "ips-htmlrefs-backwards.json",
+      "version": "4.0",
+      "module": "bundle",
+      "java": "java/R4.ips-htmlrefs-backwards-base.json"
+    },
+    {
+      "name": "obs-fio2",
+      "file": "obs-fio2.json",
+      "version": "4.0",
+      "module": "profile",
+      "java": "java/R4.obs-fio2-base.json"
+    },
+    {
+      "name": "obs-temp-code2",
+      "file": "obs-temp-code2.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.obs-temp-code2-base.json",
+      "firely-sdk-current": "firely-sdk-current/R4.obs-temp-code2-base.json",
+      "firely-sdk-wip": "firely-sdk-wip/R4.obs-temp-code2-base.json"
+    },
+    {
+      "name": "Observation-ex-pain.json",
+      "file": "Observation-ex-pain.json",
+      "version": "4.0",
+      "explanation": "Invalid JSON that the validator didn't complain about",
+      "module": "fmt",
+      "java": "java/R4.Observation-ex-pain.json-base.json"
+    },
+    {
+      "name": "cs-bad-props",
+      "file": "cs-bad-props.json",
+      "version": "4.0",
+      "explanation": "Mixing and matching bad property definitions in code systems",
+      "module": "tx",
+      "java": "java/R4.cs-bad-props-base.json"
+    },
+    {
+      "name": "vs-bad-props",
+      "file": "vs-bad-props.json",
+      "version": "4.0",
+      "explanation": "Bad filters based on code system properties",
+      "module": "tx",
+      "java": "java/R4.vs-bad-props-base.json"
+    },
+    {
+      "name": "obs-vital-signs-mdc",
+      "file": "obs-vital-signs-mdc.json",
+      "version": "4.0",
+      "explanation": "check additional bindings are tested",
+      "module": "profile",
+      "java": "java/R4.obs-vital-signs-mdc-base.json"
+    },
+    {
+      "name": "bad-json-close",
+      "file": "bad-json-close-1.json",
+      "version": "4.0",
+      "module": "fmt",
+      "java": "java/R4.bad-json-close-base.json"
+    },
+    {
+      "name": "bad-json-close-2",
+      "file": "bad-json-close-2.json",
+      "version": "4.0",
+      "module": "fmt",
+      "java": "java/R4.bad-json-close-2-base.json"
+    },
+    {
+      "name": "bad-json-close-3",
+      "file": "bad-json-close-3.json",
+      "version": "4.0",
+      "module": "fmt",
+      "java": "java/R4.bad-json-close-3-base.json"
+    },
+    {
+      "name": "vs-loinc-filter",
+      "file": "vs-loinc-filter.json",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-loinc-filter-base.json"
+    },
+    {
+      "name": "cs-narrative-status",
+      "file": "cs-narrative-status.json",
+      "version": "4.0",
+      "description": "doesn't have a WG stated - shouldn't be an error unless in publication mode",
+      "module": "xhtml",
+      "java": "java/R4.cs-narrative-status-base.json"
+    },
+    {
+      "name": "params-reference-fullUrl-extension",
+      "file": "params-reference-fullUrl-extension.json",
+      "version": "4.0.1",
+      "description": "variants of reference checking in parameters (see https://chat.fhir.org/#narrow/channel/179166-implementers/topic/Absolute.20References.20in.20Parameters)",
+      "module": "references",
+      "java": "java/R4.params-reference-fullUrl-extension-base.json"
+    },
+    {
+      "name": "params-reference-transaction-bundle",
+      "file": "params-reference-transaction-bundle.json",
+      "version": "4.0.1",
+      "description": "variants of reference checking in parameters (see https://chat.fhir.org/#narrow/channel/179166-implementers/topic/Absolute.20References.20in.20Parameters)",
+      "module": "references",
+      "java": "java/R4.params-reference-transaction-bundle-base.json"
+    },
+    {
+      "name": "params-reference-part-transaction",
+      "file": "params-reference-part-transaction.json",
+      "version": "4.0.1",
+      "description": "variants of reference checking in parameters (see https://chat.fhir.org/#narrow/channel/179166-implementers/topic/Absolute.20References.20in.20Parameters)",
+      "module": "references",
+      "java": "java/R4.params-reference-part-transaction-base.json"
+    },
+    {
+      "name": "vs-params-1",
+      "file": "vs-params-1.json",
+      "module": "tx-advanced",
+      "description": "valid use of ValueSet Parameters",
+      "version": "4.0",
+      "java": "java/R4.vs-params-1-base.json"
+    },
+    {
+      "name": "vs-params-2",
+      "file": "vs-params-2.json",
+      "module": "tx-advanced",
+      "description": "Use wrong parameter",
+      "version": "4.0",
+      "java": "java/R4.vs-params-2-base.json"
+    },
+    {
+      "name": "vs-params-3",
+      "file": "vs-params-3.json",
+      "module": "tx-advanced",
+      "description": "Bad expression",
+      "version": "4.0",
+      "java": "java/R4.vs-params-3-base.json"
+    },
+    {
+      "name": "vs-params-4",
+      "file": "vs-params-4.json",
+      "module": "tx-advanced",
+      "description": "bad language",
+      "version": "4.0",
+      "java": "java/R4.vs-params-4-base.json"
+    },
+    {
+      "name": "ref-policy-default-r4",
+      "file": "ref-policy-r4.json",
+      "module": "references",
+      "description": "checking default settings for bundle resolution of relative references is correct against R5 rules",
+      "version": "4.0",
+      "java": "java/R4.ref-policy-default-r4-base.json"
+    },
+    {
+      "name": "vs-bad-ecl",
+      "file": "vs-bad-ecl.json",
+      "description": "Check that ECL is validated (handover to Ontoserver)",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-bad-ecl-base.json"
+    },
+    {
+      "name": "vs-bad-ecl-us",
+      "file": "vs-bad-ecl-us.json",
+      "description": "Check how ECL is validated when there's no Ontoserver to handover to",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-bad-ecl-us-base.json"
+    },
+    {
+      "name": "bundle-signed-nob64",
+      "file": "bundle-signed-nob64.json",
+      "description": "Basic bundle Signature Check - but content is not base64ed",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.bundle-signed-nob64-base.json"
+    },
+    {
+      "name": "bundle-sig-2",
+      "file": "bundle-sig-2.json",
+      "description": "More signature checking",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.bundle-sig-2-base.json"
+    },
+    {
+      "name": "signatures-example-1",
+      "file": "signatures/example-1.json",
+      "description": "DigSig signature checking",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.signatures-example-1-base.json"
+    },
+    {
+      "name": "signatures-parameters-example",
+      "file": "signatures/parameters-example.json",
+      "description": "Check signature wrapped in a bundle",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.signatures-parameters-example-base.json"
+    },
+    {
+      "name": "signatures-example-2",
+      "file": "signatures/example-2.json",
+      "description": "DigSig signature checking",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.signatures-example-2-base.json"
+    },
+    {
+      "name": "sig-example-r6-json",
+      "file": "signatures/example-r6-json.json",
+      "description": "DigSig signature checking using R6 method (pre-adopt)",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.sig-example-r6-json-base.json"
+    },
+    {
+      "name": "sig-time-example",
+      "file": "signatures/sig-time-example.json",
+      "description": "bug report - issue 2385 - time formattting issue",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.sig-time-example-base.json"
+    },
+    {
+      "name": "sig-xhtml-example",
+      "file": "signatures/sig-xhtml-example.json",
+      "description": "bug report - issue 2385 - xhtml formattting issue",
+      "version": "4.0",
+      "module": "dsig",
+      "java": "java/R4.sig-xhtml-example-base.json"
+    },
+    {
+      "name": "contract-binding-test",
+      "file": "contract-binding-test.json",
+      "description": "Check Inconsistent behaviour around binding validation (https://chat.fhir.org/#narrow/channel/179167-hapi/topic/Inconsistencies.20in.20validation.20of.20extensible.20binding/with/524207192)",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.contract-binding-test-base.json"
+    },
+    {
+      "name": "cs-order-prop-r4",
+      "file": "cs-order-prop.json",
+      "description": "Checking use of order property",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.cs-order-prop-r4-base.json"
+    },
+    {
+      "name": "standards-status-r4",
+      "file": "cs-stds-status.json",
+      "description": "Testing Standards Status extension for R3",
+      "version": "4.0",
+      "module": "extensions",
+      "java": "java/R4.standards-status-r4-base.json"
+    },
+    {
+      "name": "sig-bundle.json",
+      "file": "signatures/sig-bundle.json",
+      "version": "4.0",
+      "module": "security",
+      "java": "java/R4.sig-bundle.json-base.json"
+    },
+    {
+      "name": "vs-expansion",
+      "file": "vs-expansion.json",
+      "description": "Checking validation of value set expansions",
+      "version": "4.0",
+      "module": "tx",
+      "java": "java/R4.vs-expansion-base.json"
+    },
+    {
+      "name": "params-resource",
+      "file": "params-resource.json",
+      "module": "base",
+      "version": "4.0",
+      "java": "java/R4.params-resource-base.json"
+    },
+    {
+      "name": "patient-hs-1",
+      "file": "patient-hs-1.json",
+      "module": "base",
+      "version": "4.0",
+      "java": "java/R4.patient-hs-1-base.json"
+    },
+    {
+      "name": "patient-id-extensions",
+      "file": "patient-id-extensions.json",
+      "module": "base",
+      "version": "4.0",
+      "java": "java/R4.patient-id-extensions-base.json"
+    },
+    {
+      "name": "params-edqm-en",
+      "file": "params-edqm.json",
+      "description": "EN requests are routed to tx.fhir.org",
+      "module": "tx",
+      "version": "4.0",
+      "java": "java/R4.params-edqm-en-base.json"
+    },
+    {
+      "name": "ig-spdx",
+      "file": "ig-spdx.json",
+      "description": "Uses an SPDX code not in R4/R5.",
+      "version": "4.0",
+      "module": "xver",
+      "java": "java/R4.ig-spdx-base.json"
+    },
+    {
+      "name": "pat-ms-3.0.0",
+      "file": "pat-ms-3.0.0.json",
+      "description": "Marital status, version fixed to 3.0.0.",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.pat-ms-3.0.0-base.json"
+    },
+    {
+      "name": "pat-ms-1.0.0",
+      "file": "pat-ms-1.0.0.json",
+      "description": "Marital status, version fixed to 1.0.0.",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.pat-ms-1.0.0-base.json"
+    },
+    {
+      "name": "pat-ms-2018-08-12",
+      "file": "pat-ms-2018-08-12.json",
+      "description": "Marital status, version fixed to 2018-08-12.",
+      "version": "4.0",
+      "module": "general",
+      "java": "java/R4.pat-ms-2018-08-12-base.json"
+    },
+    {
+      "name": "valueset-expansion-parameter-no-name",
+      "file": "valueset-expansion-parameter-no-name.json",
+      "version": "4.0",
+      "description": "ValueSet.expansion.parameter with no name (1..1): must not crash, and reports the missing name",
+      "module": "general",
+      "java": "java/R4.valueset-expansion-parameter-no-name-base.json"
+    },
+    {
+      "name": "valueset-expansion-parameter-empty",
+      "file": "valueset-expansion-parameter-empty.json",
+      "version": "4.0",
+      "description": "ValueSet.expansion.parameter that is an empty object: must not crash, and reports the missing name",
+      "module": "general",
+      "java": "java/R4.valueset-expansion-parameter-empty-base.json"
+    },
+    {
+      "name": "valueset-expansion-parameter-name-ok",
+      "file": "valueset-expansion-parameter-name-ok.json",
+      "version": "4.0",
+      "description": "ValueSet.expansion.parameter with a name: validates without errors",
+      "module": "general",
+      "java": "java/R4.valueset-expansion-parameter-name-ok-base.json"
+    },
+    {
+      "name": "valueset-parameter-extension-name-no-value",
+      "file": "valueset-parameter-extension-name-no-value.json",
+      "version": "4.0",
+      "description": "ValueSet valueset-parameter extension whose name sub-extension has no value: must not crash",
+      "module": "general",
+      "java": "java/R4.valueset-parameter-extension-name-no-value-base.json"
+    },
+    {
+      "name": "ws-json",
+      "file": "ws-json.json",
+      "module": "general",
+      "description": "Test behaviour with strings with a single whitespace",
+      "version": "4.0",
+      "java": "java/R4.ws-json-base.json"
+    }
+  ],
+  "skipped": [
+    {
+      "name": "fixed-quantity-binding-observation",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "profiles"
+      ]
+    },
+    {
+      "name": "fixed-quantity-binding-observation-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "profiles"
+      ]
+    },
+    {
+      "name": "practitioner-role-example",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "enablewhen-variable-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "answerconstraint-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-female",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-male",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-missing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-not-a-resource",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-wrong-type",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-other-name",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "launch-context",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "answerconstraint-badcode-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "enablewhen-launchcontext-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "dr-example-org",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "examples"
+      ]
+    },
+    {
+      "name": "dr-example-org-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "examples"
+      ]
+    },
+    {
+      "name": "medstmt-ips",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "mycommunication.invalid",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "mycommunication.valid.example",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "jv-patient-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "jv-patient-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "mr-covid-m2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "mr-covid-m4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "mr-covid-m5",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "mr-covid-mr1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "qr-enablewhen-me",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "pat-security-good3",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "security-checks"
+      ]
+    },
+    {
+      "name": "pat-security-bad-xhtml",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "security-checks"
+      ]
+    },
+    {
+      "name": "pat-security-bad-string",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "security-checks"
+      ]
+    },
+    {
+      "name": "qr-vr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "dr-eh",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "packages"
+      ]
+    },
+    {
+      "name": "bb-obs-value-is-not-quantity",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "bb-obs-value-is-not-in-valueset",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "bb-obs-value-is-not-quantity-or-string",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-ig-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "crumb-trail",
+        "supporting"
+      ]
+    },
+    {
+      "name": "patient-ig-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "crumb-trail",
+        "supporting"
+      ]
+    },
+    {
+      "name": "patient-min-none",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-min-none1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-min-fixed",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-min-fixed1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-min-pattern",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-min-pattern1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "parameters-reference",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "validateReference"
+      ]
+    },
+    {
+      "name": "parameters-reference-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "validateReference"
+      ]
+    },
+    {
+      "name": "parameters-profiled-resource-valid",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "parameters-profiled-resource-invalid",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "parameters-profiled-resource-multiple",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "supporting"
+      ]
+    },
+    {
+      "name": "obs-hgvs",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "validateReference"
+      ]
+    },
+    {
+      "name": "obs-hgvs-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "ad-practitioner-resource",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-01-mass-as-moles",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-02-mass-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-03-mass-convertible",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-04-moles-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-05-moles-as-count",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-06-count-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-07-count-as-moles",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-08-glucose-as-moles",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-09-fraction-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-10-fraction-as-mass-conc",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-11-catalytic-convertible",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-12-arbitrary-not-checked",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-13-not-ucum",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-14-component",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-15-qn-as-string",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-16-nom-as-quantity",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-17-nom-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-18-ord-as-quantity",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-19-ord-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-20-nar-as-quantity",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-21-nar-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-22-doc",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-23-panel-with-value",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-24-panel-empty",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-25-panel-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-26-order-only",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-27-units-required",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-28-time-point-as-period",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-29-time-24h-as-point",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "observation-loinc-units-30-time-24h-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-01-qn-coded",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-02-qn-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-03-qn-open",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-04-unit-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-05-unit-wrong-child",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-06-unit-system",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-07-coded-quantity",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-08-panel-value",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-09-panel-empty",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-10-panel-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-11-order-only",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-12-time-point",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-13-time-24h",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-14-coding-slice",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-loinc-15-component",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-01-condition-procedure-proxy",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-02-condition-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-03-condition-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-04-procedure-condition-proxy",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-05-procedure-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-06-procedure-planned-done",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-07-procedure-planned-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-08-observation-finding",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-09-observation-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-10-bodysite-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-11-specimen-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-12-specimen-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-13-allergy-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-14-allergy-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-15-medication-substance",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-16-medication-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-17-medication-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-18-laterality-conflict",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-19-laterality-agree",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-20-laterality-missing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-21-laterality-in-bodysite",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-22-laterality-extension-no-side",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sct-rules-23-laterality-expression-no-side",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-01-condition-proxy",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-02-condition-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-03-observation-finding",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-04-component-finding",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-05-bodysite-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-06-medication-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-07-medication-substance",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-08-planned-done",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-09-laterality-conflict",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-10-laterality-agree",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-sct-11-laterality-extension-no-side",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-01-allergy-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-02-allergy-confirmed",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-03-allergy-reaction",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-04-allergy-inactive-code-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-05-ips-no-known-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-06-ips-no-info-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-07-ips-no-info-reaction",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-08-condition-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-09-condition-ok",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "negation-10-allergy-not-negation-refuted",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "sdoh-type-slice",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "hakan-se",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher"
+      ]
+    },
+    {
+      "name": "hakan-se-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher"
+      ]
+    },
+    {
+      "name": "qr-bad-ref1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher"
+      ]
+    },
+    {
+      "name": "qr-bad-ref2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher",
+        "validateReference"
+      ]
+    },
+    {
+      "name": "qr-bad-ref3",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher"
+      ]
+    },
+    {
+      "name": "supplement-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "supplement-1a",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "supplement-1b",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "qr-validation-issue",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "target-ref-profile-empty",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetcher"
+      ]
+    },
+    {
+      "name": "us-docref.json",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "us-cond",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "line-pattern-card-test",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "condition-with-extensions-on-pattern",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "pat-example-extensions",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "examples"
+      ]
+    },
+    {
+      "name": "shc",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "shc-bad-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "shc-cvx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "shc-file",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "shc-bundle",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "uk-msg",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "allowed-extension-domain"
+      ]
+    },
+    {
+      "name": "ext-xver-modifier-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "ext-xver-modifier-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "contained-resource-bad-id",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "validateContains"
+      ]
+    },
+    {
+      "name": "contained-resource-bad-id-ignore",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "validateContains"
+      ]
+    },
+    {
+      "name": "type-subtype-slicing1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "type-subtype-slicing2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "type-subtype-slicing3",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "bundle-conformsto",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "no.gastronet",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "no.gastronet.message-limit",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fhir-validator-cli-options",
+        "packages",
+        "tags"
+      ]
+    },
+    {
+      "name": "obs-value-min",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "obs-value-min-g",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "obs-value-max-g",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "base64-ws-clean",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-linebreaks",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-spaces",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-wrong-size",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-wrong-hash",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-bad-char",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-bad-padding",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "base64-ws-bad-length",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "bundle-enrl",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "mimic",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "valueset-import-legacy-test",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "patient-id-bad-1 / R4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation"
+      ]
+    },
+    {
+      "name": "patient-id-bad-3 / R4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation"
+      ]
+    },
+    {
+      "name": "patient-id-bad-2 / R4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation"
+      ]
+    },
+    {
+      "name": "bad-markdown",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation"
+      ]
+    },
+    {
+      "name": "bad-markdown-no-html",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation",
+        "noHtmlInMarkdown"
+      ]
+    },
+    {
+      "name": "uuid-extension",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation",
+        "supporting"
+      ]
+    },
+    {
+      "name": "cdshooks-services-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-pv-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-bad-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-order-sign-bad-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-order-sign-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-order-select-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-order-select-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-patient-view-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-patient-view-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-empty-source",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-empty",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-empty2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-link",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-no-link",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-source-link",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-suggestion",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-response-two-cards",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-services-order-select-extensions",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "cdshooks-request-order-select-extensions",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "PulseOxBundle_25Oct2022",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "bundle-ea-testcase",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-experimental-content"
+      ]
+    },
+    {
+      "name": "json-comments-1-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "allow-comments"
+      ]
+    },
+    {
+      "name": "json-comments-2-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "allow-comments"
+      ]
+    },
+    {
+      "name": "bundle-urn",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "ai5",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "ai6",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "StructureDefinition-Slice23",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles"
+      ]
+    },
+    {
+      "name": "obs-de",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "obs-de-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "packages"
+      ]
+    },
+    {
+      "name": "bundle-invariant",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "contained-invariant",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "med-example",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "cm",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "cm2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "ips-nz-pj",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "ips"
+      ]
+    },
+    {
+      "name": "version-specific-target/ext-target-version-specific-media-r4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "version-specific-target/ext-target-version-specific-docref-r4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "ips-htmlrefs-forwards",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "res-inv-example-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "supporting"
+      ]
+    },
+    {
+      "name": "res-inv-example-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "supporting"
+      ]
+    },
+    {
+      "name": "qr-internal-refs",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "ext-derived",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "ext-derived-circle",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "additional-bindings-observation-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "package-versioning-simple-0.1.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-simple-0.1.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-simple-0.2.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-simple-0.2.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped-0.1.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped-0.1.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped-0.2.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped-0.2.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped2-0.1.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped2-0.1.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped2-0.2.0-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "package-versioning-wrapped2-0.2.0-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "package-map",
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "obs-percent",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "params-recursion",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "ips-link",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "q_val_fail",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation"
+      ]
+    },
+    {
+      "name": "ab-list-slicing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "documentation",
+        "supporting"
+      ]
+    },
+    {
+      "name": "json-prop-key",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "logical"
+      ]
+    },
+    {
+      "name": "type-slicing-multiple",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "type-slicing-multipleb",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "profile-slicing-multiple",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "profile-slicing-multipleb",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "cs-filter",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "cs-filter-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "vs-filter-filter",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "vs-filter-property",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "vs-filter-property-bad",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "vs-filter-property-bad2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "vs-filter-int",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "cs-narrative-status-pub",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "for-publication"
+      ]
+    },
+    {
+      "name": "extension-version-restriction-range-r4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting5"
+      ]
+    },
+    {
+      "name": "extension-version-restriction-range-ctxt-r4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting5"
+      ]
+    },
+    {
+      "name": "matchetype-pattern-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype",
+        "packages"
+      ]
+    },
+    {
+      "name": "matchetype-pattern-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "matchetype-ss-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-invalid",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-missing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-opt-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-opt-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-ss-opt-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-invalid",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-missing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-opt-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-opt-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-sc-opt-wrong",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-single-present",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-single-extra",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-single-missing",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-multiple-present",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-multiple-extra",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-multiple-missing-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-multiple-missing-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-start-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-start-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-start-other",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-middle-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-middle-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-middle-other",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-end-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-end-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-optional-end-other",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-count-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-count-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-sort-yes",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-list-sort-no",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-pattern-singleton",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-pattern-list",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-extension-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "matchetype-extension-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "matchetype"
+      ]
+    },
+    {
+      "name": "measure-report-ihe",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "measure-cohort",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-cohort-no-elm",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-cohort-ada",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-cohort-cyd",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-cohort-summary",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-continuousvariable",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-continuousvariable-ada",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-continuousvariable-cyd",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-continuousvariable-summary",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-proportion",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-proportion-ada",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-proportion-cyd",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-proportion-summary",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-ratio",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-ratio-ada",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-ratio-cyd",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "measure-report-ratio-summary",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "vs-params-q",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "profile-compliesWith",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "supporting"
+      ]
+    },
+    {
+      "name": "opdef-params",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "opdef2-params",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "ref-policy-default-apply-r5",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "r5-bundle-relative-reference-policy"
+      ]
+    },
+    {
+      "name": "sd-tslice-inherited",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles",
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-tslice-stated",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profiles",
+        "tags"
+      ]
+    },
+    {
+      "name": "abstract-question-type-included-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "attachment-content-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "attachment-inconsistent-size-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "attachment-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "attachment-max-size-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "attachment-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "boolean-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-answer-option-exclusive-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-answer-option-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-gender-coding-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "choice-invalid-value-set-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "date-answer-option-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "date-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "date-min-max-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "date-time-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "date-time-min-max-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "decimal-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "decimal-max-decimal-places-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "decimal-min-max-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "decimal-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "display-answer-included-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "group-required-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "group-with-string-invalid-nesting-link-id-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "group-with-string-invalid-nesting-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "group-with-string-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "integer-answer-option-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "integer-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "integer-min-max-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "integer-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "invalid-link-id-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "open-choice-gender-coding-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "open-choice-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "open-choice-string-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-min-max-compat-units-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-min-max-incompat-units-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-min-max-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-units-in-value-set-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-units-invalid-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-units-not-in-value-set-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "quantity-units-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "questionnaire-draft-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "questionnaire-inactive-end-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "questionnaire-inactive-start-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "questionnaire-not-resolved-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher"
+      ]
+    },
+    {
+      "name": "questionnaire-retired-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-absolute-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-invalid-resource-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-invalid-url-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-relative-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "reference-unconstrained-resource-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "assumeValidRestReferences",
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-answer-option-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-draft-downgrade-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-max-occurs-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-min-max-length-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-min-occurs-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-regex-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-required-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-vs-text-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "string-with-coding-async-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "text-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "time-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "time-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "url-invalid-type-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "url-value-qr",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "brianpos",
+        "fetcher",
+        "supporting"
+      ]
+    },
+    {
+      "name": "bundle-signed-good",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "certificate"
+      ]
+    },
+    {
+      "name": "fr-regulee-finess",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "cc-pattern-system-only",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "filter-display-error-with-path",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "advisor",
+        "ids-in-errors"
+      ]
+    },
+    {
+      "name": "standards-status-x-r4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "filter-invalid-display",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "advisor"
+      ]
+    },
+    {
+      "name": "bnd-slicing-cgm",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "profile"
+      ]
+    },
+    {
+      "name": "decimal-precision-questionnaire",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "scoring-test",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "scoring",
+        "supporting"
+      ]
+    },
+    {
+      "name": "bundle-resolve-deep",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "q-ca-implicit",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "q-ca-explicit",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    },
+    {
+      "name": "q-ca-implicit-ca",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "sct",
+        "tags"
+      ]
+    },
+    {
+      "name": "q-ca-explicit-ca",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "sct",
+        "tags"
+      ]
+    },
+    {
+      "name": "pat-fixed-date",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "pat-minvalue-date",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "param-mintime",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "obs-max-decimal",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "toplevel-minvalueduration-pass",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "toplevel-minvalueduration-fail",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "toplevel-maxvalueduration-pass",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "toplevel-maxvalueduration-fail",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "media-mime-type-tx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile"
+      ]
+    },
+    {
+      "name": "media-mime-type-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "profile"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-2",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-3",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-4",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-5",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "valueset-dependency-version-6",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "sdc-inv-1",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "wrong-displays"
+      ]
+    },
+    {
+      "name": "xver-valueset-4_5",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "new-xver-mode"
+      ]
+    },
+    {
+      "name": "patient-auto-profile",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "fetch-canonicals"
+      ]
+    },
+    {
+      "name": "params-edqm-cs",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "language"
+      ]
+    },
+    {
+      "name": "ext-recursion",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "supporting"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-a",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-a-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-b",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-b-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-ab",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-ab-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-ba",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages"
+      ]
+    },
+    {
+      "name": "pas-diagnosis-type-ba-notx",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "no-tx",
+        "packages"
+      ]
+    },
+    {
+      "name": "xver-encounter-status-r5cs",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "packages",
+        "profile",
+        "tags"
+      ]
+    },
+    {
+      "name": "sd-xml-namespace",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "suppress",
+        "tags"
+      ]
+    },
+    {
+      "name": "clinical-profiles/ips-nz-document",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "tags"
+      ]
+    },
+    {
+      "name": "clinical-profiles/ips-us-document",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "tags"
+      ]
+    },
+    {
+      "name": "conformsto-ig/conformsto-ig-bundle",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "profile",
+        "supporting",
+        "tags"
+      ]
+    },
+    {
+      "name": "bundle-relative-ref-no-fullurl",
+      "reason": "additional manifest configuration",
+      "settings": [
+        "tags"
+      ]
+    }
+  ],
+  "files": {
+    "LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+    "validator/Observation-ex-pain.json": "803f5f6bf1d7004a3c6d0e488997776ca5a8bc4363f850fd62c718ba2de2ac74",
+    "validator/StructureDefinition-11179-objectClass.json": "b6ff8f580421d9346d3ada65b1b9b58a1a4fee81c479f6a1737d18184bfe8c25",
+    "validator/ai1.json": "1e5a231b5a8276f39bd3bd30d9ecb26334ea2917e8a68eca89b85dc25d56d5bf",
+    "validator/ai2.json": "0a623e379d6f927634986410ea02a2fb5f386185208fdaa12f44a53c75af8810",
+    "validator/ai3.json": "ce0ee2ca1e78e2606d34f3f779e7260ebe5e625c301ed750de285b253881f8a8",
+    "validator/ai4.json": "55494fcb9eda5787e6da753e7bbfc8e2c12a17d89e041f4d42f162b4ffcdad02",
+    "validator/ai7.json": "6222ae58bd0335473d224d99b59b126db93a763ba7920da904adedc33497028d",
+    "validator/ai8.json": "308d90d56797ab970b206defea10f16cdfe7a01438326aef544bb15614b401cb",
+    "validator/allergy.json": "67f5c5a942204da8fe154252b5464c9e074415d9b23b74bc071efadde4db4e68",
+    "validator/attachment-with-invalid-binary.json": "ff06a8d043ffac4d9d47eca57675617b5a6731358baadae3947c936361151ecf",
+    "validator/attachment-with-wrong-size.json": "057038628384ddf662610da8ea8bcbc9517fc69a8ab17f522718814cacdc0ca0",
+    "validator/bad-json-close-1.json": "bb91de113c6e752682eb719c378fceac3e9975d27154d63419b20344dad4e44d",
+    "validator/bad-json-close-2.json": "56265229b0ec5181ec473e5ec1a86e3be6a7ab7bc0d7357e8166bde8fea3a5e0",
+    "validator/bad-json-close-3.json": "ba975042647cbf08fade2dbf0bc4e70ffd90a4f4fa71b77bb59bdff88ce7c7b5",
+    "validator/bundle-document-versioned-references-bad.json": "159da049c69474fff46b721bd36cee3b715bdb2933a7826a5119727e8cf10925",
+    "validator/bundle-document-versioned-references-good.json": "dbec89cf43dce9e94de12e42ce08555110d7385ff89e9e8af9766e25d43555a7",
+    "validator/bundle-duplicate-id.json": "5c84878e9d6b640ba56dc8424041ae7a582e6c17457daa6ac2dc2ac2c0c51eb4",
+    "validator/bundle-duplicate-ids-not.json": "e21bcdf6a063ce19bac7455cea02e58e454f1554733da46dfe172aff84ce3abf",
+    "validator/bundle-id-collection.json": "fd7871f27f33c525e42706d992a34851b00189044d094331047f88b67dc9b220",
+    "validator/bundle-id-search-1.json": "f70ee4b4e5d4daff17b93349c31138be849b6b56876295dc6f1468e7597b1a3f",
+    "validator/bundle-id-search-2.json": "6cf69107d11dca863d2c63594d28d173005d48e6b664da63c4def6db9b0bdd69",
+    "validator/bundle-id-search-3.json": "f31c67c5d8fc877f1f6397a243204515eaf8ae626e92ea89042e8f3fa8725554",
+    "validator/bundle-id-search-4.json": "d4db4df7aadc29ed8edb840cefacf24ab53d17c68f56444f937da448c3310b37",
+    "validator/bundle-profiles.json": "d99615674ee0a4b3375ae0a1533a904dba5258e2c38a885c4203e2fb16cf9409",
+    "validator/bundle-sig-2.json": "aa549dfcaa3d9d7322cfe4ecb540a2ea5bef8758b18463e85124dba7927aa75d",
+    "validator/bundle-signed-nob64.json": "6a8cb276df8b27ad12e46526c549929c6927b712b78700e9b2a180a914c03e37",
+    "validator/bundle-with-contained.json": "bbbca3b18f6e0bc43c02a28150c8779788e988b641993a8117f42f7c9cd22418",
+    "validator/canonical-url.json": "ff7a36ee556997b02b87d659afe7cdb87b1e1e4c2639db58381140da8855d8d5",
+    "validator/capstmt.json": "3cfed0005cf6f1144397290eaffef392d35ebe5c0d09c7e59174a99ab13e427b",
+    "validator/care-plan.json": "5a6914cb7aa3b99112184e81aa3c9349b035aa706c7d9f9518a8ae279475df0d",
+    "validator/contained-resource-duplicate.json": "e6f1bee7377a68869e97f8cb77505280fde5d77090a1b10fe268cabef4c82c8f",
+    "validator/contained.json": "e5b5890d7ac4a698bd164cf94f4bfc410f4b5815d92bb675885acc115b3b9084",
+    "validator/contract-binding-test.json": "345a7d1389457352168a3e8da623708e0b5b3d0cd30912a501c5ab64181eddbe",
+    "validator/cs-bad-props.json": "388e27f5bd3e642d0fc95b638596902c3757e79bfc895d20495d08cbdb350171",
+    "validator/cs-meta-profile.json": "2eeb4e123c545277a8203fd85fe3d73e7d34dc6371b6fcba87fc3ac065455ed6",
+    "validator/cs-narrative-status.json": "43c71f1049b5621e77cdd71ec1821dcbf74d2101f572782e496bdb84571686af",
+    "validator/cs-order-prop.json": "e9c5ad71eac5e2fb10ba9b3f64a9253d938a760a4fd6c621977b7d4acb3bfc76",
+    "validator/cs-stds-status.json": "08446134f9510800a9d38c4f6130632d74b2fe6b79cd7d23f4fb29bdb6102df2",
+    "validator/cvx.json": "17169dbe52ea8d65d2ec90d8c88b040bfde94876fdc276fc290455e9701a6175",
+    "validator/document-manifest-4.json": "7fe46dca7a1bcc2df5a601b28c01dc3e0b376ce0b01f3095b680fa43b3501c05",
+    "validator/empty-array.json": "f07e20306e40a4ae3acef8999e057f6ae7307ff9bb6ea9961d1f9d4e3bb2b8af",
+    "validator/encounter-period.json": "a9ace6271f4cdfd4611c8fa7fd0f9165f5eb891f1ca863abe93c71cda4957548",
+    "validator/ext-ccuk.json": "93abf714d7f9d8f6f64a3f69d16a860101a887b0fc032f73aca5bc8f01b13764",
+    "validator/hakan-se.json": "02653f35321bfe59d387be5f8cf77e985579b52760aa236fd2c2b00eb89d1c68",
+    "validator/ig-spdx.json": "616394a5fbdebfa755e31e4ee55b590517079ff9e978f4d2615b7cbf5034237f",
+    "validator/ips-htmlrefs-backwards.json": "8ecbf5e43aac03924fa834d65979dec2492e411c17776224c0abc7a584674c67",
+    "validator/json-comma-bad-1.json": "3f8a80c845da44ad1ef12618fd040184fc3281263f2907f418a7cea1a374013a",
+    "validator/json-comma-bad-2.json": "d2fcbb8694da28ab44dda99ab0ba5f6c27fc69bce4ca4f112dc0fae7c7880f88",
+    "validator/json-comments-1.json": "d45023ce82dc3e52b45d75ea7b434318a20bedbcd49d20a7cde05bb98476e451",
+    "validator/json-comments-2.json": "780649dbcc1568f0c03af5182452cf27c16e3d770c5b3d051635058aa483f19b",
+    "validator/json-comments.json": "989080e9a091b0a056c6635f6aad44c7fb34c1cf71bea11ec7cb56713893c637",
+    "validator/json-empty-primitive-array-both.json": "0334dfdecbf0d206e288fddddadbdb5298f82c01d2b1da6b93cfbdc30670714b",
+    "validator/json-empty-primitive-array-ext-only.json": "efb02f786252eaa5fdca83e7355b67c1d0956cd11cb78f62349e7090f7fed42f",
+    "validator/json-empty-primitive-array-ext.json": "5828e5659adbde367a739888b635aa6f416411a2e8d3fce0c20180c5fb64a749",
+    "validator/json-empty-primitive-array.json": "36440dc8a682d199eb51f4f0c6b222df961ed8564f75a9d5f5eed4321f381f7c",
+    "validator/json-good.json": "22a2d2c171067ceebc5f7a893f5cd0b269231010415767adeacacb5317276223",
+    "validator/json-no-quotes-1.json": "efb57b4e9c094f6f9535b644c48742bc7cf502f4e9346058ca74b5d01abb49f0",
+    "validator/json-no-quotes-2.json": "3a668d0527531a5a07ce220f352d869459ed839321b789249c3df1234b87ebf4",
+    "validator/maiden-name.json": "1175e9244448170e77adb5b11c5ac48e5b2274c3394fdca567fcd44d984a12e8",
+    "validator/manifest.json": "9fbaef7b2317581ca2f7271b3b568bd96e96120a0c193fa789438efe64cd8d25",
+    "validator/mni-patientOverview-bundle-example1.json": "ac3cae397b703d9773828ed5385ab07bad4c99916da3b56951496fc1c867eabd",
+    "validator/mni-patientOverview-bundle-example1b.json": "8b1bb4a29b125a4a971624a34ddcb6cbee0868037fd6889926fa339aa9531c76",
+    "validator/mr-covid-bnd1.json": "dff1286c7bf100074ea78647ab8453f743f05183c78361fd42a5d3fff1ddf209",
+    "validator/mr-covid-m.json": "cbbf385f5256f82adf296e0e7bba63b3d63018b4f2353e22e4f406855ecff61b",
+    "validator/mr-covid-m3.json": "509d62d33927bff36ead90b4eef4b11b1322ba1aa81e542a3e3ed85f14149463",
+    "validator/nested-questionnaire-nested-valueset.json": "1caa0f4151a6e209d932a62144c39af4749fdbe22f77b6677c9067b5c4664180",
+    "validator/obs-fio2.json": "ebb411dd4ddd450d8f5d426fcc30a16a313d690fba2e0ee5bc7401188b9a7795",
+    "validator/obs-mz.json": "5cad28e33b0ecfc0f6fc19b94e9f6971df350ce79230cfa7c055d0c63dc6bdc4",
+    "validator/obs-quantity.json": "731eee635410b6245fd02afc621228150a2f5d432f5fcef8279c1c258da63970",
+    "validator/obs-temp-bad.json": "1ef665de77194e260670b6d0bb505b82094b0c1df3b1ac52745d40c76987606d",
+    "validator/obs-temp-code2.json": "ac984fb7bbcd9b9c35d0e8bc1e2e9b9753e79a5d76b7acb9cc723fedf1f331f2",
+    "validator/obs-temp.json": "4b295798f5f296c7b72af336edbe72985bb663cac1566b7ff19e9205bedaed47",
+    "validator/obs-unit-profile.json": "6c569589299d0e8d1adb270ac50efca44fe148f30ac8004194f8cc87678c709a",
+    "validator/obs-vital-signs-mdc.json": "b8776bafba4f1b263491d6f250485154b43cf26c79b870297268f0283ee2b04b",
+    "validator/obs-vs-1.json": "b1edde0a3683041882241b0e4939e80c6cfe4dfddace262c28e6307583c3f275",
+    "validator/obs-vs-2.json": "e0c512ee4564348d70ccfbd914eb3637c514189a26bbb7d08bc84add4334a82b",
+    "validator/outcomes/java/R4.Observation-ex-pain.json-base.json": "a90c245156eade6e5a249479cec13775792b0fcc786905eebf3e34dfa878519a",
+    "validator/outcomes/java/R4.ai1-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.ai2-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.ai3-base.json": "7a4f03af99606202c2b9a532c768c2a40855eb56a65c231fe5078ab90830bc3a",
+    "validator/outcomes/java/R4.ai4-base.json": "a458681480daa7b4d487250059bf5840bc1f7d8397f93eb8b7a2cf2cba3bd29f",
+    "validator/outcomes/java/R4.ai7-base.json": "677447c2cde1eee8cdb78ef62056ce2a04bf708f87e4b440fd39a84b285c271c",
+    "validator/outcomes/java/R4.ai8-base.json": "bf001dcc59599ef7bb9dff5cc12ba972ee5fe28c0c759f8ac0703e1d2363e71e",
+    "validator/outcomes/java/R4.allergy-base.json": "8da4eb0ad8798fe91fe0e412d871b44a62d62664d04874aac949f7b9fab86998",
+    "validator/outcomes/java/R4.attachment-tx-base.json": "ee49ef03dc0ed4577406dcbc3dad3f9ca1f52e20666c3e008e95bca25df8c50e",
+    "validator/outcomes/java/R4.attachment-with-invalid-binary-base.json": "ef62a7421c182a9e5d09a27edf7baef2d509b21766ff7d7c15a6573655526ace",
+    "validator/outcomes/java/R4.attachment-with-wrong-size-base.json": "13b7b1e19fb988de0336e523584b402ee0c13f22bfba84f94ddd99fa4b66be4f",
+    "validator/outcomes/java/R4.bad-json-close-2-base.json": "6c13220dca09110417a77c10b7d6093c1f401b12fdb156f8abc55ce89dc627b3",
+    "validator/outcomes/java/R4.bad-json-close-3-base.json": "ab05fa72268d97074c8e051fcd33cbd18ae07862cae72b9e697bdd073911c36c",
+    "validator/outcomes/java/R4.bad-json-close-base.json": "661176bdbef98aa9016acfe3d6205b252dc287468db3f6cc26925aad1a123249",
+    "validator/outcomes/java/R4.bundle-document-versioned-references-bad-base.json": "15cd4987e50cf9166437540edb088acebe8d284e2ce9f77d16f7b68d079f328f",
+    "validator/outcomes/java/R4.bundle-document-versioned-references-good-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.bundle-duplicate-id-base.json": "f44621d190d700116fc7f11d4f2470f2349e16e88b790db40fbfd6520c90bbd8",
+    "validator/outcomes/java/R4.bundle-duplicate-ids-not-base.json": "198f52a586d36b51e9490329d691793b7634787af41cf07d8df9a583f2b89d13",
+    "validator/outcomes/java/R4.bundle-id-1-base.json": "17b2b2c38458b8f8d8a3ab451e66e62ab4f7c0e194054e11c17a7519dafd2f0d",
+    "validator/outcomes/java/R4.bundle-id-2-base.json": "d348f9608c8aa472e4eb0b3b9544f84d1d61bbff373b5dcc4f30545cfc079c8d",
+    "validator/outcomes/java/R4.bundle-id-3-base.json": "a2c03bbb88c7a79287be583548a2a3d066c883e00471b4f818aa14e6ddf8ebad",
+    "validator/outcomes/java/R4.bundle-id-4-base.json": "03e6721ef843d41e55f4cddcdbae42fc39e16b2f6406407125f622c31cfb36f3",
+    "validator/outcomes/java/R4.bundle-id-5-base.json": "ca44dc2e89f934259db026337db51dea52691d1db992577029307b3aba500028",
+    "validator/outcomes/java/R4.bundle-profiles-base.json": "d57dff07a9623ef195a3090d5a2c4cdbfd33b8957c10e516b209dda6d9931df7",
+    "validator/outcomes/java/R4.bundle-sig-2-base.json": "25bdb9b07088497bcddaa764cbba28c7c9cda54e5267bc265ff668131b5db141",
+    "validator/outcomes/java/R4.bundle-signed-nob64-base.json": "97613c5d8479b356e03c1f409ad94c6bfb404a9b847fdbe1a8f79ba650aefc1a",
+    "validator/outcomes/java/R4.bundle-with-contained-base.json": "7c0c69ad82c6e4c1b754f284d74e9f2b8a15e88e83010ed65a0b5a379a46d2ab",
+    "validator/outcomes/java/R4.canonical-url-base.json": "27f46d9fb141a1f8d1d104d708f49473d1458135badb45d8e38255b0441d2f4c",
+    "validator/outcomes/java/R4.capstmt-base.json": "b9740a06550d72fa93694b750641a8c8d46e4ac45b3bc7aa75006425bacd9d07",
+    "validator/outcomes/java/R4.care-plan-base.json": "8be8b48f9eb501dccfa0475bafd12da85df796aa9616436b2a177ee83a2bc4f0",
+    "validator/outcomes/java/R4.comments-4-base.json": "30e32cf63c45a8c181f6f98d94213c4b3a4afb3ebd0ed83da011f19c45343297",
+    "validator/outcomes/java/R4.contained-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.contained-resource-duplicate-base.json": "9b371e5d4f906f249ce84814ed6a1356c9d699bf00ef4f473b57041dd0eee4d2",
+    "validator/outcomes/java/R4.contract-binding-test-base.json": "d4f00c0a1d0d97d372064829b34f8ce364087b347ce2cafeae9f67875d199333",
+    "validator/outcomes/java/R4.cs-bad-props-base.json": "ef1e784cbdd86a899902aa4083a8d1bc93692629b48f322838d3a70bd0a73784",
+    "validator/outcomes/java/R4.cs-meta-profile-base.json": "c70eda3ca55e4cefe909d64f75a17f193c03bbb2d6e318e8aa3648c9ad344fff",
+    "validator/outcomes/java/R4.cs-narrative-status-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.cs-order-prop-r4-base.json": "31fc2039354f2af9290eecb6e9ab463e5fd0bcb5313ed5519703570bd0561a43",
+    "validator/outcomes/java/R4.cvx-base.json": "ca94d765a04546a406d039142d050b55d3c39b55445bc686832e7d0d0c0578f3",
+    "validator/outcomes/java/R4.document-manifest-base.json": "cf7c06a32982437d8d896679a056a24867af1a584f5af4c0a608a9ea1273f03e",
+    "validator/outcomes/java/R4.empty-array-base.json": "6ed3d1e91ac83b93a38e0b12bfbba09812380e49faca2459cc5ad2403a8854e6",
+    "validator/outcomes/java/R4.encounter-period-base.json": "55691ac3a67eb8eb1017f131ba59c09679331b3cbcb927eb98f6572067c8babd",
+    "validator/outcomes/java/R4.ext-ccuk-base.json": "ae222bde76059f7199fb8566cf1145c2830267959b880e6ecdcaee7fc8bbf4f0",
+    "validator/outcomes/java/R4.hakan-se-nofetch-base.json": "3606387fa95dc681a37daa6948d57f2212480851ed1f14aac19f471d40c5c755",
+    "validator/outcomes/java/R4.ig-spdx-base.json": "37db3e08e4bce9ec1ce019afda405464a212359a85a59ac02618d77cc68ab34c",
+    "validator/outcomes/java/R4.ips-htmlrefs-backwards-base.json": "8700a09908e12d1c486e48f6b5cf98285c497eb0744c85704d174543cc48e288",
+    "validator/outcomes/java/R4.json-comma-bad-1-base.json": "a8047f38ed9ba246f85343d1925be9553db135f49cf1a990c4ca2aebad0f7dc2",
+    "validator/outcomes/java/R4.json-comma-bad-2-base.json": "0618e072dd15c4a3d8f01edfd15fd33cb4489ad15ed5b1fc320af4c33ef6e86f",
+    "validator/outcomes/java/R4.json-comments-1-no-base.json": "814e338ded547333bf5eebf6f78189e0e25503b16d10f95ff219147d67613edb",
+    "validator/outcomes/java/R4.json-comments-2-no-base.json": "890c1194f149e7b71cdeb3674b9fb86306f56082b2424df4ed45f98fd2a670cb",
+    "validator/outcomes/java/R4.json-empty-primitive-array-base.json": "686317f6456a0f6cd78079601431f8d7b86d8e3e618154efb9b2863624e36247",
+    "validator/outcomes/java/R4.json-empty-primitive-array-both-base.json": "686317f6456a0f6cd78079601431f8d7b86d8e3e618154efb9b2863624e36247",
+    "validator/outcomes/java/R4.json-empty-primitive-array-ext-base.json": "629169f268b5ff223cd1561087a06529d0b080c9071d621de62d9c4721caf5f7",
+    "validator/outcomes/java/R4.json-empty-primitive-array-ext-only-base.json": "8e2d8a9a9d562fc320bcc5dbeb93d2402d38fc453ab63d2e19ec5362c1cca97f",
+    "validator/outcomes/java/R4.json-good-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.json-no-quotes-1-base.json": "d34ec9da0ed5fd370adde4b3389f5840ccd6a05011aeb42e8506f9e6de30f373",
+    "validator/outcomes/java/R4.json-no-quotes-2-base.json": "3094dbc94d4f1486f72b3ffc4da32eb4b6bccb842fa4aa008cffa3bcba40cb2f",
+    "validator/outcomes/java/R4.maiden-name-extension-base.json": "03d758b92976c4397a7cc69c6b1d12784cda3e1d3bb7a8c7852a652f2605e4f0",
+    "validator/outcomes/java/R4.mni-patientOverview-bundle-example1-base.json": "073232be21591d01f9b9b1d3ebfb53e83479ece2fa3d299b2ecff929d893350b",
+    "validator/outcomes/java/R4.mni-patientOverview-bundle-example1b-base.json": "d66bd2489f0c20e18eed139a93d1f3d7b1ad210a07fbb7773a151f73ee0fbe81",
+    "validator/outcomes/java/R4.mr-covid-bnd1-base.json": "d5437244320de6e78972ce5a7ef3cccf587c9f5e6a9c1ea8af5cbb13ca41677b",
+    "validator/outcomes/java/R4.mr-covid-m-base.json": "3244a10f51f9ce3db5f509e8e135aad48e9f2312492dca65fa19330d7fd7a207",
+    "validator/outcomes/java/R4.mr-covid-m3-base.json": "4c0093e55c69bce507f124a02cdca119f79184f4831bf3a201126ed4caf7aefd",
+    "validator/outcomes/java/R4.nested-questionnaire-nested-valueset-base.json": "b669bb1ac0781bf726a51e3c5d3d46cb78eb3428b1777ed7c987d14380647b2a",
+    "validator/outcomes/java/R4.obs-fio2-base.json": "5fb1433171d1c69be27f4f6efed3b69a9fe9988874dbebc46a569ef99dc9949c",
+    "validator/outcomes/java/R4.obs-mz-base.json": "d160fe9ef90d19d6ff952cf880bb7aa8fb4201779aea65fbae7195f1047c2cc7",
+    "validator/outcomes/java/R4.obs-quantity-us-base.json": "5f0ab3e68b85bd8cdcba18cf0ad8b7fab64c5ab9ff4547815f82447189154bc2",
+    "validator/outcomes/java/R4.obs-temp-bad-base.json": "2d136a94be0361bcd64531608292368381e05e1b88201053299ca2e87e857de0",
+    "validator/outcomes/java/R4.obs-temp-base.json": "194b85e024f7d00b517fce35d5a85df3ce8ae548eb75013773e6b5b060c2dd46",
+    "validator/outcomes/java/R4.obs-temp-code2-base.json": "97a3bc056ff645a862c4854e4ea2819c2286bc92d5ebb1e2b505696bacc078e1",
+    "validator/outcomes/java/R4.obs-unit-profile-base.json": "121e73f809783da3059079969640185b3bb3d257f4b9d8c2c40d4ee8b262f981",
+    "validator/outcomes/java/R4.obs-vital-signs-mdc-base.json": "e5c181cd60c459fbe613364b4ba024b8fe1f6b669d958794e905119ae4dc79de",
+    "validator/outcomes/java/R4.obs-vs-1-base.json": "15cf591963327473fc2252c138c94c074bf09e9442b97837bda189e7fdb5cd58",
+    "validator/outcomes/java/R4.obs-vs-2-base.json": "24888a572faa5434ea98d853af5354ff57043667ec883c5c250fb584b08de61b",
+    "validator/outcomes/java/R4.params-edqm-en-base.json": "ddaa8730854af9a2f7bd96d0046eb5284099641d975f808f114bf5da265814c2",
+    "validator/outcomes/java/R4.params-empty-r4-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.params-reference-fullUrl-extension-base.json": "f2ddfb584fb85b2ab78ed9a61d1d5a1478392934107e0b0cc4a223bf683f9f53",
+    "validator/outcomes/java/R4.params-reference-part-transaction-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.params-reference-transaction-bundle-base.json": "f2ddfb584fb85b2ab78ed9a61d1d5a1478392934107e0b0cc4a223bf683f9f53",
+    "validator/outcomes/java/R4.params-resource-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.pat-dob-ext-base.json": "a27b61868298ed8e7e00f99a1f2c6ddfcebd0c637d4897c79ece48e6cdefff7f",
+    "validator/outcomes/java/R4.pat-ms-1.0.0-base.json": "7d086786e2238c8a26a571e3eb888cf00cc7046af7a2367ee9f938bd2639a118",
+    "validator/outcomes/java/R4.pat-ms-2018-08-12-base.json": "c1352136cc0191a2a06ff315ae1266cceaafb8eb164a9d09a45e2fd04257e4a8",
+    "validator/outcomes/java/R4.pat-ms-3.0.0-base.json": "a8644b7f7b660d41802007cb504184a06dfb9668b225699ebc815080b0fe2cf5",
+    "validator/outcomes/java/R4.pat-security-good1-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.pat-security-good2-base.json": "fe7fa667f44b6f878375aa878b6156e2a517a9208e1c02e566c54be88be8c1bf",
+    "validator/outcomes/java/R4.patient-example-ra4-base.json": "7cf21dfb22ce3d01884f670d3add4157940f12529f1609d4fc33746132ec82b0",
+    "validator/outcomes/java/R4.patient-hs-1-base.json": "9de3402ca1879c4c261f6977dad3c53a850bb9b38706ac2eca1db10f7617ffff",
+    "validator/outcomes/java/R4.patient-id-extensions-base.json": "f93b4bef4e2e395665d0f9462874d07d1992e147d6bee9b3900792d6ba57e393",
+    "validator/outcomes/java/R4.patient-meta-profile-no-value-base.json": "20d6fdb6d8f04ee7ed2d02aecfc641c64a3f883151bc7c02d7ce875c4fefb861",
+    "validator/outcomes/java/R4.patient-with-turvakielto-base.json": "28952c03905c4494051dcb403428e9720df2b79e4d2e4dcf85119f96ecfcc917",
+    "validator/outcomes/java/R4.q-enablewhen-me-wrong-base.json": "2b861ce64e4e7e146620be30a3952f39e232a26b1f6a92b4fd7c9717f6138b4f",
+    "validator/outcomes/java/R4.questionnaire-enableWhen-dw-base.json": "777fb6526096debb66f4b028b0f0e6e3d0fced4273767e388f0a548a5b20e041",
+    "validator/outcomes/java/R4.ref-policy-default-r4-base.json": "de526d5739ecd2f80246df1253e0d652ff621f4e3e9f80f14f86c632353d057d",
+    "validator/outcomes/java/R4.resource-invalid-eid-0-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.resource-invalid-eid-1-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.resource-invalid-eid-2-base.json": "d813d452c96d0d70ff4fbfe759886b89157437f743ebd96c168eb17d425cc655",
+    "validator/outcomes/java/R4.resource-invalid-id-0-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.resource-invalid-id-1-base.json": "b57650eefac91851f8619c4d28492eeedca4b368b27b879138bcc4fba3d97fa5",
+    "validator/outcomes/java/R4.resource-invalid-id-2-base.json": "a1d7595d4c19c8edd96fdfd95d968fcec0bf6c4a7f14d603822696231af67b40",
+    "validator/outcomes/java/R4.resource-invalid-id-3-base.json": "ff8c9ffdf1864ff991c13eb4470e9dc26445ac0fa1db35a5075a83c09d498539",
+    "validator/outcomes/java/R4.risk-assessment-probability-range-base.json": "3dde009d82105813e4b3434919f1ea74594875d4ded3f236d99548616ccc6927",
+    "validator/outcomes/java/R4.sct-version-issue-base.json": "655823b2f1500c4e8de2ab84939caff4d5d15d8dc87b036c5adfacdd105bca85",
+    "validator/outcomes/java/R4.sd-device-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.sig-bundle.json-base.json": "2585e428cdb113590b7bb341767ab466c96a4439afac2dc1fcf106332e429341",
+    "validator/outcomes/java/R4.sig-example-r6-json-base.json": "4d53b3e6afd8fa2881140b4920f230a2f17c94bf3afde34a3305526458586e6d",
+    "validator/outcomes/java/R4.sig-time-example-base.json": "abde0d034503e76c212d8987426e79345c224a86dc6f6b6a9d153e69c0cf9276",
+    "validator/outcomes/java/R4.sig-xhtml-example-base.json": "bc9663332372624cf6d3ac31238332acb9f55bc2f00ee28da4e3feaee7c9f48f",
+    "validator/outcomes/java/R4.signatures-example-1-base.json": "edb09bfddee96d69112f6bc1aa64d4701d0d4cda646e430ab1e7abcd95088363",
+    "validator/outcomes/java/R4.signatures-example-2-base.json": "550ff230453b85760cb711fbe26df82aa7668637b7f3d1b46574855f6b4ba152",
+    "validator/outcomes/java/R4.signatures-parameters-example-base.json": "7d3e6f1f903651d05046c12f6c07f814d7f09868cba2c1011599eb80b5928a8f",
+    "validator/outcomes/java/R4.snomed-ca-base.json": "27ec45597c00b4aaafc0f774c7f4e757b3eda7b60083443c16515035e575b6f3",
+    "validator/outcomes/java/R4.sp-composite-base.json": "00292f95059b9787dc656b7f9db2e340b18e3886693da19bf9596a907f103620",
+    "validator/outcomes/java/R4.sp-diff-base-base.json": "f1d9e53ec7ff836469a537e344552b394aea237e1c340cd82399a17aa45d207a",
+    "validator/outcomes/java/R4.sp-diff-expression-base.json": "32281470ca26c00e8732697f5f12824e864f30d97bef0fe709d9adcfa7c7d108",
+    "validator/outcomes/java/R4.sp-diff-type-base.json": "fa7ab2e71dc346cce7e802b81631cf3198e5e18928debfe4252ce5c23c22e307",
+    "validator/outcomes/java/R4.standards-status-r4-base.json": "89ff20e63ea59d15bda221e9efaf554a2aa0eecd6bacb55183cebc1290f62a5b",
+    "validator/outcomes/java/R4.structureDefinition-11179-objectClass-R4-base.json": "d1aa7262ec68dd05f72716b3efa436f9c05a3d7a32531a5cdb2842b33a62e2cd",
+    "validator/outcomes/java/R4.structuremap-dependent-input-no-mode-base.json": "c6fb0f6b6cf462a2f3a39aaca01428759a7b2838882701f71c455b0a5874eb90",
+    "validator/outcomes/java/R4.structuremap-import-no-value-base.json": "42d9df63188e1dd4a9ab6533e4a0d8938721c248bdc2217fb2318de526c48717",
+    "validator/outcomes/java/R4.supplement-2-base.json": "8e72f2f11783f5d4a0520671a3afd0120387a6e64813708e7ce8aacdda02b808",
+    "validator/outcomes/java/R4.synthea-base.json": "406d5075242259c4324edc8aff548bbdf5cc3b138ecab58e4571b2bf2293d88a",
+    "validator/outcomes/java/R4.valueset-expansion-parameter-empty-base.json": "a035def80ab4de7a29d49d28cddfba5aaaad317523dd5ca5b4ada23dc5be510c",
+    "validator/outcomes/java/R4.valueset-expansion-parameter-name-ok-base.json": "83ddcd78fc5bceb496749489d0ef10b028f184e59459951b5aea8bc5436e9a09",
+    "validator/outcomes/java/R4.valueset-expansion-parameter-no-name-base.json": "ebfb3b5c4b32f8b77be26c4f49875eb185ef2651544de4fdd45128f04b82c85c",
+    "validator/outcomes/java/R4.valueset-parameter-extension-name-no-value-base.json": "83ddcd78fc5bceb496749489d0ef10b028f184e59459951b5aea8bc5436e9a09",
+    "validator/outcomes/java/R4.versioned-extension-base.json": "335dc4118f842ecf3fba2980a3b62a22b8ac3be9a33c04bedd0925e62079dd50",
+    "validator/outcomes/java/R4.vs-bad-code-base.json": "b7d0a653015f250851c4627cd9fcc295edaf0195b6ec67d5b5c4fcc62f253211",
+    "validator/outcomes/java/R4.vs-bad-ecl-base.json": "2c6df0f466a364ebf2cf469b7216f0961676e726b5b409850e1232786a823de9",
+    "validator/outcomes/java/R4.vs-bad-ecl-us-base.json": "ad54e42cb8f2bf421b3d98d58203f957cc592f056d95c228d137521089dcbd7c",
+    "validator/outcomes/java/R4.vs-bad-props-base.json": "6db72281c30c389290e4574da5e914c34812bfa6d2b42138eadb987515cec830",
+    "validator/outcomes/java/R4.vs-canonical-bad-2-base.json": "42564f307be0eed759f89ae0e86516ee068e3f4a3a5299e1e8f2965e13fc20cf",
+    "validator/outcomes/java/R4.vs-canonical-bad-base.json": "c5938cb1874799dc25678a353705ff759504addb6b3f1def4b28949b33021c4b",
+    "validator/outcomes/java/R4.vs-canonical-good-base.json": "52adfd0856f82a46e7ca5c7185e870574ed3329990d736489f7a9458f38c1709",
+    "validator/outcomes/java/R4.vs-canonical-urn-bad-base.json": "e41b211b1da472492c847f86e9511cfbe13a8be122bd9d6bc8ce38079835799f",
+    "validator/outcomes/java/R4.vs-canonical-urn-base.json": "594d58cf5d67c2defac3c32c728f9927a5b605141905fbd346ad335267da6956",
+    "validator/outcomes/java/R4.vs-expansion-base.json": "d1e5533c73cf6eb9ed8641d743936dc5b2245fa665340bbfdfef60fc88d29849",
+    "validator/outcomes/java/R4.vs-jurisdiction-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.vs-loinc-filter-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.vs-params-1-base.json": "87049e786157924c40d104951f4c0c1efe69e3cc573b886d49c74301f764bf4f",
+    "validator/outcomes/java/R4.vs-params-2-base.json": "14dc0fe19eb66772a57f06c5363d5f129b219b62fdf45d6cbc5a40a42bbc9edc",
+    "validator/outcomes/java/R4.vs-params-3-base.json": "a579336c0f746adbf3985ee9df6d711582c0b1dc6f98ebbd588c086905381114",
+    "validator/outcomes/java/R4.vs-params-4-base.json": "757968a28b3c98c34b260d0c4ce0b5c33e88f202e25880fd185f7b853cf75d2e",
+    "validator/outcomes/java/R4.ws-json-base.json": "c2f356c70c90792b4eeea5123a2a94c748a6517ae510c153000d28df393657a4",
+    "validator/outcomes/java/R4.xml-bad-entities-json-base.json": "5ddba857ff288d019d952afd5995f4d883c30d690d01c064505a494f4dd2d19c",
+    "validator/outcomes/java/R4.xver-extensions-vs-base.json": "2930be4a9d0ef586202660035d7d59a1ad231e6e7edbe46f54fbd15833fd6e95",
+    "validator/parameters-attachment.json": "66a1953d20d534e37dba846deb2e65064741f150679930c2a0e7b964a1761ce4",
+    "validator/params-edqm.json": "ebb1e4f4b8418cf01fe8f13db197f8abd5af931dade3867ef88bfd33b5d0254b",
+    "validator/params-empty.json": "23271bd915799e92158bbe72057435a582dff23fd63acee3741be93636f50edf",
+    "validator/params-reference-fullUrl-extension.json": "144bac56796b88c4c179a60a2976feac040c170a8909d447bbf635d86b8e5ba0",
+    "validator/params-reference-part-transaction.json": "9037bdfa9fcb885a8648f311c6eefd22f09e752add1ae10656dea75048aa1bee",
+    "validator/params-reference-transaction-bundle.json": "8525268acd54401f59f22fad48b48dde94a750b8829c465c00ca2597148a004d",
+    "validator/params-resource.json": "7c9ce47be534778d6ab81b175855b6f443fa925935509135a68490c1e0783c8c",
+    "validator/pat-dob-ext.json": "2e018f615ee82e9ccaa3768a78a9156c53af9b058f525f30cda41eb6428f71df",
+    "validator/pat-ms-1.0.0.json": "a4ed2c14ef044bb2d2a9c45bb86c976847bdf06e6a27349eaa2a84957846756d",
+    "validator/pat-ms-2018-08-12.json": "87aeba5f35207894ba609ac8782973accb6a5e94bcb65d2ed7b669e53a98c725",
+    "validator/pat-ms-3.0.0.json": "72a32bc5dce199a6cde06a58f3350e3ec6435317bc0fb0dca7978f8778ec809b",
+    "validator/pat-security-good1.json": "eec2dd455d4b2a734a76e514c81d5c0099456d1957c5b15da4eb801f2e69621e",
+    "validator/pat-security-good2.json": "ea258af7010f062399bb718eb6731cc54f49f83f1653900dc8fc646480270018",
+    "validator/patient-example-ra4.json": "c702ee0f42f247153ee1a77e48408266325f8ffa7c2cd42c56ff04e4b7889dbc",
+    "validator/patient-hs-1.json": "3d289b6883397d6820bd44ff671754629caf9307079a4605bd9d18f7269bf370",
+    "validator/patient-id-extensions.json": "b2ac4e9ebe6e5aa03fdf069929480e8c2b777c45a6a342679724d0150f295f63",
+    "validator/patient-meta-profile-no-value.json": "08f7d63c8e4f64720b69144c7c088fa70071f6970cfaa3fab037c2bdda61db7f",
+    "validator/patient-with-turvakielto.json": "145ff0d4305c60cf4145d4fd1e8d8e9f51d16f933799c4946c46a015e50b809d",
+    "validator/q-enablewhen-me-wrong.json": "82cfa05b04ccdb5fc0efe14ee63393ac207699a77402657f3d70bb430b4da8a8",
+    "validator/questionnaire-enableWhen-dw.json": "06ef93678818ac137329f2c9fcfd37a427d388105308186c6243c702c4299316",
+    "validator/ref-policy-r4.json": "b0928357fa37a13c4b92a03f4499c7cbbfcf011fcb130629f875687e6c69c4f4",
+    "validator/resource-invalid-eid-0.json": "edaaae3654ca0fe935e650069728443a9ca7cf85cb2c5ba732c634dd1006ed03",
+    "validator/resource-invalid-eid-1.json": "f177d562d400577a43358225c576c5ae3bb3f68a465bad4ff550172da82e6b0d",
+    "validator/resource-invalid-eid-2.json": "ac7b9c08025160b9b4f1327fbaa7d79e25d368f45a6393e8f3762379517ca892",
+    "validator/resource-invalid-id-0.json": "d7d24f3b820e751e2ce97fc051672935608c4cea89f5c06c78ee2122a08cd173",
+    "validator/resource-invalid-id-1.json": "b5e802f0d0567c72e53d95cb2811fc300090d3efc15a18b2d9d0b1b891448e8f",
+    "validator/resource-invalid-id-2.json": "4fe826ab241939823373b39b7c8c07301123d1d1ffd43af8c45b72e32f2a9949",
+    "validator/resource-invalid-id-3.json": "63425b64b95607b8e87e7a1731c2ad5b461f616707f2960e9adc3aa931a8253b",
+    "validator/risk-assessment-probability-range.json": "deeafef582db98157dee3085fd47e0bc363d192d2ba450a5aa5be11f9ecdb329",
+    "validator/sct-version-issue.json": "d8bc480266275612d58eab92df73dd21dc6ccb322f38ae10498aff820a867aa3",
+    "validator/sd-device.json": "02b251bc086859b9007912a2e5b2b3205be1e9c3893741091370c10f0e57d19a",
+    "validator/signatures/example-1.json": "79dc8958f9541524a5f204ecaa95c4a5763463a1a15e5064f71685c88020c2c7",
+    "validator/signatures/example-2.json": "fa750a187e53e9716cf8f1f6f810ebf6a33218c692041ada7c81858bfe5a61bb",
+    "validator/signatures/example-r6-json.json": "028b0e12616afd6b7e77cc764e7155b06433bf7ff15320193377d9a710feb7eb",
+    "validator/signatures/parameters-example.json": "228386a34e7b9fa2a3e5f739bf12b75f86d43fdb852696c54fdb559952b16fe0",
+    "validator/signatures/sig-bundle.json": "cbdcf6051b087a170f9181bc689372fb0195226f4fb03b0c3de76776765e439d",
+    "validator/signatures/sig-time-example.json": "89154d62e09f7eb2027ba2056222b5b3b2163fbf0522fbe52d0589cc0d8649c6",
+    "validator/signatures/sig-xhtml-example.json": "1d7902d69e0e2367725b4a0e2783067f261ea83b13d5e6d96af2373358e82dad",
+    "validator/snomed-ca.json": "db5b958d92481a1ccd41716a7f800a9ebe14b8872624273c8c04394338c9c9e5",
+    "validator/sp-composite.json": "615652111e2233835fe6866f314404f85ba6d91c39b0cb71e490d1bea9310fda",
+    "validator/sp-diff-base.json": "6135c645f88d20c9ada6806ca56062c0f0726fd30c93055f811238a2053a1c41",
+    "validator/sp-diff-expression.json": "b7c5421c91d860dd9d855cdd5aa6f76788a073e016e0f68ec63259f1e131d3c8",
+    "validator/sp-diff-type.json": "d72935e5f2aa8e359ccb0e433a50753766a7d108b48c4ee1f0c570c6c37848ed",
+    "validator/structuremap-dependent-input-no-mode.json": "30413be41aa4d96570ded2adfc086eb597aa3bfeccd759fa85908614ec6c167a",
+    "validator/structuremap-import-no-value.json": "01fd68a9d17ed33b853026c6e6009f6edd9ae4d11597bde54584e82926ef3f29",
+    "validator/supplement-cs.json": "7d54e3df6dad233490d49ae2d99133e069c270649244ca8e3dd1c52d58f92028",
+    "validator/synthea.json": "a96b360b8fca7e7b4f934fa738c38539ff13d957baeaaf17ed7f39b1c0ecfcc9",
+    "validator/valueset-expansion-parameter-empty.json": "840e2c59b56ca793a019095a86836e3fcb21345476c7978793ba6936c43616f7",
+    "validator/valueset-expansion-parameter-name-ok.json": "57df76baacd39e5314b7b924b2bc96757bed19344b182cc4f5eba86b5397a8f3",
+    "validator/valueset-expansion-parameter-no-name.json": "3222b4a327952548fbd82e89ab7cee8370376c31b27593541ff8f0e8f3a2d29f",
+    "validator/valueset-parameter-extension-name-no-value.json": "fafb29aa72a987de1b33d6ba6cc669feec237843e5d1a6a350470f23f5e1206b",
+    "validator/versioned-extension.json": "c52610b34e4ddd7802b81feb9c88b379e64d59047293579529bd705fec4f3b07",
+    "validator/vs-bad-code.json": "4428df63923fa08bb78b6f179cc9eb0dc6c9ad96a5297ccd8c0450e24ae39463",
+    "validator/vs-bad-ecl-us.json": "3c4de9603263cc867305ea2ad6fd0c0ee8d7741038c7da59e217688a6d215130",
+    "validator/vs-bad-ecl.json": "02a3c1374bbfaf8e6ea4657b906740fcd31b800c0d8f20b7c1eaa2abf69d49de",
+    "validator/vs-bad-props.json": "d15ef1aa15af740f160acd46e6a103e7f47dd5b8962c559b495ee6a248b3dd5c",
+    "validator/vs-canonical-bad-2.json": "9aed86c51471773361ecdb6b9c1c45275a922f15c3518e2d9bcf8555b4259329",
+    "validator/vs-canonical-bad.json": "ed6e44ee45e2cf2c75ab8a1465c760cd9cfe5eb6f33c46f4a593aa46dec5ff35",
+    "validator/vs-canonical-good.json": "37e005e3ca7019c88629918f0b5b63fc70caf29f983ef14109499e38e6bb2b39",
+    "validator/vs-canonical-urn-bad.json": "8d91f85a62cb79b5c40b7da57497effe91eb40da018986b11c0723b5525bf82d",
+    "validator/vs-canonical-urn.json": "b0be05bf5c66f473b4673619ba4766ddbf75a122d10e7bc04e65ead0212e964a",
+    "validator/vs-expansion.json": "3205b38cc50321691f58989e3ae8be3930310031795242a98395432a71790b62",
+    "validator/vs-jurisdiction.json": "0c91036fa569b3c58615a200054428952df4350f53d58de080cbc4dadc3fc537",
+    "validator/vs-loinc-filter.json": "d8e5aa814252c434e7525d54692cd316e4b11f7b24e86c002ec2081e88f4f838",
+    "validator/vs-params-1.json": "20cd082e93bd0437cfea14c8212e5dfd955bc5c5946846a5709ef28174425d9a",
+    "validator/vs-params-2.json": "f302765a9df0856f1defd48e583af09e43b12c761a18b36c4651e624e7a5e669",
+    "validator/vs-params-3.json": "8a75307b25a237c1255570408d69836e2f809dd7439e2e277bca44b30d9e5cd1",
+    "validator/vs-params-4.json": "2496ffa37957b7ce18f838d0137bddd1d19ac380b210545f389b63d988f7d5ae",
+    "validator/ws-json.json": "61a7daeea79e6cbf8912e8b91da7dcdadf7446c19a05114a0ef9463ee0f90baf",
+    "validator/xml-bad-entities.json": "14d4d5a73798cb0fd0cbd54088e33ddbb8e2310b855240be763b0744f4ca8433",
+    "validator/xver-extensions-vs.json": "d450872ec18170de93005ac8c4b9f663f4933416ba3a54628c0f648558b8818f"
+  }
+}

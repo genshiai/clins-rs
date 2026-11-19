@@ -2,6 +2,12 @@
 
 For dated milestones and closure criteria, see the [Japanese roadmap](roadmap.ja.md).
 
+The [2026-11-19 empirical audit](audits/2026-11-19-validation-audit.ja.md) supersedes
+sample-only confidence: 146 upstream R4 cases include 32 Java-only rejections and 6
+Rust-only rejections. Fixing confirmed false acceptances (Resource.id, empty arrays,
+document reachability and related findings) and reference-resolution false rejections
+is a release prerequisite; these cases are not merely deferred checks.
+
 The alpha distribution is an experimental working validator, not a certification of
 all FHIR/CLINS requirements. This ledger distinguishes work we can implement
 from external publication and connection prerequisites.

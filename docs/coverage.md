@@ -1,5 +1,12 @@
 # Coverage and release claims
 
+The [2026-11-19 upstream audit](audits/2026-11-19-validation-audit.ja.md) found missing
+checks that currently return `valid`, including invalid Resource.id syntax, empty arrays,
+and disconnected document resources. Zero conversion warnings and sample acceptance
+did not expose these gaps. Current `valid` results cannot serve as the sole conformance
+or transmission gate. Recognized deferred obligations still produce `incomplete`, but
+the release does not yet recognize every missing check.
+
 This alpha validates JSON against embedded FHIR R4 schemas and pinned JP Core / JP-CLINS
 packages. It checks structure, primitive shapes, cardinality, choices, fixed/pattern values,
 supported slicing, inherited profiles and extensions, FHIRPath invariants, offline required
@@ -20,7 +27,7 @@ and service-side acceptance are outside instance-validation coverage.
 
 Warnings for narrative recommendations can coexist with valid. Unknown profiles, external
 reference targets, unavailable terminology, unresolved converter rules, unsupported functions
-and evaluator numeric limits are never promoted to valid. On FHIR `$validate`, an incomplete
+and evaluator numeric limits, when recognized as obligations, are not promoted to valid. On FHIR `$validate`, an incomplete
 report adds an error issue and a validation-status extension.
 
 ## Known limits

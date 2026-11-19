@@ -5,9 +5,15 @@
 Offline Rust validation for **FHIR R4 4.0.1 / JP Core 1.1.2-clins / JP-CLINS 1.13.0**.
 One validation Core, with CLI, HTTP, Python, TypeScript/WebAssembly and Kotlin/JVM adapters.
 
+**Known validation gaps confirmed on 2026-11-19.** In an upstream 146-case R4 audit,
+Java alone rejected 32 cases and Rust alone rejected 6. The current release can return
+`valid` for cases with invalid Resource.id syntax, empty arrays, or disconnected document
+resources. Do not use its `valid` result alone as a conformance or transmission decision.
+See the [audit, denominators, incomplete results and environment differences](docs/audits/2026-11-19-validation-audit.ja.md).
+
 **Experimental alpha.** `valid` means the applicable implemented machine checks passed.
 It is not certification of every CLINS requirement or acceptance by the national service.
-Unsupported rules, unknown definitions and unavailable terminology produce **`incomplete`**;
+Recognized unsupported obligations, unknown definitions and unavailable terminology produce **`incomplete`**;
 observed violations produce **`invalid`**, including when other checks are incomplete.
 See [coverage](docs/coverage.md) and the [implementation plan](docs/plan.md).
 
@@ -112,8 +118,9 @@ Validator(definitionsJson).use { validator ->
   an independent development comparison target, with no Java source incorporated
   and no Java runtime dependency in the Rust/Python/WASM products.
 - [FHIR/fhir-test-cases](https://github.com/FHIR/fhir-test-cases), Apache-2.0:
-  shared upstream fixtures/expectations proposed for broader interoperability tests.
-  The full upstream corpus has not been imported or run.
+  shared upstream fixtures/expectations; 146 R4 JSON cases have been audited,
+  with 452 requiring additional configuration left explicitly unexecuted.
+  The full upstream corpus has not been run; license, source and checksums are retained.
 - [helios-fhir-validator 0.2.7](https://crates.io/crates/helios-fhir-validator/0.2.7),
   MIT: adapted structural/converter source, with [provenance](THIRD_PARTY_NOTICES.md)
   and the [original license](LICENSES/Helios-MIT.txt) retained.

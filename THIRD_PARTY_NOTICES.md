@@ -20,3 +20,11 @@ and are not committed or relicensed by this repository.
 Full locked-workspace dependency license notices are included in `THIRD_PARTY_LICENSES.txt`.
 UniFFI components are MPL-2.0 (file-level terms); their unmodified exact source packages
 are linked in that inventory. The original binding implementation remains Apache-2.0.
+
+The optional audit metadata in `scripts/upstream-tests.lock.json` is selected from
+FHIR/fhir-test-cases, commit `2cfcc672d39fe85dcf358106969cf63e185fd926`,
+https://github.com/FHIR/fhir-test-cases, Apache-2.0. Its license is retained in
+`LICENSES/FHIR-Test-Cases-Apache-2.0.txt`. The selection and SHA-256 asset lock are
+project additions. Downloaded upstream fixtures and expected outcomes are kept in
+ignored `data/`; individual terminology/content terms remain applicable. This audit
+corpus is not embedded in the Rust Core or language SDK runtime packages.

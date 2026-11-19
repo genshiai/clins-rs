@@ -80,4 +80,6 @@ The current comparison report uses schema version 2: Java's absence of error/fat
 is recorded as `no-errors`, not as a claim of complete validation. Verdict agreement
 and normalized diagnostic location differences are reported separately. See the
 [upstream reuse and comparison policy](reference-validation.ja.md) for provenance,
-scope and limitations; upstream shared tests have not yet been imported or executed.
+scope and limitations. A subsequent [146-case upstream audit](audits/2026-11-19-validation-audit.ja.md)
+executed the supported-configuration subset and found confirmed gaps; the remaining
+452 R4 JSON candidates requiring additional settings have not yet been run.
