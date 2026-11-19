@@ -16,3 +16,7 @@ FHIR is a registered trademark of HL7. Consult https://hl7.org/fhir/R4/license.h
 for the specification's CC0 notice and separately licensed terminology content.
 Downloaded JP Core, CLINS and terminology packages remain separately licensed
 and are not committed or relicensed by this repository.
+
+Full locked-workspace dependency license notices are included in `THIRD_PARTY_LICENSES.txt`.
+UniFFI components are MPL-2.0 (file-level terms); their unmodified exact source packages
+are linked in that inventory. The original binding implementation remains Apache-2.0.

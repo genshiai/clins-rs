@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Offline FHIR R4 / JP-CLINS validation using the Rust Core via WASM",
   "license": "Apache-2.0 AND MIT",
-  "files": ["index.js", "index.d.ts", "pkg", "LICENSE", "THIRD_PARTY_NOTICES.md", "LICENSES"],
+  "files": ["index.js", "index.d.ts", "pkg", "LICENSE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_LICENSES.txt", "LICENSES"],
   "exports": {
     ".": {
       "types": "./index.d.ts",

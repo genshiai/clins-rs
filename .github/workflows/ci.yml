@@ -20,6 +20,7 @@ jobs:
           python-version: '3.13'
       - uses: Swatinem/rust-cache@v2
       - run: ./scripts/check.sh
+      - run: python3 scripts/smoke-http.py target/debug/clins
       - run: cargo package --locked -p clins-core
   sdks:
     runs-on: ubuntu-24.04

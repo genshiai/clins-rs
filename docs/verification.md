@@ -4,8 +4,9 @@ Local verification: macOS / Apple Silicon, Rust 1.99.1, Bun 1.4.4,
 Python 3.14 with a Python 3.10+ abi3 wheel, Node 24.22.2, Kotlin 2.4.21 / JDK 21 / Gradle 9.7.0.
 
 - Rust formatting, warning-free clippy and unit/integration gate, including Core decimal
-  precision, oversized/malformed/duplicate JSON, nested finding paths, CLI exit codes,
+  precision, oversized/malformed/duplicate JSON, nested finding paths, CLI exit codes, R4 integer domains,
   HTTP OperationOutcome/Parameters and incomplete outcomes.
+- Actual loopback HTTP process smoke test (`python3 scripts/smoke-http.py`), without a database.
 - Checksum-pinned official patient examples and mutations; all eight independent synthetic
   document/information fixtures and their negative mutations.
 - Python wheel installation and R4 + CLINS positive/negative SDK tests.

@@ -55,12 +55,12 @@ val nativeJar = tasks.register<Jar>("nativeJar") {
     dependsOn(buildNative)
     archiveClassifier.set(nativePlatform)
     from(nativeDir.map { "$it/" + System.mapLibraryName("clins_kt") }) { into(nativePlatform) }
-    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md")) { into("META-INF") }
+    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_LICENSES.txt")) { into("META-INF") }
     from("LICENSES") { into("META-INF/licenses") }
 }
 publishing.publications.named<MavenPublication>("clins") { artifact(nativeJar) }
 tasks.jar {
-    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md")) { into("META-INF") }
+    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_LICENSES.txt")) { into("META-INF") }
     from("LICENSES") { into("META-INF/licenses") }
 }
 

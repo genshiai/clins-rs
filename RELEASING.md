@@ -4,7 +4,8 @@ An alpha is not full CLINS certification. Update `docs/verification.md` with act
 and review the current rule inventory. Use explicit paths when staging and include no downloaded
 packages or private chart data.
 
-1. Run `scripts/check.sh` and all SDK/browser checks from `docs/verification.md`.
+1. Regenerate dependency notices with `python3 scripts/third-party-licenses.py`.
+   Run `scripts/check.sh` and all SDK/browser checks from `docs/verification.md`.
 2. `cargo package -p clins-core --locked` verifies the standalone crate archive.
 3. Build the release CLI, Python abi3 wheel, WASM npm tarball, Kotlin jar/native classifier and
    sources. Retain Apache/MIT notices inside redistributed binaries and SDK packages.
