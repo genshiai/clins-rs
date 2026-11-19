@@ -1,0 +1,24 @@
+{
+  "name": "clins-ts",
+  "version": "0.1.0-alpha.1",
+  "type": "module",
+  "description": "Offline FHIR R4 / JP-CLINS validation using the Rust Core via WASM",
+  "license": "Apache-2.0 AND MIT",
+  "files": ["index.js", "index.d.ts", "pkg", "LICENSE", "THIRD_PARTY_NOTICES.md", "LICENSES"],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.js"
+    },
+    "./wasm": "./pkg/clins_ts_bg.wasm"
+  },
+  "scripts": {
+    "test": "bun test"
+  },
+  "repository": "https://github.com/genshiai/clins-rs",
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/bun": "^1.4.4",
+    "typescript": "^7.0.2"
+  }
+}

@@ -1,0 +1,7 @@
+clins-rs
+Copyright 2026 genshiai contributors
+
+Original contributions are licensed under Apache License 2.0.
+Adapted structural validator source is Copyright 2025-2026 Helios Software,
+licensed under MIT; see LICENSES/Helios-MIT.txt and THIRD_PARTY_NOTICES.md.
+FHIR definitions and terminology packages retain their upstream terms.

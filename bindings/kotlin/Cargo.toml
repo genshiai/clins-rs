@@ -1,0 +1,20 @@
+[package]
+name = "clins-kt"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Kotlin JVM native binding for clins-core via UniFFI"
+publish = false
+[lib]
+name = "clins_kt"
+crate-type = ["cdylib", "rlib"]
+[dependencies]
+clins-core.workspace = true
+serde_json.workspace = true
+uniffi = { version = "0.31", features = ["cli"] }
+thiserror = "2"
+[[bin]]
+name = "clins-bindgen"
+path = "src/bin/bindgen.rs"

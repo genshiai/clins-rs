@@ -1,0 +1,16 @@
+target/
+data/
+.venv/
+*.so
+*.dylib
+*.dll
+*.whl
+__pycache__/
+node_modules/
+.gradle/
+build/
+pkg/
+dist/
+.kotlin/
+test-results/
+playwright-report/

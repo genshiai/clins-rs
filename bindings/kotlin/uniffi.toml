@@ -1,0 +1,3 @@
+[bindings.kotlin]
+package_name = "jp.genshi.clins"
+cdylib_name = "clins_kt"

@@ -1,0 +1,25 @@
+[package]
+name = "clins-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Offline FHIR R4 and JP-CLINS validation core, independent of transport and I/O"
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+indexmap = { version = "2", features = ["serde"] }
+regex = "1"
+flate2 = "1"
+chrono = "0.4"
+roxmltree = "0.20"
+octofhir-fhirpath = "=0.5.10"
+futures = { version = "0.3", features = ["executor"] }
+
+
+sha2 = "0.10"
+hex = "0.4"
+octofhir-fhirschema = { version = "=0.3.42", default-features = false }

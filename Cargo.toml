@@ -1,0 +1,23 @@
+[workspace]
+resolver = "3"
+members = ["crates/core", "crates/packages", "crates/server", "crates/cli", "bindings/python", "bindings/typescript", "bindings/kotlin"]
+
+[workspace.package]
+version = "0.1.0-alpha.1"
+edition = "2024"
+rust-version = "1.98"
+license = "Apache-2.0 AND MIT"
+repository = "https://github.com/genshiai/clins-rs"
+
+[workspace.dependencies]
+anyhow = "1"
+serde = { version = "1.0.229", features = ["derive", "rc"] }
+serde_json = { version = "1.0.154", features = ["arbitrary_precision"] }
+clins-core = { path = "crates/core", version = "0.1.0-alpha.1" }
+clins-packages = { path = "crates/packages", version = "0.1.0-alpha.1" }
+clins-server = { path = "crates/server", version = "0.1.0-alpha.1" }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "sync"] }
+
+[profile.release]
+lto = "thin"
+strip = "debuginfo"
