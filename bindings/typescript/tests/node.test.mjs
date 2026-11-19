@@ -11,6 +11,7 @@ test('Node ESM uses the same WASM and preserves the JSON boundary', () => {
     assert.equal(r4.validate('{"resourceType":"Patient","active":true}').status, 'valid');
     assert.equal(r4.validate('{"resourceType":"Patient","active":"yes"}').status, 'invalid');
     assert.equal(r4.validate('{"resourceType":"Patient"}', 'urn:missing').status, 'incomplete');
+    assert.equal(r4.validate('{"resourceType":"Patient","telecom":[{"rank":0}]}').status, 'invalid');
     assert.throws(() => r4.validate('{"resourceType":"Patient","active":true,"active":false}'));
   } finally { r4.free(); }
   const clins = new Validator(readFileSync(`${root}/data/definitions.json`, 'utf8'));

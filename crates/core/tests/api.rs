@@ -73,3 +73,48 @@ fn rejects_duplicate_keys_including_nested_objects_and_escaped_spellings() {
         assert!(v.validate_json(input, None).is_err(), "{input}");
     }
 }
+
+#[test]
+fn enforces_signed_unsigned_and_positive_r4_integer_domains() {
+    let v = Service::r4().unwrap();
+    for (resource, good, bad) in [
+        (
+            json!({"resourceType":"Patient","multipleBirthInteger":0}),
+            json!(2147483647i64),
+            json!(2147483648i64),
+        ),
+        (
+            json!({"resourceType":"Patient","telecom":[{"rank":1}]}),
+            json!(1),
+            json!(0),
+        ),
+        (
+            json!({"resourceType":"Patient","photo":[{"size":0}]}),
+            json!(0),
+            json!(-1),
+        ),
+    ] {
+        let path = if resource.get("multipleBirthInteger").is_some() {
+            "/multipleBirthInteger"
+        } else if resource.get("telecom").is_some() {
+            "/telecom/0/rank"
+        } else {
+            "/photo/0/size"
+        };
+        let mut resource = resource;
+        *resource.pointer_mut(path).unwrap() = good;
+        assert_eq!(v.validate(&resource, None).status, "valid");
+        *resource.pointer_mut(path).unwrap() = bad;
+        assert_eq!(v.validate(&resource, None).status, "invalid", "{resource}");
+    }
+}
+#[test]
+fn unsupported_element_constraints_are_never_silently_accepted() {
+    let sd = json!({"resourceType":"StructureDefinition","url":"urn:max-length","name":"ShortPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":[{"id":"Patient","path":"Patient"},{"id":"Patient.name.family","path":"Patient.name.family","maxLength":2}]}});
+    let v = Service::from_resources(vec![sd], vec![]).unwrap();
+    let r = v.validate(
+        &json!({"resourceType":"Patient","name":[{"family":"long name"}]}),
+        Some("urn:max-length".into()),
+    );
+    assert_eq!(r.status, "incomplete");
+}

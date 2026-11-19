@@ -9,6 +9,27 @@ use std::{
 };
 
 pub fn complete(sd: &Value, schema: &mut FhirSchema, warnings: &mut Vec<String>) {
+    // Unimplemented normative constraints must not disappear during conversion.
+    for element in sd["snapshot"]["element"]
+        .as_array()
+        .or_else(|| sd["differential"]["element"].as_array())
+        .into_iter()
+        .flatten()
+    {
+        if let Some(properties) = element.as_object() {
+            for key in properties.keys().filter(|key| {
+                key.as_str() == "maxLength"
+                    || key.starts_with("minValue")
+                    || key.starts_with("maxValue")
+            }) {
+                warnings.push(format!(
+                    "unsupported element constraint {key} at {}",
+                    element["path"].as_str().unwrap_or("Element")
+                ));
+            }
+        }
+    }
+
     inherited_choices(schema);
     let Some(elements) = sd["differential"]["element"]
         .as_array()

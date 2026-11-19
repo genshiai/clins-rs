@@ -11,7 +11,9 @@ describe('Rust WASM SDK', () => {
       expect(v.validate('{"resourceType":"Patient","active":true}').status).toBe('valid');
       expect(v.validate('{"resourceType":"Patient","active":"yes"}').status).toBe('invalid');
       expect(v.validate('{"resourceType":"Patient"}', 'urn:missing').status).toBe('incomplete');
+      expect(v.validate('{"resourceType":"Patient","telecom":[{"rank":0}]}').status).toBe('invalid');
       expect(() => v.validate('{')).toThrow();
+      expect(() => v.validate('{"resourceType":"Patient","active":true,"active":false}')).toThrow();
     } finally { v.free(); }
   });
   test('CLINS bundle and mutations', () => {

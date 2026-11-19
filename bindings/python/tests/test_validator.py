@@ -10,7 +10,9 @@ class ValidatorTest(unittest.TestCase):
         self.assertEqual(validator.validate('{"resourceType":"Patient","active":true}')['status'], 'valid')
         self.assertEqual(validator.validate('{"resourceType":"Patient","active":"yes"}')['status'], 'invalid')
         self.assertEqual(validator.validate('{"resourceType":"Patient"}', 'urn:missing')['status'], 'incomplete')
+        self.assertEqual(validator.validate('{"resourceType":"Patient","telecom":[{"rank":0}]}')['status'], 'invalid')
         with self.assertRaises(ValueError): validator.validate('{')
+        with self.assertRaises(ValueError): validator.validate('{"resourceType":"Patient","active":true,"active":false}')
 
     def test_clins_positive_and_negative(self):
         validator = Validator((ROOT / 'data/definitions.json').read_text())

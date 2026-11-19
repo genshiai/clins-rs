@@ -84,6 +84,25 @@ pub(super) fn validate_primitive(ctx: &mut WalkCtx<'_>, schema: &FhirSchema, dat
         return;
     }
 
+    // R4 primitive domains have bounds that the spec regex alone cannot express.
+    // https://hl7.org/fhir/R4/datatypes.html#primitive
+    let minimum = match type_name {
+        "integer" => Some(i32::MIN as i64),
+        "unsignedInt" => Some(0),
+        "positiveInt" => Some(1),
+        _ => None,
+    };
+    if let Some(minimum) = minimum
+        && !data
+            .as_i64()
+            .is_some_and(|n| (minimum..=i32::MAX as i64).contains(&n))
+    {
+        ctx.error(
+            ErrorKind::PrimitiveValue,
+            format!("{type_name} must be in {minimum}..={}", i32::MAX),
+        );
+    }
+
     if let Some(pattern) = &schema.regex
         && let Some(s) = data.as_str()
         && let Some(re) = compiled(pattern)
