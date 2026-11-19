@@ -8,29 +8,86 @@ type Finding = (&'static str, String, String);
 pub fn check_in(root: &Value, context: &Value) -> Vec<Finding> {
     let mut index = HashMap::new();
     let mut findings = Vec::new();
+    let mut versions: HashMap<&str, HashSet<Option<&str>>> = HashMap::new();
+    if context["resourceType"] == "Parameters" {
+        for (url, resource) in parameter_resources(context) {
+            index.insert(url.to_owned(), resource);
+        }
+    }
     if let (Some(typ), Some(id)) = (context["resourceType"].as_str(), context["id"].as_str()) {
         index.insert(format!("{typ}/{id}"), context);
     }
     if let Some(entries) = context["entry"].as_array() {
         for (i, entry) in entries.iter().enumerate() {
             let resource = &entry["resource"];
-            if let Some(url) = entry["fullUrl"].as_str()
-                && index.insert(url.to_owned(), resource).is_some()
-            {
-                findings.push((
-                    "duplicate",
-                    format!("Bundle.entry[{i}].fullUrl"),
-                    "fullUrlが重複しています".into(),
-                ));
+            if let Some(url) = entry["fullUrl"].as_str() {
+                if (url.starts_with("http://") || url.starts_with("https://"))
+                    && let (Some(typ), Some(id), Some((prefix, url_id))) = (
+                        resource["resourceType"].as_str(),
+                        resource["id"].as_str(),
+                        url.rsplit_once('/'),
+                    )
+                    && prefix.rsplit('/').next() == Some(typ)
+                    && url_id != id
+                {
+                    findings.push((
+                        "value",
+                        format!("Bundle.entry[{i}].fullUrl"),
+                        "REST形式のfullUrlとリソースのidが一致しません".into(),
+                    ));
+                }
+                if !url.split_once(':').is_some_and(|(scheme, _)| {
+                    !scheme.is_empty()
+                        && scheme.bytes().enumerate().all(|(i, b)| {
+                            if i == 0 {
+                                b.is_ascii_alphabetic()
+                            } else {
+                                b.is_ascii_alphanumeric() || matches!(b, b'+' | b'-' | b'.')
+                            }
+                        })
+                }) {
+                    findings.push((
+                        "value",
+                        format!("Bundle.entry[{i}].fullUrl"),
+                        "Bundle.entry.fullUrlには絶対URIを指定してください".into(),
+                    ));
+                }
+                let version = resource["meta"]["versionId"].as_str();
+                let seen = versions.entry(url).or_default();
+                if context["type"] != "history"
+                    && (seen.contains(&version)
+                        || (!seen.is_empty() && (version.is_none() || seen.contains(&None))))
+                {
+                    findings.push((
+                        "duplicate",
+                        format!("Bundle.entry[{i}].fullUrl"),
+                        "fullUrlとmeta.versionIdの組合せが重複しています".into(),
+                    ));
+                }
+                seen.insert(version);
+                if seen.len() == 1 {
+                    index.insert(url.to_owned(), resource);
+                } else {
+                    index.remove(url);
+                }
+                if let Some(version) = version {
+                    index.insert(format!("{url}/_history/{version}"), resource);
+                }
             }
             if let (Some(t), Some(id)) =
                 (resource["resourceType"].as_str(), resource["id"].as_str())
             {
                 index.entry(format!("{t}/{id}")).or_insert(resource);
+                if let Some(version) = resource["meta"]["versionId"].as_str() {
+                    index.insert(format!("{t}/{id}/_history/{version}"), resource);
+                }
             }
         }
     }
     walk(root, root, "Resource", &index, context, &mut findings);
+    if root["resourceType"] == "Bundle" && root["type"] == "document" {
+        document_links(root, &mut findings);
+    }
     findings
 }
 
@@ -212,12 +269,26 @@ fn could_match(value: &Value, schema: Option<&Arc<FhirSchema>>) -> bool {
 /// Resolve only within the supplied export. Ambiguous logical IDs remain unknown.
 pub fn resolve<'a>(root: &'a Value, owner: &'a Value, reference: &str) -> Option<&'a Value> {
     if let Some(id) = reference.strip_prefix('#') {
+        let owner = container(root, owner).unwrap_or(owner);
+        if id.is_empty() {
+            return Some(owner);
+        }
         return owner["contained"]
             .as_array()?
             .iter()
             .find(|r| r["id"] == id);
     }
     let mut found = None;
+    if root["resourceType"] == "Parameters" {
+        for (url, resource) in parameter_resources(root) {
+            if url == reference {
+                if found.is_some() {
+                    return None;
+                }
+                found = Some(resource);
+            }
+        }
+    }
     if let (Some(typ), Some(id)) = (root["resourceType"].as_str(), root["id"].as_str())
         && reference == format!("{typ}/{id}")
     {
@@ -229,7 +300,17 @@ pub fn resolve<'a>(root: &'a Value, owner: &'a Value, reference: &str) -> Option
             (Some(typ), Some(id)) => reference == format!("{typ}/{id}"),
             _ => false,
         };
-        if entry["fullUrl"] == reference || logical {
+        let versioned = reference
+            .rsplit_once("/_history/")
+            .is_some_and(|(base, version)| {
+                resource["meta"]["versionId"] == version
+                    && (entry["fullUrl"] == base
+                        || match (resource["resourceType"].as_str(), resource["id"].as_str()) {
+                            (Some(t), Some(id)) => base == format!("{t}/{id}"),
+                            _ => false,
+                        })
+            });
+        if entry["fullUrl"] == reference || logical || versioned {
             if found.is_some() {
                 return None;
             }
@@ -237,6 +318,37 @@ pub fn resolve<'a>(root: &'a Value, owner: &'a Value, reference: &str) -> Option
         }
     }
     found
+}
+
+fn parameter_resources(root: &Value) -> Vec<(&str, &Value)> {
+    fn scan<'a>(v: &'a Value, out: &mut Vec<(&'a str, &'a Value)>) {
+        if let Some(resource) = v.get("resource") {
+            for ext in v["extension"].as_array().into_iter().flatten() {
+                if ext["url"] == "http://hl7.org/fhir/StructureDefinition/parameters-fullUrl"
+                    && let Some(url) = ext["valueUri"].as_str()
+                {
+                    out.push((url, resource));
+                }
+            }
+            if resource["resourceType"] == "Bundle" {
+                for entry in resource["entry"].as_array().into_iter().flatten() {
+                    if let (Some(url), Some(resource)) =
+                        (entry["fullUrl"].as_str(), entry.get("resource"))
+                    {
+                        out.push((url, resource));
+                    }
+                }
+            }
+        }
+        for child in v["part"].as_array().into_iter().flatten() {
+            scan(child, out);
+        }
+    }
+    let mut out = Vec::new();
+    for child in root["parameter"].as_array().into_iter().flatten() {
+        scan(child, &mut out);
+    }
+    out
 }
 
 fn walk<'a>(
@@ -265,10 +377,8 @@ fn walk<'a>(
                 owner
             };
             if let Some(reference) = v["reference"].as_str() {
-                let resolved = if let Some(id) = reference.strip_prefix('#') {
-                    owner["contained"]
-                        .as_array()
-                        .and_then(|a| a.iter().find(|r| r["id"] == id))
+                let resolved = if reference.starts_with('#') {
+                    resolve(scope, owner, reference)
                 } else {
                     index.get(reference).copied()
                 };
@@ -283,10 +393,10 @@ fn walk<'a>(
                         ));
                     }
                 } else {
-                    let code = if reference.starts_with('#')
-                        || reference.starts_with("urn:uuid:")
-                        || reference.starts_with("urn:oid:")
-                    {
+                    // A fragment is in this resource's closed namespace. A
+                    // missing nonfragment identity may exist outside the export;
+                    // offline inability to resolve it is not proof of invalidity.
+                    let code = if reference.starts_with('#') {
                         "not-found"
                     } else {
                         "not-supported"
@@ -322,5 +432,174 @@ fn walk<'a>(
             }
         }
         _ => {}
+    }
+}
+
+/// The container supplies the fragment namespace for a contained resource.
+pub(crate) fn container<'a>(root: &'a Value, owner: &Value) -> Option<&'a Value> {
+    if root["contained"]
+        .as_array()
+        .is_some_and(|items| items.iter().any(|item| item == owner))
+    {
+        return Some(root);
+    }
+    match root {
+        Value::Object(map) => map.values().find_map(|child| container(child, owner)),
+        Value::Array(items) => items.iter().find_map(|child| container(child, owner)),
+        _ => None,
+    }
+}
+
+fn document_links(bundle: &Value, findings: &mut Vec<Finding>) {
+    let Some(entries) = bundle["entry"].as_array() else {
+        return;
+    };
+    if entries
+        .first()
+        .is_none_or(|e| e["resource"]["resourceType"] != "Composition")
+    {
+        return;
+    }
+    // These Composition references are required document contents (R4 3.3.1).
+    // Other outbound references may legitimately be external to the export.
+    fn required(composition: &Value) -> Vec<(&Value, String)> {
+        let mut out = Vec::new();
+        for key in ["subject", "encounter", "custodian"] {
+            if let Some(v) = composition.get(key) {
+                out.push((v, key.into()));
+            }
+        }
+        for (i, v) in composition["author"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .enumerate()
+        {
+            out.push((v, format!("author[{i}]")));
+        }
+        for (i, v) in composition["attester"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .enumerate()
+        {
+            if let Some(p) = v.get("party") {
+                out.push((p, format!("attester[{i}].party")));
+            }
+        }
+        for (i, v) in composition["event"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .enumerate()
+        {
+            for (j, d) in v["detail"].as_array().into_iter().flatten().enumerate() {
+                out.push((d, format!("event[{i}].detail[{j}]")));
+            }
+        }
+        fn sections<'a>(values: &'a Value, path: &str, out: &mut Vec<(&'a Value, String)>) {
+            for (i, v) in values.as_array().into_iter().flatten().enumerate() {
+                let path = format!("{path}[{i}]");
+                if let Some(f) = v.get("focus") {
+                    out.push((f, format!("{path}.focus")));
+                }
+                for key in ["author", "entry"] {
+                    for (j, r) in v[key].as_array().into_iter().flatten().enumerate() {
+                        out.push((r, format!("{path}.{key}[{j}]")));
+                    }
+                }
+                sections(&v["section"], &format!("{path}.section"), out);
+            }
+        }
+        sections(&composition["section"], "section", &mut out);
+        out
+    }
+    for (reference, path) in required(&entries[0]["resource"]) {
+        if let Some(text) = reference["reference"].as_str()
+            && resolve(bundle, &entries[0]["resource"], text).is_none()
+        {
+            findings.push((
+                "not-found",
+                format!("Bundle.entry[0].resource.{path}"),
+                "文書に含める必要があるCompositionの参照先がBundle内にありません".into(),
+            ));
+        }
+    }
+    let mut edges = vec![HashSet::new(); entries.len()];
+    fn collect(value: &Value, out: &mut Vec<String>) {
+        match value {
+            Value::Object(map) => {
+                if let Some(reference) = value["reference"].as_str() {
+                    out.push(reference.to_owned());
+                }
+                if let Some(div) = value["div"].as_str()
+                    && let Ok(doc) = roxmltree::Document::parse(div)
+                {
+                    out.extend(
+                        doc.descendants()
+                            .filter(|n| n.is_element() && n.tag_name().name() == "a")
+                            .filter_map(|n| n.attribute("href"))
+                            .map(str::to_owned),
+                    );
+                }
+                for child in map.values() {
+                    collect(child, out);
+                }
+            }
+            Value::Array(items) => {
+                for item in items {
+                    collect(item, out);
+                }
+            }
+            _ => {}
+        }
+    }
+    for (i, entry) in entries.iter().enumerate() {
+        let mut refs = Vec::new();
+        collect(&entry["resource"], &mut refs);
+        if i == 0 {
+            refs.extend(
+                bundle["link"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .filter(|l| l["relation"] == "stylesheet")
+                    .filter_map(|l| l["url"].as_str())
+                    .map(str::to_owned),
+            );
+        }
+        for reference in refs {
+            let reference = if reference.starts_with('#') {
+                reference.as_str()
+            } else {
+                reference.split('#').next().unwrap_or(&reference)
+            };
+            if let Some(target) = resolve(bundle, &entry["resource"], reference) {
+                for (j, other) in entries.iter().enumerate() {
+                    if other.get("resource") == Some(target) {
+                        edges[i].insert(j);
+                        edges[j].insert(i);
+                    }
+                }
+            }
+        }
+    }
+    let mut reached = HashSet::from([0]);
+    let mut pending = vec![0];
+    while let Some(i) = pending.pop() {
+        for j in &edges[i] {
+            if reached.insert(*j) {
+                pending.push(*j);
+            }
+        }
+    }
+    for i in 0..entries.len() {
+        if !reached.contains(&i) {
+            findings.push((
+                "structure",
+                format!("Bundle.entry[{i}]"),
+                "Compositionから参照をたどって到達できないリソースが含まれています".into(),
+            ));
+        }
     }
 }

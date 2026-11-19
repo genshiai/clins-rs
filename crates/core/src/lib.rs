@@ -32,6 +32,7 @@ pub struct Package {
 }
 
 mod invariants;
+mod json_rules;
 mod narrative;
 mod profiles;
 mod references;
@@ -382,6 +383,9 @@ impl Validator {
                             Some(_) => {
                                 let mut target_validator = scoped.clone();
                                 target_validator.selected_profile_only = true;
+                                target_validator.fhir_root = references::container(context, target)
+                                    .cloned()
+                                    .map(Arc::new);
                                 target_validator
                                     .validate_inner(target, Some(profile.clone()), false, &[])
                                     .status
@@ -490,6 +494,28 @@ impl Validator {
         let mut invalid = false;
         let mut incomplete = false;
         let mut deferred_checks = 0;
+        // Structural SD validation does not cover the authoring semantics that
+        // the upstream audit exposed for these resource types. Never claim
+        // completion until those specialized checks have been implemented.
+        if matches!(
+            resource["resourceType"].as_str(),
+            Some(
+                "Questionnaire"
+                    | "SearchParameter"
+                    | "StructureDefinition"
+                    | "CodeSystem"
+                    | "ValueSet"
+            )
+        ) {
+            incomplete = true;
+            deferred_checks += 1;
+            issues.push(issue(
+                "warning",
+                "not-supported",
+                "このリソース種別の専用意味検証は未完了です。構造検証だけでは適合と判断できません",
+                resource["resourceType"].as_str().unwrap_or("Resource"),
+            ));
+        }
         if !self.selected_profile_only
             && self.packages.iter().any(|p| p.name == "jp-eCSCLINS.r4")
             && resource["resourceType"] == "Bundle"
@@ -755,6 +781,7 @@ impl Validator {
         }
         let mut reference_findings = target_findings;
         if check_references {
+            reference_findings.extend(json_rules::check(resource));
             reference_findings.extend(references::check_in(
                 resource,
                 self.validation_root.as_deref().unwrap_or(resource),
@@ -892,6 +919,18 @@ fn type_matches(expected: &str, actual: &str) -> bool {
 
 fn child_resources(v: &Value) -> Vec<(String, &Value)> {
     let mut out = Vec::new();
+    if v["resourceType"] == "Parameters" {
+        fn parameters<'a>(items: &'a Value, path: &str, out: &mut Vec<(String, &'a Value)>) {
+            for (i, item) in items.as_array().into_iter().flatten().enumerate() {
+                let path = format!("{path}[{i}]");
+                if let Some(resource) = item.get("resource") {
+                    out.push((format!("{path}.resource"), resource));
+                }
+                parameters(&item["part"], &format!("{path}.part"), out);
+            }
+        }
+        parameters(&v["parameter"], "Parameters.parameter", &mut out);
+    }
     if let Some(entries) = v["entry"].as_array() {
         for (i, entry) in entries.iter().enumerate() {
             if entry.get("resource").is_some() {

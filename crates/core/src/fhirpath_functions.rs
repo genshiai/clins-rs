@@ -43,10 +43,7 @@ impl ProviderPureFunctionEvaluator for LocalFunction {
                         crate::references::resolve(context, &self.owner, reference)
                     {
                         resources.push(FhirPathValue::resource(resource.clone()));
-                    } else if !(reference.starts_with('#')
-                        || reference.starts_with("urn:uuid:")
-                        || reference.starts_with("urn:oid:"))
-                    {
+                    } else if !reference.starts_with('#') {
                         return Err(unavailable(
                             "reference target is unavailable in the supplied export",
                         ));

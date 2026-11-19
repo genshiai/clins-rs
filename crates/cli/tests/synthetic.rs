@@ -136,6 +136,9 @@ fn all_clins_discriminators_compile_and_populated_branches_are_checked() {
     let mut discharge: Value =
         serde_json::from_str(include_str!("../../core/tests/fixtures/discharge.json")).unwrap();
     discharge["entry"].as_array_mut().unwrap().push(json!({"fullUrl":"https://example.org/Bundle/nested","resource":{"resourceType":"Bundle","meta":{"profile":["http://hl7.org/fhir/StructureDefinition/Bundle"]},"type":"collection"}}));
+    // A document may not carry an unrelated Bundle; link it from Composition.
+    discharge["entry"][0]["resource"]["event"][0]["detail"] =
+        json!([{"reference":"https://example.org/Bundle/nested"}]);
     let report = service.validate(&discharge, None);
     assert_eq!(
         report.status, "valid",
@@ -154,8 +157,9 @@ fn all_clins_discriminators_compile_and_populated_branches_are_checked() {
 #[ignore = "requires pinned packages"]
 fn radiology_valueset_discriminator_checks_real_profile_and_required_category() {
     let service = service();
-    let patient: Value =
+    let mut patient: Value =
         serde_json::from_str(include_str!("../../core/tests/fixtures/patient.json")).unwrap();
+    patient["id"] = json!("p");
     let mut resource = json!({"resourceType":"Bundle","meta":{"profile":["http://hl7.org/fhir/StructureDefinition/Bundle"]},"type":"collection","entry":[{"fullUrl":"https://example.org/Patient/p","resource":patient},{"fullUrl":"https://example.org/DiagnosticReport/r","resource":{"resourceType":"DiagnosticReport","id":"r","meta":{"profile":["http://jpfhir.jp/fhir/core/StructureDefinition/JP_DiagnosticReport_Radiology"]},"status":"final","category":[{"coding":[{"system":"http://loinc.org","code":"LP29684-5"}]},{"coding":[{"system":"http://dicom.nema.org/resources/ontology/DCM","code":"CT"}]}],"code":{"coding":[{"system":"http://jpfhir.jp/fhir/core/CodeSystem/JP_DocumentCodes_CS","code":"18748-4"}]},"subject":{"reference":"https://example.org/Patient/p"}}}]});
     let report = service.validate(&resource, None);
     assert_eq!(report.status, "valid", "{}", report.outcome);

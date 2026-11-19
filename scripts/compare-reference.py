@@ -66,7 +66,7 @@ def main():
     parser.add_argument("--validator", required=True, type=Path)
     parser.add_argument("--cache-home", required=True, type=Path)
     parser.add_argument("--clins", type=Path, default=ROOT / "target/debug/clins")
-    parser.add_argument("--include-reachability-probe", action="store_true", help="Add an independently invalid document probe; current alpha.2 is known to miss it, so this run exits 1")
+    parser.add_argument("--include-reachability-probe", action="store_true", help="Add an independently invalid document probe; a missed violation produces exit 1")
     args = parser.parse_args()
     if hashlib.sha256(args.validator.read_bytes()).hexdigest() != REFERENCE_SHA256:
         parser.error("reference jar must be the pinned, unmodified HL7 validator 7.0.6")
