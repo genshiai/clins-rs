@@ -4,7 +4,10 @@ use serde_json::{Value, json};
 
 fn precision_validator() -> Service {
     let sd = json!({"resourceType":"StructureDefinition","url":"urn:exact","name":"ExactPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":[{"id":"Patient","path":"Patient","constraint":[{"key":"exact","severity":"error","human":"exact decimal","expression":"extension.where(url = 'urn:decimal').value = 9007199254740993.00000001"}]}]}});
-    Service::from_resources(vec![sd], vec![]).unwrap()
+    Service::from_resources(vec![sd, decimal_extension()], vec![]).unwrap()
+}
+fn decimal_extension() -> Value {
+    json!({"resourceType":"StructureDefinition","url":"urn:decimal","version":"1","name":"ExactDecimal","kind":"complex-type","type":"Extension","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Extension","derivation":"constraint","context":[{"type":"element","expression":"Element"}],"differential":{"element":[{"id":"Extension","path":"Extension"},{"id":"Extension.url","path":"Extension.url","fixedUri":"urn:decimal"},{"id":"Extension.value[x]","path":"Extension.value[x]","type":[{"code":"decimal"}]}]}})
 }
 #[test]
 fn decimal_precision_is_preserved_and_overflow_is_incomplete() {
@@ -122,7 +125,7 @@ fn max_length_is_enforced_on_profile_elements() {
 fn constrained(elements: Vec<Value>) -> Service {
     let mut all = vec![json!({"id":"Patient", "path":"Patient"})];
     all.extend(elements);
-    Service::from_resources(vec![json!({"resourceType":"StructureDefinition","url":"urn:bounds","name":"BoundedPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":all}})], vec![]).unwrap()
+    Service::from_resources(vec![json!({"resourceType":"StructureDefinition","url":"urn:bounds","name":"BoundedPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":all}}), decimal_extension()], vec![]).unwrap()
 }
 #[test]
 fn string_length_counts_characters_in_repeated_elements() {

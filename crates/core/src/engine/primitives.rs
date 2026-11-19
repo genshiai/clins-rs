@@ -113,6 +113,25 @@ pub(super) fn validate_primitive(ctx: &mut WalkCtx<'_>, schema: &FhirSchema, dat
             errors::msg_primitive_regex(type_name, s),
         );
     }
+    if matches!(type_name, "uri" | "url" | "canonical")
+        && let Some(id) = data
+            .as_str()
+            .and_then(|s| s.split('|').next())
+            .and_then(|s| s.strip_prefix("urn:uuid:"))
+        && !(id.len() == 36
+            && id.bytes().enumerate().all(|(i, b)| {
+                if matches!(i, 8 | 13 | 18 | 23) {
+                    b == b'-'
+                } else {
+                    b.is_ascii_digit() || (b'a'..=b'f').contains(&b)
+                }
+            }))
+    {
+        ctx.error(
+            ErrorKind::PrimitiveValue,
+            "UUID URNs must contain a valid lowercase UUID".into(),
+        );
+    }
 }
 
 /// The JSON type class a FHIR primitive requires.

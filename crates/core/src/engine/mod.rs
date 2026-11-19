@@ -18,6 +18,7 @@ mod walk;
 
 pub use errors::{ErrorKind, Severity, ValidationError};
 pub use path::dotted_to_fhirpath;
+pub(crate) use walk::resolve_element_reference;
 
 use crate::effects::Deferred;
 use crate::resolver::SchemaResolver;

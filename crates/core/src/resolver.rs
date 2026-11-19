@@ -32,6 +32,31 @@ pub trait SchemaResolver: Send + Sync {
     }
 }
 
+/// Loaded canonical definitions (including explicitly selected extension
+/// versions) override embedded fallbacks; bare built-in type names stay pinned.
+pub struct DefinitionResolver {
+    core: Arc<dyn SchemaResolver>,
+    definitions: Arc<dyn SchemaResolver>,
+}
+impl DefinitionResolver {
+    pub fn new(core: Arc<dyn SchemaResolver>, definitions: Arc<dyn SchemaResolver>) -> Self {
+        Self { core, definitions }
+    }
+}
+impl SchemaResolver for DefinitionResolver {
+    fn resolve(&self, reference: &str) -> Option<Arc<FhirSchema>> {
+        if reference.contains(':') {
+            self.definitions
+                .resolve(reference)
+                .or_else(|| self.core.resolve(reference))
+        } else {
+            self.core
+                .resolve(reference)
+                .or_else(|| self.definitions.resolve(reference))
+        }
+    }
+}
+
 /// In-memory schema registry.
 ///
 /// Schemas are indexed under every identity they carry: the explicit key they
@@ -97,6 +122,10 @@ impl SchemaRegistry {
             self.map.insert(name, Arc::clone(&schema));
         }
         self.map.insert(key, schema);
+    }
+    /// Add an exact version alias without changing the default canonical.
+    pub fn insert_alias(&mut self, key: String, schema: FhirSchema) {
+        self.map.insert(key, Arc::new(schema));
     }
 
     /// Insert a schema under its own `url` and `name`.

@@ -67,6 +67,26 @@ pub fn local(
 
 pub fn trivial(resource: &Value, c: &DeferredConstraint<'_>) -> Option<ConstraintOutcome> {
     let node = focus(resource, c.path)?;
+    if c.id == "tim-9"
+        && c.expression
+            == "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))"
+    {
+        // `when` is repeating. The R4 expression uses singleton-only `in`;
+        // implement the stated rule over all entries instead of losing the
+        // check on a valid multi-valued Timing.repeat.when collection.
+        let passed = node.get("offset").is_none()
+            || node["when"].as_array().is_some_and(|when| {
+                !when.is_empty()
+                    && when
+                        .iter()
+                        .all(|v| !matches!(v.as_str(), Some("C" | "CM" | "CD" | "CV")))
+            });
+        return Some(if passed {
+            ConstraintOutcome::Passed
+        } else {
+            ConstraintOutcome::Failed
+        });
+    }
     // Exact JP-CLINS 1.13.0 expression. Without sharing indications the left
     // side of its OR is true, so memberOf does not need to execute.
     if c.id == "check-LTS-PTS-MemberOf-infectionLabo"

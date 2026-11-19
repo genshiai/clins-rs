@@ -31,6 +31,9 @@ pub struct Package {
     pub source: String,
 }
 
+mod attachments;
+mod authoring;
+mod ecl;
 mod invariants;
 mod json_rules;
 mod narrative;
@@ -50,7 +53,7 @@ use crate::effects::{ConstraintEvaluator, ConstraintOutcome, Deferred, DeferredC
 use crate::engine::{
     ErrorKind, Severity, UnknownProfilePolicy, ValidationOptions, Validator as StructuralValidator,
 };
-use crate::resolver::{CompositeResolver, SchemaRegistry, SchemaResolver};
+use crate::resolver::{SchemaRegistry, SchemaResolver};
 use schema::{FhirSchema, Match};
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -88,6 +91,7 @@ pub struct Validator {
     pub definitions: Arc<Vec<Definition>>,
     pub packages: Vec<Package>,
     terminology: Arc<terminology::Terminology>,
+    authoring: Arc<authoring::Definitions>,
     evaluator: Arc<fhirpath::FhirPathConstraintEvaluator>,
     validation_depth: usize,
     validation_root: Option<Arc<Value>>,
@@ -142,10 +146,12 @@ impl Validator {
         let mut definitions = Vec::new();
         let mut seen = HashSet::new();
         let mut terminology = terminology::Terminology::default();
+        let mut authoring = authoring::Definitions::default();
         let mut resource_types = HashMap::new();
         let mut pending_schemas = Vec::new();
         let mut core_aliases = Vec::new();
         for sd in resources {
+            authoring.insert(&sd);
             if sd["resourceType"] != "StructureDefinition" {
                 terminology.insert(sd);
                 continue;
@@ -159,11 +165,9 @@ impl Validator {
             {
                 resource_types.insert(url.clone(), typ.to_owned());
             }
-            ensure!(
-                seen.insert(url.clone()),
-                "duplicate definition canonical: {url}"
-            );
-            if let Some(schema) = core.resolve(&url) {
+            if let Some(schema) = core.resolve(&url)
+                && !(schema.kind.as_deref() == Some("extension") && sd["version"] != "4.0.1")
+            {
                 ensure!(
                     !packages.is_empty(),
                     "cannot replace core definition: {url}"
@@ -177,6 +181,10 @@ impl Validator {
                 }
                 continue;
             }
+            ensure!(
+                seen.insert(url.clone()),
+                "duplicate definition canonical: {url}"
+            );
             ensure!(
                 sd["fhirVersion"].as_str().is_none_or(|v| v == "4.0.1")
                     || (sd["fhirVersion"] == "4.0.0"
@@ -222,7 +230,7 @@ impl Validator {
                 conversion_warnings: converted.warnings,
             });
         }
-        let initial = CompositeResolver::new(vec![core.clone(), Arc::new(profiles)]);
+        let initial = resolver::DefinitionResolver::new(core.clone(), Arc::new(profiles));
         let mut profiles = SchemaRegistry::new();
         for (key, mut schema, index) in pending_schemas {
             profiles::inherit(
@@ -238,17 +246,18 @@ impl Validator {
             profiles.insert_named(key, schema);
         }
         for (key, schema) in core_aliases {
-            profiles.insert_named(key, schema);
+            profiles.insert_alias(key, schema);
         }
         // Core names must not be shadowed by profile names (e.g. Patient).
         let resolver: Arc<dyn SchemaResolver> =
-            Arc::new(CompositeResolver::new(vec![core, Arc::new(profiles)]));
+            Arc::new(resolver::DefinitionResolver::new(core, Arc::new(profiles)));
         Ok(Self {
             resource_types: Arc::new(resource_types),
             resolver,
             definitions: Arc::new(definitions),
             packages,
             terminology: Arc::new(terminology),
+            authoring: Arc::new(authoring),
             evaluator: Arc::new(fhirpath::FhirPathConstraintEvaluator::new()),
             validation_depth: 0,
             validation_root: None,
@@ -494,9 +503,9 @@ impl Validator {
         let mut invalid = false;
         let mut incomplete = false;
         let mut deferred_checks = 0;
-        // Structural SD validation does not cover the authoring semantics that
-        // the upstream audit exposed for these resource types. Never claim
-        // completion until those specialized checks have been implemented.
+        // The specialized checks in `authoring` cover only part of the upstream
+        // semantics for these resource types. Detected violations still make the
+        // report invalid, but absence of findings must not be reported as valid.
         if matches!(
             resource["resourceType"].as_str(),
             Some(
@@ -512,7 +521,7 @@ impl Validator {
             issues.push(issue(
                 "warning",
                 "not-supported",
-                "このリソース種別の専用意味検証は未完了です。構造検証だけでは適合と判断できません",
+                "このリソース種別の専用意味検証は一部のみ実装です。検出されなかったことは適合を意味しません",
                 resource["resourceType"].as_str().unwrap_or("Resource"),
             ));
         }
@@ -625,13 +634,13 @@ impl Validator {
             ));
         } else {
             let opts = ValidationOptions {
+                check_extension_context: true,
                 use_meta_profiles: !self.selected_profile_only,
                 profiles: profile
                     .into_iter()
                     .chain(extra_profiles.iter().cloned())
                     .collect(),
                 unknown_profile: UnknownProfilePolicy::Error,
-                ..Default::default()
             };
             let result =
                 StructuralValidator::new(self.instance_resolver()).validate_sync(resource, &opts);
@@ -760,12 +769,14 @@ impl Validator {
                     deferred_checks += 1;
                 }
                 incomplete |= missing;
-                invalid |= !missing && error.severity == Severity::Error;
-                let severity = if missing || error.severity == Severity::Warning {
-                    "warning"
-                } else {
-                    "error"
-                };
+                let context_violation = error.kind == ErrorKind::ExtensionContext;
+                invalid |= !missing && (error.severity == Severity::Error || context_violation);
+                let severity =
+                    if missing || (error.severity == Severity::Warning && !context_violation) {
+                        "warning"
+                    } else {
+                        "error"
+                    };
                 let code = if missing {
                     "not-supported"
                 } else {
@@ -780,8 +791,19 @@ impl Validator {
             }
         }
         let mut reference_findings = target_findings;
+        if !fragment {
+            reference_findings.extend(authoring::check(
+                resource,
+                &self.authoring,
+                self.resolver.as_ref(),
+            ));
+        }
         if check_references {
             reference_findings.extend(json_rules::check(resource));
+            reference_findings.extend(narrative::check_links(
+                resource,
+                self.validation_root.as_deref().unwrap_or(resource),
+            ));
             reference_findings.extend(references::check_in(
                 resource,
                 self.validation_root.as_deref().unwrap_or(resource),

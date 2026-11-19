@@ -296,6 +296,26 @@ pub(super) fn validate_node(ctx: &mut WalkCtx<'_>, set: &SchemaSet, data: &Value
         set
     };
 
+    // An unsliced extension still claims the definition identified by its URL.
+    // Checking only explicitly sliced extensions loses value[x], cardinality,
+    // modifier and invariant restrictions on ordinary extensions.
+    let mut extension_set;
+    let set = if ctx.check_extension_context
+        && set
+            .schemas()
+            .any(|s| s.type_.as_deref() == Some("Extension"))
+        && let Some(url) = data["url"].as_str().filter(|u| u.contains(':'))
+    {
+        extension_set = set.clone();
+        match ctx.resolver.resolve(url) {
+            Some(schema) => add_schemas_to_set(ctx, &mut extension_set, schema, url),
+            None => ctx.error(ErrorKind::UnknownSchema, errors::msg_unknown_schema(url)),
+        }
+        &extension_set
+    } else {
+        set
+    };
+
     eval_validators(ctx, set, data);
 
     let Some(obj) = data.as_object() else {
@@ -316,7 +336,14 @@ pub(super) fn validate_node(ctx: &mut WalkCtx<'_>, set: &SchemaSet, data: &Value
         {
             handle_sidecar(ctx, set, key, base_key, value);
         } else {
-            eval_element(ctx, set, &mut multi_choice, key, value);
+            eval_element(
+                ctx,
+                set,
+                &mut multi_choice,
+                key,
+                value,
+                obj.get("resourceType").and_then(Value::as_str),
+            );
         }
         ctx.path.pop();
     }
@@ -336,6 +363,11 @@ fn eval_validators(ctx: &mut WalkCtx<'_>, set: &SchemaSet, data: &Value) {
     // Clone the Arcs up front: keyword validators need `&mut ctx` while the
     // set is borrowed, and Arc clones are cheap.
     let schemas: Vec<Arc<FhirSchema>> = set.schemas().cloned().collect();
+    if set.contains_key("Attachment") {
+        for message in crate::attachments::check(data) {
+            ctx.error(ErrorKind::PrimitiveValue, message);
+        }
+    }
     for schema in &schemas {
         for (kind, message) in crate::value_constraints::check(schema, data) {
             ctx.error(kind, message);
@@ -463,6 +495,7 @@ fn eval_element(
     multi_choice: &mut IndexMap<String, Vec<String>>,
     key: &str,
     value: &Value,
+    resource_type: Option<&str>,
 ) {
     let mut elset = SchemaSet::new();
     collect_schemas_for_element(ctx, set, &mut elset, multi_choice, key);
@@ -487,7 +520,7 @@ fn eval_element(
         // warning (#615). Runs for every item, sliced or not — placement is
         // orthogonal to slicing.
         if ctx.check_extension_context && (key == "extension" || key == "modifierExtension") {
-            check_extension_context(ctx, items);
+            check_extension_context(ctx, items, set, resource_type);
         }
 
         // Whole-collection keywords, per schema: min then max.
@@ -523,24 +556,25 @@ fn eval_element(
     }
 }
 
-/// Warn when an extension item is used outside its declared context (#615).
-///
-/// Conservative on purpose, twice over. Only extensions at the **resource
-/// root** are judged: an element-level instance path cannot be compared to a
-/// declared context without mapping it back to the StructureDefinition path
-/// (recursive elements — `Questionnaire.item.item` — collapse to
-/// `Questionnaire.item` there, and the spec's own examples falsified the
-/// naive comparison at scale). And only element-type contexts that read as
-/// resource-rooted paths are judged: a context naming a datatype
-/// (`HumanName`), an `Element`/`Resource`/`DomainResource` catch-all, or a
-/// FHIRPath expression makes the extension unjudgeable here and passes
-/// silently. Unknown urls and relative (sub-extension) urls always pass.
-fn check_extension_context(ctx: &mut WalkCtx<'_>, items: &[Value]) {
-    let parent = ctx.path.parent_element_path();
-    // Root only: the parent path is bare `ResourceType` with no dots.
-    if parent.is_empty() || parent.contains('.') {
-        return;
-    }
+/// Compare declared element contexts with schema identities, including datatype
+/// paths and contentReference targets, rather than only the instance root path.
+fn check_extension_context(
+    ctx: &mut WalkCtx<'_>,
+    items: &[Value],
+    owner: &SchemaSet,
+    resource_type: Option<&str>,
+) {
+    let parent = ctx
+        .path
+        .parent_element_path()
+        .split('.')
+        .map(|s| s.strip_prefix('_').unwrap_or(s))
+        .collect::<Vec<_>>()
+        .join(".");
+    let identities: HashSet<_> = owner
+        .iter()
+        .map(|(k, _)| k.replace(".elements.", "."))
+        .collect();
 
     for (index, item) in items.iter().enumerate() {
         let Some(url) = item.get("url").and_then(Value::as_str) else {
@@ -557,15 +591,11 @@ fn check_extension_context(ctx: &mut WalkCtx<'_>, items: &[Value]) {
         };
 
         let judgeable = |c: &String| {
-            // A resource-rooted element path: dotted segments, the first of
-            // which resolves to a resource schema. Everything else (datatype
-            // names, catch-alls, FHIRPath) is out of this check's reach.
-            !matches!(c.as_str(), "Element" | "Resource" | "DomainResource")
-                && c.chars().all(|ch| ch.is_ascii_alphanumeric() || ch == '.')
+            c.chars().all(|ch| ch.is_ascii_alphanumeric() || ch == '.')
                 && c.split('.')
                     .next()
                     .and_then(|head| ctx.resolver.resolve(head))
-                    .is_some_and(|s| s.kind.as_deref() == Some("resource"))
+                    .is_some()
         };
         if !contexts.iter().all(judgeable) {
             continue;
@@ -573,7 +603,20 @@ fn check_extension_context(ctx: &mut WalkCtx<'_>, items: &[Value]) {
         // An element-type context names one exact spot: `Patient` is the
         // resource root, `Patient.name` that element — not "anywhere in
         // Patient".
-        if contexts.contains(&parent) {
+        if contexts.iter().any(|c| {
+            c == "Element"
+                || Some(c.as_str()) == resource_type
+                || c == &parent
+                || identities.contains(c)
+        }) {
+            continue;
+        }
+        // R4 declares this extension on ElementDefinition.type.code, but the
+        // published R4 definitions place it on ElementDefinition.type. The
+        // reference validator (7.0.6) accepts exactly this placement too.
+        if url == "http://hl7.org/fhir/StructureDefinition/structuredefinition-fhir-type"
+            && identities.contains("ElementDefinition.type")
+        {
             continue;
         }
 
@@ -624,6 +667,14 @@ fn handle_sidecar(
     };
     let mut element_set = SchemaSet::new();
     add_schemas_to_set(ctx, &mut element_set, element_schema, "Element");
+    // Keep the primitive's identities for context matching, without applying
+    // primitive value checks to the JSON sidecar object itself.
+    for (identity, _) in base_elset.iter() {
+        element_set
+            .map
+            .entry(identity.into())
+            .or_insert_with(|| Arc::new(FhirSchema::default()));
+    }
 
     match value {
         Value::Array(items) => {
