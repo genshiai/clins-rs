@@ -43,7 +43,9 @@ JSON is not round-tripped through a JavaScript Number or Python float at binding
 The evaluator's exact numeric parser refuses values beyond rust_decimal's supported range;
 those FHIRPath obligations become incomplete instead of rounding or substituting zero.
 Preserving arbitrary source precision does not mean arbitrary-precision FHIRPath arithmetic
-has been implemented. A future BigDecimal evaluator would require separate semantic tests.
+has been implemented. The development tree now uses BigDecimal for structural numeric bounds. This does not
+replace the FHIRPath evaluator's bounded arithmetic; a BigDecimal FHIRPath evaluator still
+requires separate implementation and semantic tests.
 
 Core/API evolution is independent of the adapted algorithm's original names. Keeping the MIT
 modules private allows incremental replacement without changing Python/TS/Kotlin signatures.

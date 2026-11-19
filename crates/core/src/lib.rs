@@ -35,6 +35,7 @@ mod narrative;
 mod profiles;
 mod references;
 mod terminology;
+mod value_constraints;
 use std::{
     collections::{HashMap, HashSet},
     sync::Arc,
@@ -657,8 +658,13 @@ impl Validator {
             for error in result.errors {
                 let missing = matches!(
                     error.kind,
-                    ErrorKind::UnknownSchema | ErrorKind::UnknownProfile
+                    ErrorKind::UnknownSchema
+                        | ErrorKind::UnknownProfile
+                        | ErrorKind::UnsupportedConstraint
                 );
+                if error.kind == ErrorKind::UnsupportedConstraint {
+                    deferred_checks += 1;
+                }
                 incomplete |= missing;
                 invalid |= !missing && error.severity == Severity::Error;
                 let severity = if missing || error.severity == Severity::Warning {

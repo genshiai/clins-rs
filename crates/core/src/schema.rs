@@ -116,6 +116,14 @@ pub struct FhirSchema {
     /// Value must be deeply equal to this constant.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub fixed: Option<Value>,
+    /// Maximum Unicode scalar count, independent of UTF-8 byte length.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_length: Option<u64>,
+    /// Inclusive numeric bounds, kept as exact JSON decimal tokens.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub min_value: Option<Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_value: Option<Value>,
     /// Value must partially match this constant (pattern keys present and
     /// equal; extra data keys permitted).
     #[serde(skip_serializing_if = "Option::is_none")]

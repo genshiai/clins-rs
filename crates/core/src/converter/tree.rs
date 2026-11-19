@@ -13,6 +13,7 @@
 use super::{Ed, EdConstraint, EdDiscriminator};
 use crate::schema::{Binding, Constraint, FhirSchema};
 use indexmap::IndexMap;
+use serde_json::Value;
 use std::sync::Arc;
 
 /// One `id` step: an element name plus an optional slice name.
@@ -272,7 +273,7 @@ fn apply_element_content(element: &mut Node, ed: &Ed, warnings: &mut Vec<String>
 
 /// Binding, constraints, fixed/pattern — the keywords that apply to a value
 /// wherever the ED lands (plain element, choice branch, or slice schema).
-fn apply_value_keywords(schema: &mut FhirSchema, ed: &Ed, _warnings: &mut Vec<String>) {
+pub(super) fn apply_value_keywords(schema: &mut FhirSchema, ed: &Ed, _warnings: &mut Vec<String>) {
     if let Some(binding) = &ed.binding
         && let Some(value_set) = &binding.value_set
     {
@@ -282,6 +283,34 @@ fn apply_value_keywords(schema: &mut FhirSchema, ed: &Ed, _warnings: &mut Vec<St
         });
     }
     apply_constraints(schema, &ed.constraint, false);
+    if let Some(limit) = ed.rest.get("maxLength").and_then(Value::as_u64) {
+        schema.max_length = Some(schema.max_length.map_or(limit, |old| old.min(limit)));
+    }
+    for (key, value) in &ed.rest {
+        if !value.is_number() {
+            continue;
+        }
+        if matches!(
+            key.as_str(),
+            "minValueDecimal" | "minValueInteger" | "minValuePositiveInt" | "minValueUnsignedInt"
+        ) {
+            schema.min_value = crate::value_constraints::intersection(
+                schema.min_value.as_ref(),
+                Some(value),
+                true,
+            );
+        }
+        if matches!(
+            key.as_str(),
+            "maxValueDecimal" | "maxValueInteger" | "maxValuePositiveInt" | "maxValueUnsignedInt"
+        ) {
+            schema.max_value = crate::value_constraints::intersection(
+                schema.max_value.as_ref(),
+                Some(value),
+                false,
+            );
+        }
+    }
     for (key, value) in &ed.rest {
         if let Some(rest) = key.strip_prefix("fixed")
             && !rest.is_empty()

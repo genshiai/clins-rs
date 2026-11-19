@@ -18,9 +18,20 @@ pub fn complete(sd: &Value, schema: &mut FhirSchema, warnings: &mut Vec<String>)
     {
         if let Some(properties) = element.as_object() {
             for key in properties.keys().filter(|key| {
-                key.as_str() == "maxLength"
-                    || key.starts_with("minValue")
-                    || key.starts_with("maxValue")
+                let numeric_bound = matches!(
+                    key.as_str(),
+                    "minValueDecimal"
+                        | "minValueInteger"
+                        | "minValuePositiveInt"
+                        | "minValueUnsignedInt"
+                        | "maxValueDecimal"
+                        | "maxValueInteger"
+                        | "maxValuePositiveInt"
+                        | "maxValueUnsignedInt"
+                ) && properties[*key].is_number();
+                (key.as_str() == "maxLength" && properties[*key].as_u64().is_none())
+                    || ((key.starts_with("minValue") || key.starts_with("maxValue"))
+                        && !numeric_bound)
             }) {
                 warnings.push(format!(
                     "unsupported element constraint {key} at {}",

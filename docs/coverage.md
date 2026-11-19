@@ -31,9 +31,10 @@ profiles**: referral Observation/profile reslicing (2), discharge nested Bundle 
 on the affected populated element/resource type. Their count is not a count of all unfinished
 FHIR semantics. `resolve()`, general `memberOf()` and `conformsTo()` invariants without an
 appropriate local implementation, nested root-resource context, arbitrary terminology filters,
-and unresolvable external targets remain incomplete. Additional external profile constraints
-`maxLength` / `minValue[x]` / `maxValue[x]` are explicitly reported as incomplete; they are not
-silently dropped. R4 signed, unsigned and positive integer primitive bounds are enforced.
+and unresolvable external targets remain incomplete. In development after v0.1.0-alpha.1, `maxLength` and numeric `minValue[x]` /
+`maxValue[x]` are enforced (inclusive exact-decimal comparisons). The published alpha.1
+artifacts still report those constraints as incomplete. Date/time and Quantity bounds
+remain incomplete; canonical unit conversion and relative clock bounds are not implemented. R4 signed, unsigned and positive integer primitive bounds are enforced.
 
 The two discharge slices reference the same generic JP Bundle profile, so their descriptions
 alone are not treated as a machine-readable discriminator. The implementation does not invent

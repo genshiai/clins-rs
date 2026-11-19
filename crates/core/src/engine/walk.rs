@@ -337,6 +337,9 @@ fn eval_validators(ctx: &mut WalkCtx<'_>, set: &SchemaSet, data: &Value) {
     // set is borrowed, and Arc clones are cheap.
     let schemas: Vec<Arc<FhirSchema>> = set.schemas().cloned().collect();
     for schema in &schemas {
+        for (kind, message) in crate::value_constraints::check(schema, data) {
+            ctx.error(kind, message);
+        }
         if schema.is_primitive() {
             super::primitives::validate_primitive(ctx, schema, data);
         }
@@ -776,6 +779,21 @@ fn merge_extension_schema(entry: &FhirSchema, resolved: Option<&FhirSchema>) -> 
             })*
         };
     }
+    out.max_length = match (entry.max_length, r.max_length) {
+        (Some(a), Some(b)) => Some(a.min(b)),
+        (a, b) => a.or(b),
+    };
+    out.min_value = crate::value_constraints::intersection(
+        entry.min_value.as_ref(),
+        r.min_value.as_ref(),
+        true,
+    );
+    out.max_value = crate::value_constraints::intersection(
+        entry.max_value.as_ref(),
+        r.max_value.as_ref(),
+        false,
+    );
+
     overlay!(
         url,
         name,

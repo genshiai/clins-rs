@@ -41,3 +41,11 @@ on macOS does not establish Windows, Android or Kotlin Multiplatform support. Te
 are test functions, not numbers of CLINS rules. Registry publication and national service
 connection testing are not implied by successful builds. Consult release notes for actual
 CI run links, attached artifact classifiers and registry channels.
+
+## Development following v0.1.0-alpha.1
+
+Unicode character-count maxLength and inclusive integer/decimal minValue/maxValue
+checks have been added to the structural walker. Regression cases cover repeat elements,
+choice branches, extension values, equal boundaries and decimal distinctions beyond f64.
+Date/time and Quantity constraints remain explicitly incomplete. Published alpha.1 artifacts
+are unchanged; a new release is required to distribute the new behavior.

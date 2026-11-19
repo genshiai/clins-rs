@@ -109,12 +109,114 @@ fn enforces_signed_unsigned_and_positive_r4_integer_domains() {
     }
 }
 #[test]
-fn unsupported_element_constraints_are_never_silently_accepted() {
+fn max_length_is_enforced_on_profile_elements() {
     let sd = json!({"resourceType":"StructureDefinition","url":"urn:max-length","name":"ShortPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":[{"id":"Patient","path":"Patient"},{"id":"Patient.name.family","path":"Patient.name.family","maxLength":2}]}});
     let v = Service::from_resources(vec![sd], vec![]).unwrap();
     let r = v.validate(
         &json!({"resourceType":"Patient","name":[{"family":"long name"}]}),
         Some("urn:max-length".into()),
     );
-    assert_eq!(r.status, "incomplete");
+    assert_eq!(r.status, "invalid");
+}
+
+fn constrained(elements: Vec<Value>) -> Service {
+    let mut all = vec![json!({"id":"Patient", "path":"Patient"})];
+    all.extend(elements);
+    Service::from_resources(vec![json!({"resourceType":"StructureDefinition","url":"urn:bounds","name":"BoundedPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":all}})], vec![]).unwrap()
+}
+#[test]
+fn string_length_counts_characters_in_repeated_elements() {
+    let v = constrained(vec![
+        json!({"id":"Patient.name.family","path":"Patient.name.family","maxLength":2}),
+    ]);
+    for name in ["山田", "😀😀", "ab"] {
+        assert_eq!(
+            v.validate(
+                &json!({"resourceType":"Patient","name":[{"family":name}]}),
+                Some("urn:bounds".into())
+            )
+            .status,
+            "valid"
+        );
+    }
+    let r = v.validate(
+        &json!({"resourceType":"Patient","name":[{"family":"山田"},{"family":"山田太"}]}),
+        Some("urn:bounds".into()),
+    );
+    assert_eq!(r.status, "invalid");
+    assert!(
+        r.outcome["issue"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|i| i["expression"][0] == "Patient.name[1].family")
+    );
+}
+#[test]
+fn numeric_bounds_are_inclusive_and_preserve_decimal_precision() {
+    let v = constrained(vec![
+        json!({"id":"Patient.multipleBirth[x]:multipleBirthInteger","path":"Patient.multipleBirth[x]","sliceName":"multipleBirthInteger","minValueInteger":2,"maxValueInteger":4,"type":[{"code":"integer"}]}),
+    ]);
+    for (value, expected) in [
+        (1, "invalid"),
+        (2, "valid"),
+        (3, "valid"),
+        (4, "valid"),
+        (5, "invalid"),
+    ] {
+        let r = v.validate(
+            &json!({"resourceType":"Patient","multipleBirthInteger":value}),
+            Some("urn:bounds".into()),
+        );
+        assert_eq!(r.status, expected, "{}", r.outcome);
+    }
+    let v=constrained(vec![json!({"id":"Patient.extension", "path":"Patient.extension", "slicing":{"discriminator":[{"type":"value","path":"url"}],"rules":"open"}}),json!({"id":"Patient.extension:decimal","path":"Patient.extension","sliceName":"decimal","type":[{"code":"Extension"}]}),json!({"id":"Patient.extension:decimal.url","path":"Patient.extension.url","fixedUri":"urn:decimal"}),serde_json::from_str(r#"{"id":"Patient.extension:decimal.value[x]","path":"Patient.extension.value[x]","type":[{"code":"decimal"}],"minValueDecimal":9007199254740993.00000001,"maxValueDecimal":9007199254740993.00000002}"#).unwrap()]);
+    for (suffix, expected) in [
+        ("00000000", "invalid"),
+        ("00000001", "valid"),
+        ("00000002", "valid"),
+        ("00000003", "invalid"),
+    ] {
+        let input = format!(
+            r#"{{"resourceType":"Patient","extension":[{{"url":"urn:decimal","valueDecimal":9007199254740993.{suffix}}}]}}"#
+        );
+        let r = v.validate_json(&input, Some("urn:bounds".into())).unwrap();
+        assert_eq!(r.status, expected, "{}", r.outcome);
+    }
+}
+#[test]
+fn date_and_quantity_bounds_remain_explicitly_incomplete() {
+    for bound in [
+        json!({"minValueDate":"2020-01-01"}),
+        json!({"maxValueQuantity":{"value":10,"unit":"g"}}),
+    ] {
+        let mut element = json!({"id":"Patient.birthDate","path":"Patient.birthDate"});
+        element
+            .as_object_mut()
+            .unwrap()
+            .extend(bound.as_object().unwrap().clone());
+        let v = constrained(vec![element]);
+        assert_eq!(
+            v.validate(
+                &json!({"resourceType":"Patient","birthDate":"2021-01-01"}),
+                Some("urn:bounds".into())
+            )
+            .status,
+            "incomplete"
+        );
+    }
+}
+
+#[test]
+fn primitive_profile_root_and_value_constraints_are_both_retained() {
+    let primitive = json!({"resourceType":"StructureDefinition","url":"urn:short-string","name":"ShortString","version":"1","kind":"primitive-type","type":"string","fhirVersion":"4.0.1","derivation":"constraint","baseDefinition":"http://hl7.org/fhir/StructureDefinition/string","differential":{"element":[{"id":"string","path":"string","maxLength":2},{"id":"string.value","path":"string.value","type":[{"code":"string","extension":[{"url":"http://hl7.org/fhir/StructureDefinition/regex","valueString":"[\\s\\S]+"}]}]}]}});
+    let parent = json!({"resourceType":"StructureDefinition","url":"urn:short-patient","name":"ShortPatient","version":"1","kind":"resource","type":"Patient","fhirVersion":"4.0.1","baseDefinition":"http://hl7.org/fhir/StructureDefinition/Patient","derivation":"constraint","differential":{"element":[{"id":"Patient","path":"Patient"},{"id":"Patient.name.family","path":"Patient.name.family","type":[{"code":"string","profile":["urn:short-string"]}]}]}});
+    let v = Service::from_resources(vec![primitive, parent], vec![]).unwrap();
+    for (name, expected) in [("山田", "valid"), ("山田太", "invalid")] {
+        let r = v.validate(
+            &json!({"resourceType":"Patient","name":[{"family":name}]}),
+            Some("urn:short-patient".into()),
+        );
+        assert_eq!(r.status, expected, "{}", r.outcome);
+    }
 }

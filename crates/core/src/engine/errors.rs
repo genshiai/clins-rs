@@ -52,6 +52,8 @@ pub enum ErrorKind {
     // ------------------------------------------------------------------
     /// A primitive value failed its type-class or regex check.
     PrimitiveValue,
+    /// A present value could not be compared within the configured numeric budget.
+    UnsupportedConstraint,
     /// An array item matched no slice under `rules: closed`, or an unmatched
     /// item preceded matched items under `rules: openAtEnd`.
     SliceUnmatched,

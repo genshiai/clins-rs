@@ -36,7 +36,7 @@ pub(super) fn convert_primitive(
         warnings.push(format!("primitive '{sd_type}': no value regex found"));
     }
 
-    FhirSchema {
+    let mut schema = FhirSchema {
         url: Some(url),
         name,
         kind: Some(crate::schema::kind::PRIMITIVE_TYPE.to_string()),
@@ -44,5 +44,12 @@ pub(super) fn convert_primitive(
         type_: Some(sd_type.to_string()),
         regex,
         ..Default::default()
+    };
+    for element in elements
+        .iter()
+        .filter(|ed| ed.path == sd_type || ed.path == value_path)
+    {
+        super::tree::apply_value_keywords(&mut schema, element, warnings);
     }
+    schema
 }
