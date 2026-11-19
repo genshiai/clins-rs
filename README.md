@@ -31,6 +31,7 @@ See [technical decisions](docs/architecture.md) and [third party notices](THIRD_
 ## Rust / CLI / HTTP
 
 Rust **1.98+** is required. The lockfile pins the tested dependency graph.
+After cloning, use the commands below; `cargo install --git https://github.com/genshiai/clins-rs --locked clins-cli` also installs the CLI from source.
 
 ```sh
 cargo build --locked --release -p clins-cli

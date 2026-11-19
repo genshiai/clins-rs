@@ -36,5 +36,4 @@ v.free();
 parsing resource decimals into JS Numbers before calling the SDK can lose precision.
 The definition bundle is separate public reference data. For large documents use a Web Worker
 to keep the page responsive. No network request is made by validation.
-This alpha's runtime verification matrix is in `docs/verification.md`; Node compatibility
-of the ESM API is distinct from whether Node was included in a particular test run.
+This alpha is exercised on Chromium, Bun 1.4.4 and Node 24.22.2; see the repository verification record for the actual platform matrix.

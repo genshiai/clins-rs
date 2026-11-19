@@ -13,7 +13,7 @@
     "./wasm": "./pkg/clins_ts_bg.wasm"
   },
   "scripts": {
-    "test": "bun test"
+    "test": "bun test tests/validator.test.ts"
   },
   "repository": "https://github.com/genshiai/clins-rs",
   "devDependencies": {

@@ -1,7 +1,7 @@
 # Verification record
 
 Local verification: macOS / Apple Silicon, Rust 1.99.1, Bun 1.4.4,
-Python 3.14 with a Python 3.10+ abi3 wheel, Kotlin 2.4.21 / JDK 21 / Gradle 9.7.0.
+Python 3.14 with a Python 3.10+ abi3 wheel, Node 24.22.2, Kotlin 2.4.21 / JDK 21 / Gradle 9.7.0.
 
 - Rust formatting, warning-free clippy and unit/integration gate, including Core decimal
   precision, oversized/malformed/duplicate JSON, nested finding paths, CLI exit codes,
@@ -9,10 +9,11 @@ Python 3.14 with a Python 3.10+ abi3 wheel, Kotlin 2.4.21 / JDK 21 / Gradle 9.7.
 - Checksum-pinned official patient examples and mutations; all eight independent synthetic
   document/information fixtures and their negative mutations.
 - Python wheel installation and R4 + CLINS positive/negative SDK tests.
-- TypeScript declarations, Bun ESM + WASM tests and Chromium browser execution of R4
+- TypeScript declarations, Bun and Node ESM + WASM tests and Chromium browser execution of R4
   and all eight CLINS/R4 fixtures.
 - Kotlin generated API, native library loading, JVM tests, jar/native classifier,
-  sources and local Maven repository preparation.
+  sources and local Maven repository preparation. The JVM tests load the native library
+  from the classifier jar on their classpath rather than a developer library path.
 
 Run the Rust gate:
 
@@ -28,7 +29,8 @@ maturin build --locked --manifest-path bindings/python/Cargo.toml --out dist
 python -m pip install --force-reinstall --no-deps dist/clins_py-*.whl
 python -m unittest discover -s bindings/python/tests
 ./scripts/build-wasm.sh
-bun test bindings/typescript/tests
+bun test bindings/typescript/tests/validator.test.ts
+node --test bindings/typescript/tests/node.test.mjs
 (cd bindings/typescript && bun install --frozen-lockfile && bunx tsc && bunx playwright install chromium && bunx playwright test)
 (cd bindings/kotlin && ./gradlew test jar nativeJar publishAllPublicationsToLocalBuildRepository --no-daemon)
 ```
