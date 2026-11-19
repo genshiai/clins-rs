@@ -8,6 +8,7 @@ use octofhir_fhirpath::{
 };
 use octofhir_fhirpath::{
     ast::ExpressionNode,
+    core::trace::create_noop_provider,
     evaluator::{Evaluator, create_standard_operator_registry},
 };
 use serde_json::Value;
@@ -141,7 +142,9 @@ impl ConstraintEvaluator for FhirPathConstraintEvaluator {
                             self.model.clone(),
                             None,
                             None,
-                            None,
+                            // Core invariants such as dom-3 and ref-1 call trace(); without a
+                            // provider the engine writes TRACE[...] lines to the host's stderr.
+                            Some(create_noop_provider()),
                         );
                         context.set_variable(
                             "resource".into(),
