@@ -10,7 +10,8 @@ Java alone rejected 32 cases and Rust alone rejected 6. The current release can 
 `valid` for cases with invalid Resource.id syntax, empty arrays, or disconnected document
 resources. Do not use its `valid` result alone as a conformance or transmission decision.
 See the [audit, denominators, incomplete results and environment differences](docs/audits/2026-11-19-validation-audit.ja.md).
-Main now includes [first-pass fixes](docs/audits/2026-11-19-fix-pass-1.ja.md), separately recording
+Main now includes [first-pass](docs/audits/2026-11-19-fix-pass-1.ja.md) and [second-pass](docs/audits/2026-11-19-fix-pass-2.ja.md) fixes
+(43 of 146 upstream cases remain incomplete), separately recording
 implemented checks and incomplete specialized semantics. Published alpha.2 assets are unchanged.
 
 **Experimental alpha.** `valid` means the applicable implemented machine checks passed.

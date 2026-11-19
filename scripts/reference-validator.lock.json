@@ -1,0 +1,45 @@
+{
+  "validator": {
+    "version": "7.0.6",
+    "source": "https://github.com/hapifhir/org.hl7.fhir.core/releases/download/7.0.6/validator_cli.jar",
+    "sha256": "2686590539f0b3ba7683149b25d78249f6886c04e2c326e884c5049d8947df89"
+  },
+  "support_packages": [
+    {
+      "name": "hl7.fhir.xver-extensions",
+      "version": "0.1.0",
+      "source": "https://packages.fhir.org/hl7.fhir.xver-extensions/0.1.0",
+      "sha256": "f3bb9fa2083402e88a02b41f433655274e8a1cca563211c8f7ba6fd0badf537a"
+    },
+    {
+      "name": "hl7.terminology.r4",
+      "version": "6.2.0",
+      "source": "https://packages.fhir.org/hl7.terminology.r4/6.2.0",
+      "sha256": "79404c9cc95491fc0155627cd039c401a6eb4748175328131e91b709a41300e2"
+    },
+    {
+      "name": "hl7.fhir.uv.extensions.r4",
+      "version": "5.2.0",
+      "source": "https://packages.fhir.org/hl7.fhir.uv.extensions.r4/5.2.0",
+      "sha256": "b406e75575f05676559d0759770c5939d023ee72fb2ef38e0b3259328487720a"
+    },
+    {
+      "name": "hl7.terminology",
+      "version": "7.5.0",
+      "source": "https://packages.fhir.org/hl7.terminology/7.5.0",
+      "sha256": "c54ebe534cd3f2474459eaed68e54c34f09b003766605b19e5552db376f2cc42"
+    },
+    {
+      "name": "hl7.terminology.r5",
+      "version": "7.5.0",
+      "source": "https://packages.fhir.org/hl7.terminology.r5/7.5.0",
+      "sha256": "cabae9ff7828c05173369bd2244ab6eabafe19d65b02c140a76638c1f3a56bf9"
+    },
+    {
+      "name": "hl7.fhir.uv.extensions",
+      "version": "5.4.0",
+      "source": "https://packages.fhir.org/hl7.fhir.uv.extensions/5.4.0",
+      "sha256": "9e72cb92118a3e64babf442394fdc300b97f5d53b295469aee5ed34f216a830e"
+    }
+  ]
+}

@@ -11,7 +11,7 @@ Javaだけが拒否する32件、Rustだけが拒否する6件がありました
 Resource.idの書式・空配列・文書の到達可能性など、現版が違反を見逃して `valid` を返す例があります。
 現版の `valid` だけを適合・送信可否の根拠にしないでください。
 件数の分母・未完了・条件差と再現手順は [監査レポート](docs/audits/2026-11-19-validation-audit.ja.md) を参照してください。
-mainでは [第1段階の修正](docs/audits/2026-11-19-fix-pass-1.ja.md) を実施しています。
+mainでは [第1段階](docs/audits/2026-11-19-fix-pass-1.ja.md)・[第2段階](docs/audits/2026-11-19-fix-pass-2.ja.md) の修正を実施しています（上流146件中43件はまだincomplete）。
 検出処理の追加と、専用検査の未実装をincompleteとして明示する変更を区別しています。公開済みalpha.2は未更新です。
 
 ## 何に使うものか
