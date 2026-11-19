@@ -38,7 +38,11 @@ tasks.test {
     testLogging { exceptionFormat = TestExceptionFormat.FULL }
 }
 java { withSourcesJar() }
-tasks.named("sourcesJar") { dependsOn(generateBindings) }
+tasks.named<Jar>("sourcesJar") {
+    dependsOn(generateBindings)
+    from(listOf("LICENSE", "THIRD_PARTY_NOTICES.md", "THIRD_PARTY_LICENSES.txt")) { into("META-INF") }
+    from("LICENSES") { into("META-INF/licenses") }
+}
 publishing {
     publications { create<MavenPublication>("clins") { from(components["java"]) } }
     repositories { maven { name = "localBuild"; url = uri(layout.buildDirectory.dir("repository")) } }
