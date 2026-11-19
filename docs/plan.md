@@ -1,5 +1,8 @@
 # Implementation plan
 
+Current schedule, integration milestones and external prerequisites (Japanese):
+[使いどころと開発予定](roadmap.ja.md).
+
 1. Extract an independent in-memory Rust Core with original public types and retain MIT provenance.
 2. Integrate a current JSON-based Rust FHIRPath evaluator and pinned R4/JP Core/CLINS definitions.
 3. Isolate checksum-verified package preparation, CLI and HTTP adapters.

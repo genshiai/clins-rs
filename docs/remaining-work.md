@@ -1,5 +1,7 @@
 # Remaining work after the first alpha
 
+For dated milestones and closure criteria, see the [Japanese roadmap](roadmap.ja.md).
+
 The alpha distribution is an experimental working validator, not a certification of
 all FHIR/CLINS requirements. This ledger distinguishes work we can implement
 from external publication and connection prerequisites.
